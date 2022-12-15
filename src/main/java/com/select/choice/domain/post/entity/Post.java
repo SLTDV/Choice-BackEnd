@@ -1,6 +1,8 @@
 package com.select.choice.domain.post.entity;
 
 
-public class Post {
+import com.select.choice.global.common.entity.BaseIdEntity;
+
+public class Post extends BaseIdEntity {
 
 }
