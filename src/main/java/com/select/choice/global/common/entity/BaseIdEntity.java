@@ -1,4 +1,12 @@
 package com.select.choice.global.common.entity;
 
-public class BaseIdEntity {
+import lombok.Getter;
+
+import javax.persistence.*;
+
+@Getter
+@MappedSuperclass
+public abstract class BaseIdEntity {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idx;
 }
