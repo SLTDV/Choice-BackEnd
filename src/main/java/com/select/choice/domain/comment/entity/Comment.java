@@ -17,16 +17,17 @@ public class Comment extends BaseIdEntity {
     private String comment;
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "post__id",nullable = false)
+    @JoinColumn(name = "post__id", nullable = false)
     private Post post;
 
     @Builder
-    public Comment(String comment){
+    public Comment(String comment, User user, Post post) {
         this.comment = comment;
+        this.user = user;
+        this.post = post;
     }
-
 }
