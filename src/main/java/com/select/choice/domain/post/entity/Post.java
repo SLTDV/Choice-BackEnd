@@ -3,10 +3,7 @@ package com.select.choice.domain.post.entity;
 
 import com.select.choice.domain.user.entity.User;
 import com.select.choice.global.common.entity.BaseIdEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -14,8 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseIdEntity {
     @Column(nullable = false)
     private String title;

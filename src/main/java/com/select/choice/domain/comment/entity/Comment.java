@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Comment extends BaseIdEntity {
     @Column(nullable = false)
     private String comment;

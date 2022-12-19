@@ -1,18 +1,14 @@
 package com.select.choice.domain.user.entity;
 
 import com.select.choice.global.common.entity.BaseIdEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseIdEntity {
     @Column(nullable = false)
     private String id;
