@@ -1,7 +1,6 @@
 package com.select.choice.global.filter;
 
 import com.select.choice.global.security.JwtTokenProvider;
-import com.select.choice.global.security.authentication.AuthDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
