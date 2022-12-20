@@ -1,5 +1,6 @@
 package com.select.choice.global.security;
 
+import com.select.choice.global.security.authentication.AuthDetailsService;
 import com.select.choice.global.security.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -7,6 +8,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +23,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
     private final JwtProperties jwtProperties;
+    private final AuthDetailsService authDetailsService;
 
     private final long ACCESS_TOKEN_EXPIRED_TIME = 2 * 60 * 10000; // 2시간
     private final long REFRESH_TOKEN_EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000; // 1주
@@ -54,6 +59,11 @@ public class JwtTokenProvider {
                 .setExpiration(new Date(System.currentTimeMillis() +  expiredTime))
                 .signWith(getSignInKey(jwtProperties.getKey()))
                 .compact();
+    }
+
+    public Authentication getAuthentication(String token){
+        UserDetails userDetails = authDetailsService.loadUserByUsername(extractAllClaims(token).getSubject());
+        return new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities());
     }
 
     public LocalDateTime getExpiredTime() {
