@@ -12,7 +12,8 @@ public enum ErrorCode {
     EXPIRED_TOKEN("만료된 토큰 입니다.", 403),
 
     // User
-    USER_NOT_FOUND("존재하지 않은 USER 입니다.", 404);
+    USER_NOT_FOUND("존재하지 않은 USER 입니다.", 404),
+    PASSWORD_NOT_MATCH("비밀번호가 옳지 않습니다.", 401);
 
     private final String message;
     private final int status;

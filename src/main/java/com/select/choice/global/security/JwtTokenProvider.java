@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @RequiredArgsConstructor
@@ -49,8 +50,8 @@ public class JwtTokenProvider {
                 .getBody();
     }
 
-    public String createToken(String userPk, TokenType tokenType, Long expiredTime) {
-        Claims claims = Jwts.claims().setSubject(userPk);
+    public String createToken(String email, TokenType tokenType, Long expiredTime) {
+        Claims claims = Jwts.claims().setSubject(email);
         claims.put("tokenType", tokenType.value);
 
         return Jwts.builder()
@@ -66,8 +67,9 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities());
     }
 
-    public LocalDateTime getExpiredTime() {
-        return LocalDateTime.now().plusSeconds(ACCESS_TOKEN_EXPIRED_TIME/1000);
+    public String getExpiredTime() {
+
+        return LocalDateTime.now().plusSeconds(ACCESS_TOKEN_EXPIRED_TIME/1000).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
     }
 
     public String resolveToken(HttpServletRequest request) {
@@ -84,12 +86,12 @@ public class JwtTokenProvider {
         return extractAllClaims(refreshToken).getSubject();
     }
 
-    public String generateAccessToken(String userPk) {
-        return createToken(userPk, TokenType.ACCESS_TOKEN, ACCESS_TOKEN_EXPIRED_TIME);
+    public String generateAccessToken(String email) {
+        return createToken(email, TokenType.ACCESS_TOKEN, ACCESS_TOKEN_EXPIRED_TIME);
     }
 
-    public String generateRefreshToken(String userPk) {
-        return createToken(userPk, TokenType.REFRESH_TOKEN, REFRESH_TOKEN_EXPIRED_TIME);
+    public String generateRefreshToken(String email) {
+        return createToken(email, TokenType.REFRESH_TOKEN, REFRESH_TOKEN_EXPIRED_TIME);
     }
 
     public boolean validateToken(String token){
