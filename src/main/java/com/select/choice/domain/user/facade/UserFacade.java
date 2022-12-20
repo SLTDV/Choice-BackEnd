@@ -1,7 +1,8 @@
 package com.select.choice.domain.user.facade;
 
+import com.select.choice.domain.auth.presentation.request.SignUpRequest;
 import com.select.choice.domain.user.entity.User;
-import com.select.choice.domain.user.exception.PasswordNotMatchException;
+import com.select.choice.domain.auth.exception.PasswordNotMatchException;
 import com.select.choice.domain.user.exception.UserNotFoundException;
 import com.select.choice.domain.user.repository.UserRepository;
 import com.select.choice.global.error.type.ErrorCode;
@@ -26,5 +27,15 @@ public class UserFacade {
     public User findUserByEmail(String email) {
         return userRepository.findUserByEmail(email).orElseThrow(()
                 -> new UserNotFoundException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public void save(SignUpRequest signUpRequest) {
+        System.out.println(signUpRequest.getNickname());
+        User user = new User(signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()), signUpRequest.getNickname());
+        userRepository.save(user);
     }
 }
