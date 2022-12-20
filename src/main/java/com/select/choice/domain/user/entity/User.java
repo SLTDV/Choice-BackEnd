@@ -11,13 +11,11 @@ import javax.persistence.Entity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseIdEntity {
     @Column(nullable = false)
-    private String id;
-    @Column(nullable = false)
     private String email;
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
-    private String name;
+    private String nickname;
     private String refreshToken;
 
     public void updateRefreshToken(String refreshToken) {
@@ -25,11 +23,10 @@ public class User extends BaseIdEntity {
     }
 
     @Builder
-    public User(String id, String email, String password, String name) {
-        this.id = id;
+    public User(String email, String password, String nickname) {
         this.email = email;
         this.password = password;
-        this.name = name;
+        this.nickname = nickname;
     }
 
 }
