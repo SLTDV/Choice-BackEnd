@@ -1,8 +1,6 @@
 package com.select.choice.global.error.handler;
 
-import com.select.choice.domain.auth.exception.ExpiredTokenException;
-import com.select.choice.domain.auth.exception.InvalidTokenException;
-import com.select.choice.domain.user.exception.PasswordNotMatchException;
+import com.select.choice.domain.auth.exception.*;
 import com.select.choice.domain.user.exception.UserNotFoundException;
 import com.select.choice.global.error.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -33,6 +31,18 @@ public class GlobalException {
 
     @ExceptionHandler(PasswordNotMatchException.class)
     public ResponseEntity<ErrorResponse> PasswordNotMatchException(PasswordNotMatchException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<ErrorResponse> DuplicateEmailException(DuplicateEmailException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(CheckPasswordNotMatch.class)
+    public ResponseEntity<ErrorResponse> CheckPasswordNotMatch(CheckPasswordNotMatch e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
