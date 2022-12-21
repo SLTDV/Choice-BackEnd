@@ -23,17 +23,26 @@ public class Post extends BaseIdEntity {
     private String firstVotingOption;
     @Column(nullable = false)
     private String secondVotingOption;
+
+    @Column
+    private int firstVotingCount;
+
+    @Column
+    private int secondVotingCount;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @Builder
-    public Post(String title, String content, String thumbnail, String firstVotingOption, String secondVotingOption){
+    public Post(String title, String content, String thumbnail, String firstVotingOption, String secondVotingOption,int firstVotingCount, int secondVotingCount){
         this.title = title;
         this.content = content;
         this.thumbnail = thumbnail;
         this.firstVotingOption = firstVotingOption;
         this.secondVotingOption = secondVotingOption;
+        this.firstVotingCount = firstVotingCount;
+        this.secondVotingCount = secondVotingCount;
 
     }
 }
