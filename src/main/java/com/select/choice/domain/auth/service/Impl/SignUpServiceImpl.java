@@ -18,8 +18,6 @@ public class SignUpServiceImpl implements SignUpService {
     public void signUp(SignUpRequest signUpRequest) {
         if(userFacade.existsByEmail(signUpRequest.getEmail())) {
             throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
-        }else if(!signUpRequest.getPassword().equals(signUpRequest.getCheckpassword())){
-            throw new CheckPasswordNotMatch(ErrorCode.CHECK_PASSWORD_NOT_MATCH);
         }
         userFacade.save(signUpRequest);
     }
