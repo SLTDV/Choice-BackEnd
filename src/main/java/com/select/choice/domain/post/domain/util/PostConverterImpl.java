@@ -13,6 +13,9 @@ public class PostConverterImpl implements PostConverter{
     public ResponseEntity<List<PostResponse>> toResponse(List<PostDto> dto){
 
         dto.stream()
-                .map(el -> el = ge)
+                .map(postDto -> {
+                    Long idx = postDto.getIdx();
+
+                })
     }
 }

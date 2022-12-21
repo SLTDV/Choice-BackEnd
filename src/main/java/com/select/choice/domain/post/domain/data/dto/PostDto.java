@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class PostDto {
-    private String idx;
+    private Long idx;
     private String title;
     private String thumbnail;
     private String content;
