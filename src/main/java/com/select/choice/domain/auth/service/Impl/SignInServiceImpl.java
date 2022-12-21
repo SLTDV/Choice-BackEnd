@@ -1,7 +1,7 @@
 package com.select.choice.domain.auth.service.Impl;
 
-import com.select.choice.domain.auth.presentation.request.SignInRequest;
-import com.select.choice.domain.auth.presentation.response.SignInResponse;
+import com.select.choice.domain.auth.presentation.dto.request.SignInRequest;
+import com.select.choice.domain.auth.presentation.dto.response.SignInResponse;
 import com.select.choice.domain.auth.service.SignInService;
 import com.select.choice.domain.user.entity.User;
 import com.select.choice.domain.user.facade.UserFacade;
@@ -24,6 +24,7 @@ public class SignInServiceImpl implements SignInService {
         String refreshToken = jwtTokenProvider.generateRefreshToken(signInRequest.getEmail());
 
         user.updateRefreshToken(refreshToken);
+        userFacade.saveRefreshToken(user);
 
         return SignInResponse.builder()
                 .accessToken(accessToken)

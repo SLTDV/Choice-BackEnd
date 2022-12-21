@@ -37,4 +37,8 @@ public class UserFacade {
         User user = new User(signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()), signUpRequest.getNickname());
         userRepository.save(user);
     }
+
+    public void saveRefreshToken(User user){
+        userRepository.save(user);
+    }
 }
