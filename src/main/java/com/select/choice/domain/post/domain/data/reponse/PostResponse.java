@@ -1,18 +1,22 @@
 package com.select.choice.domain.post.domain.data.reponse;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 
 @Getter
 @RequiredArgsConstructor
+@Builder
 public class PostResponse {
-    private String idx;
-    private String title;
-    private String thumbnail;
-    private String content;
-    private String firstVotingOption;
-    private String secondVotingOption;
-    private Integer firstVotingCount;
-    private Integer secondVotingCount;
+    private final Long idx;
+    private final String title;
+    private final String thumbnail;
+    private final String content;
+    private final String firstVotingOption;
+    private final String secondVotingOption;
+    private final Integer firstVotingCount;
+    private final Integer secondVotingCount;
+
 }

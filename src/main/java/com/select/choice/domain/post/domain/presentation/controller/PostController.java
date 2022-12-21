@@ -4,6 +4,7 @@ import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.reponse.PostResponse;
 import com.select.choice.domain.post.domain.service.PostService;
 import com.select.choice.domain.post.domain.util.PostConverter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,12 +12,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/post")
+@RequiredArgsConstructor
 public class PostController {
-    private PostService postService;
-    private PostConverter postConverter;
+    private final PostService postService;
+    private final PostConverter postConverter;
 
     public ResponseEntity<List<PostResponse>>getAllPostList(){
         List<PostDto> dto = postService.getAllPostList();
-        return postConverter.toResponse(dto);
+        List<PostResponse> body = postConverter.toResponse(dto);
+        return ResponseEntity.ok(body);
     }
 }
