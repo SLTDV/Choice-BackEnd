@@ -1,7 +1,7 @@
 package com.select.choice.domain.auth.service.Impl;
 
 import com.select.choice.domain.auth.exception.CheckPasswordNotMatch;
-import com.select.choice.domain.auth.presentation.request.SignUpRequest;
+import com.select.choice.domain.auth.presentation.dto.request.SignUpRequest;
 import com.select.choice.domain.auth.service.SignUpService;
 import com.select.choice.domain.auth.exception.DuplicateEmailException;
 import com.select.choice.domain.user.facade.UserFacade;

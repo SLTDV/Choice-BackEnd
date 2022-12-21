@@ -1,4 +1,4 @@
-package com.select.choice.domain.auth.presentation.response;
+package com.select.choice.domain.auth.presentation.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

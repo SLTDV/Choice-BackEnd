@@ -1,6 +1,6 @@
 package com.select.choice.domain.user.facade;
 
-import com.select.choice.domain.auth.presentation.request.SignUpRequest;
+import com.select.choice.domain.auth.presentation.dto.request.SignUpRequest;
 import com.select.choice.domain.user.entity.User;
 import com.select.choice.domain.auth.exception.PasswordNotMatchException;
 import com.select.choice.domain.user.exception.UserNotFoundException;
@@ -34,7 +34,6 @@ public class UserFacade {
     }
 
     public void save(SignUpRequest signUpRequest) {
-        System.out.println(signUpRequest.getNickname());
         User user = new User(signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()), signUpRequest.getNickname());
         userRepository.save(user);
     }
