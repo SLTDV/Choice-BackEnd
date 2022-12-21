@@ -1,5 +1,6 @@
 package com.select.choice.domain.post.domain.presentation.controller;
 
+import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.reponse.PostResponse;
 import com.select.choice.domain.post.domain.service.PostService;
 import com.select.choice.domain.post.domain.util.PostConverter;
