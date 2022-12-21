@@ -10,6 +10,7 @@ import com.select.choice.global.error.type.ErrorCode;
 import com.select.choice.global.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     private final UserFacade userFacade;
     private final JwtTokenProvider jwtTokenProvider;
 
+    @Transactional
     @Override
     public RefreshTokenResponse refresh(String refreshToken) {
         if(jwtTokenProvider.validateToken(refreshToken)){
@@ -31,6 +33,9 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
         String newAccessToken = jwtTokenProvider.generateAccessToken(user.getEmail());
         String newRefreshToken  = jwtTokenProvider.generateRefreshToken(user.getEmail());
+
+        user.updateRefreshToken(newRefreshToken);
+        userFacade.saveRefreshToken(user);
 
         return RefreshTokenResponse.builder()
                 .accessToken(newAccessToken)
