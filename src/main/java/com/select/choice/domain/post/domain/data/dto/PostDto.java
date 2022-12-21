@@ -1,5 +1,10 @@
 package com.select.choice.domain.post.domain.data.dto;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public class PostDto {
     private String idx;
     private String title;
