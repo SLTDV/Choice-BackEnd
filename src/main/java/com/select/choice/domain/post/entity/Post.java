@@ -20,20 +20,20 @@ public class Post extends BaseIdEntity {
     @Column(nullable = false)
     private String thumbnail;
     @Column(nullable = false)
-    private String votingOption1;
+    private String firstVotingOption;
     @Column(nullable = false)
-    private String votingOption2;
+    private String secondVotingOption;
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @Builder
-    public Post(String title, String content, String thumbnail, String votingOption1, String votingOption2){
+    public Post(String title, String content, String thumbnail, String firstVotingOption, String secondVotingOption){
         this.title = title;
         this.content = content;
         this.thumbnail = thumbnail;
-        this.votingOption1 = votingOption1;
-        this.votingOption2 = votingOption2;
+        this.firstVotingOption = firstVotingOption;
+        this.secondVotingOption = secondVotingOption;
 
     }
 }
