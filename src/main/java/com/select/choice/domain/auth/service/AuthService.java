@@ -8,5 +8,5 @@ public interface AuthService {
     TokenDto refresh(String refreshToken);
     TokenDto signIn(SignInRequest signInRequest);
     void signUp(SignUpRequest signUpRequest);
-
+    void logout(String token);
 }

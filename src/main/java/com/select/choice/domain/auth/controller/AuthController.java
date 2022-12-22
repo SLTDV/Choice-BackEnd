@@ -32,10 +32,17 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PatchMapping("/refresh")
+    @PatchMapping()
     public ResponseEntity<TokenResponse> refresh(@RequestHeader("RefreshToken") String refreshToken){
         TokenDto tokenDto = authService.refresh(refreshToken);
         TokenResponse response = authConverter.toResponse(tokenDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping()
+    public ResponseEntity<Void> logout(@RequestHeader("Authorization") String token){
+        System.out.println("frog");
+        authService.logout(token);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

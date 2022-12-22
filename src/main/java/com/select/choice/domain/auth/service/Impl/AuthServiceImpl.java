@@ -58,6 +58,21 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
+    public void logout(String token) {
+        User user = userFacade.currentUser();
+        String accessToken = token.substring(7);
+
+        if (redisTemplate.opsForValue().get("RefreshToken:" + user.getIdx()) != null) {
+            redisTemplate.delete("RefreshToken:" + user.getIdx());
+        }
+
+        Long expiration = jwtTokenProvider.getExpiredTime(accessToken);
+        redisTemplate.opsForValue()
+                .set(accessToken, "logout", expiration, TimeUnit.MILLISECONDS);
+    }
+
+    @Transactional
+    @Override
     public TokenDto refresh(String refreshToken) {
         if(jwtTokenProvider.validateToken(refreshToken)){
             throw new ExpiredTokenException(ErrorCode.EXPIRED_TOKEN);
@@ -65,8 +80,8 @@ public class AuthServiceImpl implements AuthService {
 
         User user = userFacade.findUserByEmail(jwtTokenProvider.getUserPk(refreshToken));
 
-        String redisRefreshToken = (String) redisTemplate.opsForValue().get("refreshToken:" + user.getIdx());
-        if(Objects.equals(redisRefreshToken, refreshToken)){
+        String redisRefreshToken = (String) redisTemplate.opsForValue().get("RefreshToken:" + user.getIdx());
+        if(!Objects.equals(redisRefreshToken, refreshToken)){
             throw new InvalidTokenException(ErrorCode.INVALID_TOKEN);
         }
 
