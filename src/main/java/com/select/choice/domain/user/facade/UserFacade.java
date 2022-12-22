@@ -7,6 +7,7 @@ import com.select.choice.domain.user.exception.UserNotFoundException;
 import com.select.choice.domain.user.repository.UserRepository;
 import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +47,8 @@ public class UserFacade {
         userRepository.save(user);
     }
 
-    public void saveRefreshToken(User user){
-        userRepository.save(user);
+    public User currentUser(){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return findUserByEmail(email);
     }
 }
