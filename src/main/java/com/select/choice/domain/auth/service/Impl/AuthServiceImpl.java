@@ -14,8 +14,11 @@ import com.select.choice.domain.user.facade.UserFacade;
 import com.select.choice.global.error.type.ErrorCode;
 import com.select.choice.global.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -23,11 +26,17 @@ public class AuthServiceImpl implements AuthService {
     private final UserFacade userFacade;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthConverter authConverter;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Transactional
     @Override
     public TokenDto signIn(SignInRequest signInRequest) {
-        return authConverter.toTokenDto(signInRequest);
+        User user = userFacade.findUserByEmail(signInRequest.getEmail());
+        TokenDto tokenDto = authConverter.toTokenDto(signInRequest);
+        redisTemplate.opsForValue()
+                .set("RefreshToken:" + user.getEmail(), tokenDto.getRefreshToken(),
+                        jwtTokenProvider.getExpiredTime(tokenDto.getRefreshToken()), TimeUnit.MILLISECONDS);
+        return tokenDto;
     }
 
     @Override
