@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST,"/auth/signin").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth/signup").permitAll()
                 .antMatchers(HttpMethod.PATCH,"/auth/").permitAll()
-                .antMatchers(HttpMethod.DELETE,"/auth/").permitAll()
+                .antMatchers(HttpMethod.DELETE,"/auth/").authenticated()
                 .anyRequest().permitAll();
         http
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
