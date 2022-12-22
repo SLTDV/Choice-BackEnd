@@ -6,6 +6,8 @@ labels: ''
 assignees: ''
 
 ---
+## :bug: BUG
+BUG 작업사항을 입력해주세요.
 
 ## Description
 설명을 입력해주세요.
