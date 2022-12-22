@@ -32,7 +32,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public TokenDto signIn(SignInRequest signInRequest) {
         User user = userFacade.findUserByEmail(signInRequest.getEmail());
-        TokenDto tokenDto = authConverter.toTokenDto(signInRequest);
+        userFacade.checkPassword(user, signInRequest.getPassword());
+
+        String accessToken = jwtTokenProvider.generateAccessToken(user.getEmail());
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
+        Long expiredAt = jwtTokenProvider.getExpiredTime(accessToken);
+
+        TokenDto tokenDto = authConverter.toTokenDto(accessToken, refreshToken, expiredAt);
         redisTemplate.opsForValue()
                 .set("RefreshToken:" + user.getIdx(), tokenDto.getRefreshToken(),
                         jwtTokenProvider.getExpiredTime(tokenDto.getRefreshToken()), TimeUnit.MILLISECONDS);
@@ -64,9 +70,6 @@ public class AuthServiceImpl implements AuthService {
         String newAccessToken = jwtTokenProvider.generateAccessToken(user.getEmail());
         String newRefreshToken  = jwtTokenProvider.generateRefreshToken(user.getEmail());
         Long expiredAt = jwtTokenProvider.getExpiredTime(newAccessToken);
-
-        user.updateRefreshToken(newRefreshToken);
-        userFacade.saveRefreshToken(user);
 
         redisTemplate.opsForValue()
                 .set("RefreshToken:" + user.getIdx(), refreshToken,
