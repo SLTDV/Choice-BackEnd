@@ -4,6 +4,7 @@ import com.select.choice.domain.auth.data.dto.TokenDto;
 import com.select.choice.domain.auth.data.request.SignInRequest;
 import com.select.choice.domain.auth.data.request.SignUpRequest;
 import com.select.choice.domain.auth.exception.DuplicateEmailException;
+import com.select.choice.domain.auth.exception.DuplicateNicknameException;
 import com.select.choice.domain.auth.exception.ExpiredTokenException;
 import com.select.choice.domain.auth.exception.InvalidTokenException;
 import com.select.choice.domain.auth.service.AuthService;
@@ -49,6 +50,8 @@ public class AuthServiceImpl implements AuthService {
     public void signUp(SignUpRequest signUpRequest) {
         if(userFacade.existsByEmail(signUpRequest.getEmail())) {
             throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
+        } else if (userFacade.existsByNickname(signUpRequest.getNickname())) {
+            throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);
         }
         userFacade.save(signUpRequest);
     }

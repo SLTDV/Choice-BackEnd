@@ -33,6 +33,10 @@ public class UserFacade {
         return userRepository.existsByEmail(email);
     }
 
+    public boolean existsByNickname(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
     public void save(SignUpRequest signUpRequest) {
         User user = new User(
                 signUpRequest.getEmail(),

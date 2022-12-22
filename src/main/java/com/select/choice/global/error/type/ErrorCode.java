@@ -17,7 +17,8 @@ public enum ErrorCode {
     CHECK_PASSWORD_NOT_MATCH("비밀번호를 다시 확인해주세요", 400),
 
     // USER
-    USER_NOT_FOUND("존재하지 않은 USER 입니다.", 404);
+    USER_NOT_FOUND("존재하지 않은 USER 입니다.", 404),
+    DUPLICATE_NICKNAME("이미 존재하는 닉네임 입니다.", 409);
 
 
     private final String message;
