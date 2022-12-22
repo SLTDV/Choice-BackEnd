@@ -3,7 +3,7 @@ package com.select.choice.domain.auth.util;
 import com.select.choice.domain.auth.data.dto.TokenDto;
 import com.select.choice.domain.auth.data.request.SignInRequest;
 import com.select.choice.domain.auth.data.request.SignUpRequest;
-import com.select.choice.domain.auth.data.response.SignInResponse;
+import com.select.choice.domain.auth.data.response.TokenResponse;
 import com.select.choice.domain.user.entity.User;
 import com.select.choice.domain.user.facade.UserFacade;
 import com.select.choice.global.security.JwtTokenProvider;
@@ -18,8 +18,8 @@ public class AuthConverterImpl implements AuthConverter{
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public SignInResponse toResponse(TokenDto dto) {
-        return new SignInResponse(
+    public TokenResponse toResponse(TokenDto dto) {
+        return new TokenResponse(
                 dto.getAccessToken(),
                 dto.getRefreshToken(),
                 dto.getExpiredAt()

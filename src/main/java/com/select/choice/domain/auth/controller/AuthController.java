@@ -3,8 +3,7 @@ package com.select.choice.domain.auth.controller;
 import com.select.choice.domain.auth.data.dto.TokenDto;
 import com.select.choice.domain.auth.data.request.SignInRequest;
 import com.select.choice.domain.auth.data.request.SignUpRequest;
-import com.select.choice.domain.auth.data.response.RefreshTokenResponse;
-import com.select.choice.domain.auth.data.response.SignInResponse;
+import com.select.choice.domain.auth.data.response.TokenResponse;
 import com.select.choice.domain.auth.service.AuthService;
 import com.select.choice.domain.auth.util.AuthConverter;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +19,11 @@ public class AuthController {
     private final AuthConverter authConverter;
 
     @PostMapping("/signin")
-    public ResponseEntity<SignInResponse> signIn(@RequestBody SignInRequest signInRequest){
+    public ResponseEntity<TokenResponse> signIn(@RequestBody SignInRequest signInRequest){
         TokenDto tokenDto = authService.signIn(signInRequest);
-        SignInResponse response = authConverter.toResponse(tokenDto);
-        return ResponseEntity.ok(response);
+        TokenResponse response = authConverter.toResponse(tokenDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
     @PostMapping("/signup")
@@ -33,7 +33,9 @@ public class AuthController {
     }
 
     @PatchMapping("/refresh")
-    public ResponseEntity<RefreshTokenResponse> refresh(@RequestHeader("RefreshToken") String refreshToken){
-        return new ResponseEntity<>(authService.refresh(refreshToken), HttpStatus.CREATED);
+    public ResponseEntity<TokenResponse> refresh(@RequestHeader("RefreshToken") String refreshToken){
+        TokenDto tokenDto = authService.refresh(refreshToken);
+        TokenResponse response = authConverter.toResponse(tokenDto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

@@ -34,7 +34,11 @@ public class UserFacade {
     }
 
     public void save(SignUpRequest signUpRequest) {
-        User user = new User(signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()), signUpRequest.getNickname());
+        User user = new User(
+                signUpRequest.getEmail(),
+                passwordEncoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getNickname()
+        );
         userRepository.save(user);
     }
 

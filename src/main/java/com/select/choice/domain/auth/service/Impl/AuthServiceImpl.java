@@ -3,7 +3,6 @@ package com.select.choice.domain.auth.service.Impl;
 import com.select.choice.domain.auth.data.dto.TokenDto;
 import com.select.choice.domain.auth.data.request.SignInRequest;
 import com.select.choice.domain.auth.data.request.SignUpRequest;
-import com.select.choice.domain.auth.data.response.RefreshTokenResponse;
 import com.select.choice.domain.auth.exception.DuplicateEmailException;
 import com.select.choice.domain.auth.exception.ExpiredTokenException;
 import com.select.choice.domain.auth.exception.InvalidTokenException;
@@ -18,6 +17,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -34,7 +34,7 @@ public class AuthServiceImpl implements AuthService {
         User user = userFacade.findUserByEmail(signInRequest.getEmail());
         TokenDto tokenDto = authConverter.toTokenDto(signInRequest);
         redisTemplate.opsForValue()
-                .set("RefreshToken:" + user.getEmail(), tokenDto.getRefreshToken(),
+                .set("RefreshToken:" + user.getIdx(), tokenDto.getRefreshToken(),
                         jwtTokenProvider.getExpiredTime(tokenDto.getRefreshToken()), TimeUnit.MILLISECONDS);
         return tokenDto;
     }
@@ -49,27 +49,29 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public RefreshTokenResponse refresh(String refreshToken) {
+    public TokenDto refresh(String refreshToken) {
         if(jwtTokenProvider.validateToken(refreshToken)){
             throw new ExpiredTokenException(ErrorCode.EXPIRED_TOKEN);
         }
 
         User user = userFacade.findUserByEmail(jwtTokenProvider.getUserPk(refreshToken));
 
-        if(!user.getRefreshToken().equals(refreshToken)){
+        String redisRefreshToken = (String) redisTemplate.opsForValue().get("refreshToken:" + user.getIdx());
+        if(Objects.equals(redisRefreshToken, refreshToken)){
             throw new InvalidTokenException(ErrorCode.INVALID_TOKEN);
         }
 
         String newAccessToken = jwtTokenProvider.generateAccessToken(user.getEmail());
         String newRefreshToken  = jwtTokenProvider.generateRefreshToken(user.getEmail());
+        Long expiredAt = jwtTokenProvider.getExpiredTime(newAccessToken);
 
         user.updateRefreshToken(newRefreshToken);
         userFacade.saveRefreshToken(user);
 
-        return RefreshTokenResponse.builder()
-                .accessToken(newAccessToken)
-                .refreshToken(newRefreshToken)
-                .expiredAt(jwtTokenProvider.getExpiredTime())
-                .build();
+        redisTemplate.opsForValue()
+                .set("RefreshToken:" + user.getIdx(), refreshToken,
+                        jwtTokenProvider.getExpiredTime(newRefreshToken), TimeUnit.MILLISECONDS);
+
+        return new TokenDto(newAccessToken, newRefreshToken, expiredAt);
     }
 }

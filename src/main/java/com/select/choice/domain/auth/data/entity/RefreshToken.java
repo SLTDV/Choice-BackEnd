@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @RedisHash(value = "refresh-token")
 public class RefreshToken {
     @Id
-    private String userId;
+    private Long userId;
     private String refreshToken;
     private LocalDateTime timeToLive;
 }
