@@ -24,6 +24,8 @@ public class PostController {
     }
     @GetMapping("/list")
     public ResponseEntity<List<PostResponse>>getBestPostList(){
-
+        List<PostDto> dto = postService.getBestPostList();
+        List<PostResponse> body = postConverter.toResponse(dto);
+        return ResponseEntity.ok(body);
     }
 }
