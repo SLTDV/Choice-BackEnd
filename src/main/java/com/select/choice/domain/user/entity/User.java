@@ -16,11 +16,6 @@ public class User extends BaseIdEntity {
     private String password;
     @Column(nullable = false)
     private String nickname;
-    private String refreshToken;
-
-    public void updateRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
 
     @Builder
     public User(String email, String password, String nickname) {
