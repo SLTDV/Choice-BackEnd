@@ -21,4 +21,9 @@ public class PostServiceImpl implements PostService {
         List<Post> list = postRepository.findAll();
         return postConverter.toPostDto(list);
     }
+
+    @Override
+    public List<PostDto> getBestPostList() {
+        return null;
+    }
 }
