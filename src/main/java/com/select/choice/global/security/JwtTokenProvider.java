@@ -8,16 +8,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @RequiredArgsConstructor
@@ -62,11 +57,6 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public Authentication getAuthentication(String token){
-        UserDetails userDetails = authDetailsService.loadUserByUsername(extractAllClaims(token).getSubject());
-        return new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities());
-    }
-
     public Long getExpiredTime(String token) {
         Date expirationTime = extractAllClaims(token).getExpiration();
         long now = new Date().getTime();
@@ -75,7 +65,7 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest request) {
         String bearToken = request.getHeader("Authorization");
-        if(bearToken != null && bearToken.startsWith("bearer ")){
+        if(bearToken != null && bearToken.startsWith("Bearer ")){
             return bearToken.substring(7);
         } else {
             return null;
