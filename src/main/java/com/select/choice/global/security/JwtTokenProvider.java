@@ -67,9 +67,10 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities());
     }
 
-    public String getExpiredTime() {
-
-        return LocalDateTime.now().plusSeconds(ACCESS_TOKEN_EXPIRED_TIME/1000).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+    public Long getExpiredTime(String token) {
+        Date expirationTime = extractAllClaims(token).getExpiration();
+        long now = new Date().getTime();
+        return expirationTime.getTime() - now;
     }
 
     public String resolveToken(HttpServletRequest request) {
