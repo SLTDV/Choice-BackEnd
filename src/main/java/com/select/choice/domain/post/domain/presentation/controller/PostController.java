@@ -16,9 +16,15 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
     private final PostConverter postConverter;
-
+    @GetMapping()
     public ResponseEntity<List<PostResponse>>getAllPostList(){
         List<PostDto> dto = postService.getAllPostList();
+        List<PostResponse> body = postConverter.toResponse(dto);
+        return ResponseEntity.ok(body);
+    }
+    @GetMapping("/list")
+    public ResponseEntity<List<PostResponse>>getBestPostList(){
+        List<PostDto> dto = postService.getBestPostList();
         List<PostResponse> body = postConverter.toResponse(dto);
         return ResponseEntity.ok(body);
     }

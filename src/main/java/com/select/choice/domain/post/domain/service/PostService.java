@@ -8,4 +8,5 @@ import java.util.List;
 public interface PostService {
 
     List<PostDto> getAllPostList();
+    List<PostDto> getBestPostList();
 }
