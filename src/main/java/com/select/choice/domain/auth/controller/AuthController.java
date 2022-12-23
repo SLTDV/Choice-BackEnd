@@ -9,7 +9,10 @@ import com.select.choice.domain.auth.util.AuthConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody SignUpRequest signUpRequest){
+    public ResponseEntity<String> signUp(@RequestBody @Validated @Valid SignUpRequest signUpRequest){
         authService.signUp(signUpRequest);
         return new ResponseEntity<>("success",HttpStatus.CREATED);
     }
