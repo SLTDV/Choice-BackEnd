@@ -27,9 +27,9 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@RequestBody SignUpRequest signUpRequest){
+    public ResponseEntity<String> signUp(@RequestBody SignUpRequest signUpRequest){
         authService.signUp(signUpRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>("success",HttpStatus.CREATED);
     }
 
     @PatchMapping()
@@ -40,9 +40,8 @@ public class AuthController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<Void> logout(@RequestHeader("Authorization") String token){
-        System.out.println("frog");
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String token){
         authService.logout(token);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("success",HttpStatus.NO_CONTENT);
     }
 }
