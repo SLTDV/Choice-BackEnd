@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment extends BaseIdEntity {
     @Column(nullable = false)
-    private String comment;
+    private String content;
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)
@@ -25,8 +25,8 @@ public class Comment extends BaseIdEntity {
     private Post post;
 
     @Builder
-    public Comment(String comment, User user, Post post) {
-        this.comment = comment;
+    public Comment(String content, User user, Post post) {
+        this.content = content;
         this.user = user;
         this.post = post;
     }
