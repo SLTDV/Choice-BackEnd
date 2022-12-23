@@ -1,6 +1,7 @@
 package com.select.choice.global.error.handler;
 
 import com.select.choice.domain.auth.exception.*;
+import com.select.choice.domain.post.domain.exception.PostNotFoundException;
 import com.select.choice.domain.user.exception.UserNotFoundException;
 import com.select.choice.global.error.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -49,6 +50,12 @@ public class GlobalException {
 
     @ExceptionHandler(DuplicateNicknameException.class)
     public ResponseEntity<ErrorResponse> DuplicateNicknameException(DuplicateNicknameException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<ErrorResponse> PostNotFoundException(PostNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
