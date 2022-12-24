@@ -10,4 +10,5 @@ import java.util.List;
 public interface PostConverter {
     List<PostResponse> toResponse(List<PostDto> dto);
     List<PostDto>toPostDto(List<Post>post);
+
 }
