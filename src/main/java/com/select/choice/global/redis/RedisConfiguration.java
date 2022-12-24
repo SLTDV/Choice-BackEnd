@@ -1,4 +1,4 @@
-package com.select.choice.global.config;
+package com.select.choice.global.redis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
