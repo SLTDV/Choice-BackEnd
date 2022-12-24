@@ -35,10 +35,11 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/auth/signin").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth/signup").permitAll()
-                .antMatchers(HttpMethod.GET,"post/").permitAll()
-                .antMatchers(HttpMethod.GET,"post/list").permitAll()
+                .antMatchers(HttpMethod.GET,"/post/").permitAll()
+                .antMatchers(HttpMethod.GET,"/post/list").permitAll()
                 .antMatchers(HttpMethod.PATCH,"/auth").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/auth").authenticated()
+                .antMatchers(HttpMethod.POST,"/comment/**").authenticated()
                 .anyRequest().permitAll();
         http
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
