@@ -1,9 +1,9 @@
 package com.select.choice.domain.post.domain.util;
 
+import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.reponse.PostResponse;
-import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.post.domain.request.CreatePostRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -46,10 +46,22 @@ public class PostConverterImpl implements PostConverter{
                 )
         ).collect(Collectors.toList());
     }
+
     @Override
-    public List<CreatePostRequestDto> toCreatePost(List<CreatePostRequestDto> createPostRequestDto){
-        return createPostRequestDto.stream().map(dto ->
-                new CreatePostRequestDto(
+    public Post toEntity(CreatePostDto dto) {
+        return Post.builder()
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .thumbnail(dto.getThumbnail())
+                .firstVotingOption(dto.getFirstVotingOption())
+                .secondVotingOption(dto.getSecondVotingOtion())
+                .build();
+    }
+
+    @Override
+    public List<CreatePostDto> toCreatePost(List<CreatePostRequestDto> requestDtos){
+        return requestDtos.stream().map(dto ->
+                new CreatePostDto(
                         dto.getTitle(),
                         dto.getContent(),
                         dto.getThumbnail(),

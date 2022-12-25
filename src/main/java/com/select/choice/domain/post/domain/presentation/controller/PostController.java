@@ -1,12 +1,13 @@
 package com.select.choice.domain.post.domain.presentation.controller;
 
+import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.reponse.PostResponse;
 import com.select.choice.domain.post.domain.request.CreatePostRequestDto;
 import com.select.choice.domain.post.domain.service.PostService;
 import com.select.choice.domain.post.domain.util.PostConverter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.RequestEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,10 @@ public class PostController {
         List<PostResponse> body = postConverter.toResponse(dto);
         return ResponseEntity.ok(body);
     }
-    /*@PostMapping()
-    public RequestEntity<List<CreatePostRequestDto>>*/
+    @PostMapping()
+    public ResponseEntity<Void> createPost(@RequestBody List<CreatePostRequestDto> createPostRequestDto){
+        List<CreatePostDto> dto = postConverter.toCreatePost(createPostRequestDto);
+        postService.createPost(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 }
