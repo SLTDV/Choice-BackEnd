@@ -30,6 +30,4 @@ public class PostServiceImpl implements PostService {
         List<Post> list = postRepository.getBestPostList();
         return postConverter.toPostDto(list);
     }
-    @Override
-    public 
 }
