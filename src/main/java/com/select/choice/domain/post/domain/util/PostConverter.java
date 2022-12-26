@@ -5,7 +5,7 @@ import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
 import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
-import com.select.choice.domain.user.entity.User;
+import com.select.choice.domain.user.data.entity.User;
 
 import java.util.List;
 

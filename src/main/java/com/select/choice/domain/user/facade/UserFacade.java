@@ -1,7 +1,7 @@
 package com.select.choice.domain.user.facade;
 
 import com.select.choice.domain.auth.data.request.SignUpRequest;
-import com.select.choice.domain.user.entity.User;
+import com.select.choice.domain.user.data.entity.User;
 import com.select.choice.domain.auth.exception.PasswordNotMatchException;
 import com.select.choice.domain.user.exception.UserNotFoundException;
 import com.select.choice.domain.user.repository.UserRepository;

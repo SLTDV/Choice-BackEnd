@@ -1,4 +1,4 @@
-package com.select.choice.domain.user.entity;
+package com.select.choice.domain.user.data.entity;
 
 import com.select.choice.global.common.entity.BaseIdEntity;
 import lombok.*;

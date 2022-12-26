@@ -10,7 +10,7 @@ import com.select.choice.domain.comment.util.CommentConverter;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.exception.PostNotFoundException;
 import com.select.choice.domain.post.domain.repository.PostRepository;
-import com.select.choice.domain.user.entity.User;
+import com.select.choice.domain.user.data.entity.User;
 import com.select.choice.domain.user.facade.UserFacade;
 import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
