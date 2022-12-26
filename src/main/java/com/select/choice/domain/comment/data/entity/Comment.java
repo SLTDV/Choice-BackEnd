@@ -1,4 +1,4 @@
-package com.select.choice.domain.comment.entity;
+package com.select.choice.domain.comment.data.entity;
 
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.user.entity.User;
@@ -29,5 +29,9 @@ public class Comment extends BaseIdEntity {
         this.content = content;
         this.user = user;
         this.post = post;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
     }
 }
