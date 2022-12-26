@@ -5,11 +5,13 @@ import com.select.choice.domain.image.service.ImageService;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
+import com.select.choice.domain.post.domain.exception.PostNotFoundException;
 import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.post.domain.service.PostService;
 import com.select.choice.domain.post.domain.util.PostConverter;
 import com.select.choice.domain.user.entity.User;
 import com.select.choice.domain.user.facade.UserFacade;
+import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +50,12 @@ public class PostServiceImpl implements PostService {
             post.updateThumbnail(imageUploadDto.getImageUrl());
         }
         postRepository.save(post);
+    }
+
+    @Override
+    public void deletePost(Long postIdx) {
+        Post post = postRepository.findById(postIdx).orElseThrow(()->new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
+        postRepository.delete(post);
     }
 
 }

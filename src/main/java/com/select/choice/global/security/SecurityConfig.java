@@ -44,6 +44,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST,"/post").authenticated()
                 .antMatchers(HttpMethod.POST,"/post").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/comment/**").authenticated()
+                .antMatchers(HttpMethod.DELETE,"/post/**").authenticated()
                 .anyRequest().permitAll();
         http
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
