@@ -33,18 +33,25 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
                 .authorizeRequests()
+                // auth
                 .antMatchers(HttpMethod.POST,"/auth/signin").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth/signup").permitAll()
-                .antMatchers(HttpMethod.GET,"/post/").permitAll()
-                .antMatchers(HttpMethod.GET,"/post/list").permitAll()
                 .antMatchers(HttpMethod.PATCH,"/auth").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/auth").authenticated()
+
+                // user
+                .antMatchers(HttpMethod.DELETE,"/user").authenticated()
+
+                // post
+                .antMatchers(HttpMethod.GET,"/post/").permitAll()
+                .antMatchers(HttpMethod.GET,"/post/list").permitAll()
+                .antMatchers(HttpMethod.POST,"/post").authenticated()
+
+                // comment
+                .antMatchers(HttpMethod.DELETE,"/comment/**").authenticated()
                 .antMatchers(HttpMethod.POST,"/comment/**").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/comment/**").authenticated()
-                .antMatchers(HttpMethod.POST,"/post").authenticated()
-                .antMatchers(HttpMethod.POST,"/post").authenticated()
-                .antMatchers(HttpMethod.PATCH,"/comment/**").authenticated()
-                .antMatchers(HttpMethod.DELETE,"/post/**").authenticated()
+
                 .anyRequest().permitAll();
         http
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
