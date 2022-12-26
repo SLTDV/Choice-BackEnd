@@ -30,7 +30,6 @@ public class CommentController {
         commentService.edit(commentIdx, commentDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
     @DeleteMapping("/{commentIdx}")
     public ResponseEntity<Void> delete(@PathVariable("commentIdx") Long commentIdx){
         commentService.delete(commentIdx);
