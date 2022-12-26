@@ -19,15 +19,15 @@ public class CommentController {
 
     @PostMapping("/{postIdx}")
     public ResponseEntity<Void> write(@PathVariable("postIdx") Long postIdx, @RequestBody WriteCommentRequest writeCommentRequest){
-        CommentDto commentDto = commentConverter.toDto(writeCommentRequest);
+        CommentDto commentDto = commentConverter.toDto(writeCommentRequest.getContent());
         commentService.write(postIdx, commentDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PatchMapping("/{commentIdx}")
     public ResponseEntity<Void> edit(@PathVariable("commentIdx") Long commentIdx, @RequestBody EditCommentRequest editCommentRequest){
-        CommentDto commentDto = commentConverter.toDto(commentIdx, editCommentRequest);
-        commentService.edit(commentDto);
+        CommentDto commentDto = commentConverter.toDto(editCommentRequest.getContent());
+        commentService.edit(commentIdx, commentDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
