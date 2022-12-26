@@ -17,8 +17,7 @@ import org.springframework.stereotype.Component;
 public class CommentConverterImpl implements CommentConverter {
     private final PostRepository postRepository;
     @Override
-    public Comment toEntity(CommentDto commentDto, User user) {
-        Post post = commentDto.getPost();
+    public Comment toEntity(CommentDto commentDto, User user, Post post) {
         String content = commentDto.getContent();
 
         return Comment.builder()
@@ -29,12 +28,10 @@ public class CommentConverterImpl implements CommentConverter {
     }
 
     @Override
-    public CommentDto toDto(Long postIdx, WriteCommentRequest writeCommentRequest) {
-        Post post = postRepository.findById(postIdx).orElseThrow(() -> new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
+    public CommentDto toDto(WriteCommentRequest writeCommentRequest) {
         String content = writeCommentRequest.getContent();
 
         return CommentDto.builder()
-                .post(post)
                 .content(content)
                 .build();
     }
