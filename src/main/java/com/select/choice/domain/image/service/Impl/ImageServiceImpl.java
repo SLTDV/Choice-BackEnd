@@ -39,7 +39,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     private String upload(File uploadFile) {
-        String fileName = "image" + "/" + uploadFile.getName();
+        String fileName = "images" + "/" + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
 
         removeNewFile(uploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)

@@ -9,6 +9,5 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class CommentDto {
-    private final Post post;
     private final String content;
 }
