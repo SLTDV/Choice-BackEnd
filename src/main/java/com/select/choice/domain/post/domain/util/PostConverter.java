@@ -13,5 +13,5 @@ public interface PostConverter {
     List<PostDto>toPostDto(List<Post>post);
     Post toEntity(CreatePostDto dto);
 
-    List<CreatePostDto> toCreatePost(List<CreatePostRequestDto>createPostRequestDtos);
+    CreatePostDto toCreatePost(CreatePostRequestDto createPostRequestDto);
 }

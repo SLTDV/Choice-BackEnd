@@ -37,8 +37,9 @@ public class PostServiceImpl implements PostService {
     }
     @Transactional
     @Override
-    public void createPost(List<CreatePostDto> createPostRequestDtoList) {
-        postRepository.saveAll(createPostRequestDtoList.stream().map(postConverter::toEntity).collect(Collectors.toList()));
+    public void createPost(CreatePostDto postDto) {
+        Post post = postConverter.toEntity(postDto);
+        postRepository.save(post);
 
     }
 

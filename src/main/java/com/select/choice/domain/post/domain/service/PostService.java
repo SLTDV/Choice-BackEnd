@@ -11,5 +11,5 @@ public interface PostService {
 
     List<PostDto> getAllPostList();
     List<PostDto> getBestPostList();
-    void createPost(List<CreatePostDto> createPostRequestDtoList);
+    void createPost(CreatePostDto createPostDto);
 }

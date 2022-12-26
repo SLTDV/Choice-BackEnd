@@ -59,16 +59,14 @@ public class PostConverterImpl implements PostConverter{
     }
 
     @Override
-    public List<CreatePostDto> toCreatePost(List<CreatePostRequestDto> requestDtos){
-        return requestDtos.stream().map(dto ->
-                new CreatePostDto(
-                        dto.getTitle(),
-                        dto.getContent(),
-                        dto.getThumbnail(),
-                        dto.getFirstVotingOption(),
-                        dto.getSecondVotingOtion()
-                )
-        ).collect(Collectors.toList());
+    public CreatePostDto toCreatePost(CreatePostRequestDto requestDtos){
+        return CreatePostDto.builder()
+                .title(requestDtos.getTitle())
+                .content(requestDtos.getContent())
+                .thumbnail(requestDtos.getThumbnail())
+                .firstVotingOption(requestDtos.getFirstVotingOption())
+                .secondVotingOtion(requestDtos.getSecondVotingOtion())
+                .build();
     }
 }
 

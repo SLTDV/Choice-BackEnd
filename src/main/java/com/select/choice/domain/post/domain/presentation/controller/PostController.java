@@ -32,8 +32,8 @@ public class PostController {
         return ResponseEntity.ok(body);
     }
     @PostMapping()
-    public ResponseEntity<Void> createPost(@RequestBody List<CreatePostRequestDto> createPostRequestDto){
-        List<CreatePostDto> dto = postConverter.toCreatePost(createPostRequestDto);
+    public ResponseEntity<Void> createPost(@RequestBody CreatePostRequestDto createPostRequestDto){
+        CreatePostDto dto = postConverter.toCreatePost(createPostRequestDto);
         postService.createPost(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
