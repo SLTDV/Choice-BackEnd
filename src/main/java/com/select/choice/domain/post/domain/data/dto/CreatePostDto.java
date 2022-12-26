@@ -14,4 +14,5 @@ public class CreatePostDto {
     private String content;
     private String firstVotingOption;
     private String secondVotingOption;
+    private String thumbnail;
 }
