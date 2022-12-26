@@ -51,4 +51,8 @@ public class UserFacade {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return findUserByEmail(email);
     }
+
+    public void deleteUser(User user){
+        userRepository.delete(user);
+    }
 }
