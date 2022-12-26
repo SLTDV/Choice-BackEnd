@@ -55,6 +55,7 @@ public class PostConverterImpl implements PostConverter{
                 dto.getContent(),
                 dto.getFirstVotingOption(),
                 dto.getSecondVotingOption(),
+                dto.getThumbnail(),
                 user
         );
     }
@@ -66,6 +67,7 @@ public class PostConverterImpl implements PostConverter{
                 .content(requestDto.getContent())
                 .firstVotingOption(requestDto.getFirstVotingOption())
                 .secondVotingOption(requestDto.getSecondVotingOption())
+                .thumbnail(requestDto.getThumbnail())
                 .build();
     }
 }
