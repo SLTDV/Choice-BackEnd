@@ -20,6 +20,18 @@ public class GlobalException {
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(EmailRegexpException.class)
+    public ResponseEntity<ErrorResponse> EmailRegexpException(EmailRegexpException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(PasswordRegexpException.class)
+    public ResponseEntity<ErrorResponse> PasswordRegexpException(PasswordRegexpException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
     @ExceptionHandler(InvalidTokenException.class)
     public ResponseEntity<ErrorResponse> InvalidTokenException(InvalidTokenException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
