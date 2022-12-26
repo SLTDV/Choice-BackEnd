@@ -14,4 +14,5 @@ public class CreatePostRequestDto {
     private String content;
     private String firstVotingOption;
     private String secondVotingOption;
+    private String thumbnail;
 }
