@@ -29,13 +29,10 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-    public ImageUploadDto uploadImage(MultipartFile multipartFile) throws IOException {
+    public String uploadImage(MultipartFile multipartFile) throws IOException {
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
-        String uploadImageUrl = upload(uploadFile);
-        return ImageUploadDto.builder()
-                .imageUrl(uploadImageUrl)
-                .build();
+        return upload(uploadFile);
     }
 
     private String upload(File uploadFile) {
