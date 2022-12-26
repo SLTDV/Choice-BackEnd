@@ -1,5 +1,6 @@
 package com.select.choice.domain.post.domain.service.impl;
 
+import com.select.choice.domain.image.data.dto.ImageUploadDto;
 import com.select.choice.domain.image.service.ImageService;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
@@ -7,6 +8,8 @@ import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.post.domain.service.PostService;
 import com.select.choice.domain.post.domain.util.PostConverter;
+import com.select.choice.domain.user.entity.User;
+import com.select.choice.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final PostConverter postConverter;
     private final ImageService imageService;
+    private final UserFacade userFacade;
 
     @Override
     public List<PostDto> getAllPostList() {
@@ -37,10 +41,11 @@ public class PostServiceImpl implements PostService {
     @Transactional
     @Override
     public void createPost(CreatePostDto postDto, MultipartFile image) throws IOException {
-            Post post = postConverter.toEntity(postDto);
+        User user = userFacade.currentUser();
+        Post post = postConverter.toEntity(postDto, user);
         if(!image.isEmpty()) {
-            String storedFileName = String.valueOf(imageService.uploadImage(image));
-            post.updateThumbnail(storedFileName);
+            ImageUploadDto imageUploadDto = imageService.uploadImage(image);
+            post.updateThumbnail(imageUploadDto.getImageUrl());
         }
         postRepository.save(post);
     }
