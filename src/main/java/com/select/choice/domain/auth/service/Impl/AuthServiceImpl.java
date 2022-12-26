@@ -3,10 +3,7 @@ package com.select.choice.domain.auth.service.Impl;
 import com.select.choice.domain.auth.data.dto.TokenDto;
 import com.select.choice.domain.auth.data.request.SignInRequest;
 import com.select.choice.domain.auth.data.request.SignUpRequest;
-import com.select.choice.domain.auth.exception.DuplicateEmailException;
-import com.select.choice.domain.auth.exception.DuplicateNicknameException;
-import com.select.choice.domain.auth.exception.ExpiredTokenException;
-import com.select.choice.domain.auth.exception.InvalidTokenException;
+import com.select.choice.domain.auth.exception.*;
 import com.select.choice.domain.auth.service.AuthService;
 import com.select.choice.domain.auth.util.AuthConverter;
 import com.select.choice.domain.user.entity.User;
@@ -20,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +46,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void signUp(SignUpRequest signUpRequest) {
-        if(userFacade.existsByEmail(signUpRequest.getEmail())) {
+        String emailPattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}";
+        String pwPattern = "^.*(?=^.{8,15}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$";
+        if(!Pattern.matches(emailPattern,signUpRequest.getEmail())){
+            throw new EmailRegexpException(ErrorCode.EMAIL_REGEXP);
+        } else if (!Pattern.matches(pwPattern, signUpRequest.getPassword())) {
+            throw new PasswordRegexpException(ErrorCode.PASSWORD_REGEXP);
+        } else if(userFacade.existsByEmail(signUpRequest.getEmail())) {
             throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
         } else if (userFacade.existsByNickname(signUpRequest.getNickname())) {
             throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);

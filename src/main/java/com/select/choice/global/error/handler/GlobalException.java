@@ -1,6 +1,8 @@
 package com.select.choice.global.error.handler;
 
 import com.select.choice.domain.auth.exception.*;
+import com.select.choice.domain.comment.exception.CommentNotFoundException;
+import com.select.choice.domain.comment.exception.IsNotMyCommentException;
 import com.select.choice.domain.post.domain.exception.PostNotFoundException;
 import com.select.choice.domain.user.exception.UserNotFoundException;
 import com.select.choice.global.error.response.ErrorResponse;
@@ -14,6 +16,18 @@ public class GlobalException {
 
     @ExceptionHandler(ExpiredTokenException.class)
     public ResponseEntity<ErrorResponse> ExpiredTokenException(ExpiredTokenException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(EmailRegexpException.class)
+    public ResponseEntity<ErrorResponse> EmailRegexpException(EmailRegexpException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(PasswordRegexpException.class)
+    public ResponseEntity<ErrorResponse> PasswordRegexpException(PasswordRegexpException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
@@ -56,6 +70,18 @@ public class GlobalException {
 
     @ExceptionHandler(PostNotFoundException.class)
     public ResponseEntity<ErrorResponse> PostNotFoundException(PostNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(IsNotMyCommentException.class)
+    public ResponseEntity<ErrorResponse> IsNotMyCommentException(IsNotMyCommentException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ResponseEntity<ErrorResponse> CommentNotFoundException(CommentNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
