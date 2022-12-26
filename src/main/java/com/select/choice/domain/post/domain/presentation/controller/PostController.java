@@ -33,17 +33,15 @@ public class PostController {
         return ResponseEntity.ok(body);
     }
     @PostMapping()
-    public ResponseEntity<Void> createPost(
-            @RequestPart(value = "file", required = false)MultipartFile image,
-            @RequestPart(value = "req") CreatePostRequestDto createPostRequestDto) throws Exception{
+    public ResponseEntity<Void> createPost(@RequestBody CreatePostRequestDto createPostRequestDto) {
         CreatePostDto dto = postConverter.toCreatePost(createPostRequestDto);
-        postService.createPost(dto,image);
+        postService.createPost(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @DeleteMapping("/{postIdx}")
     public ResponseEntity<Void> deletePost(@PathVariable("postIdx") Long postIdx){
         postService.deletePost(postIdx);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

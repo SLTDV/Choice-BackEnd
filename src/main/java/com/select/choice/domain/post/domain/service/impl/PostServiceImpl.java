@@ -42,13 +42,9 @@ public class PostServiceImpl implements PostService {
     }
     @Transactional
     @Override
-    public void createPost(CreatePostDto postDto, MultipartFile image) throws IOException {
+    public void createPost(CreatePostDto postDto) {
         User user = userFacade.currentUser();
         Post post = postConverter.toEntity(postDto, user);
-        if(!image.isEmpty()) {
-            ImageUploadDto imageUploadDto = imageService.uploadImage(image);
-            post.updateThumbnail(imageUploadDto.getImageUrl());
-        }
         postRepository.save(post);
     }
 
