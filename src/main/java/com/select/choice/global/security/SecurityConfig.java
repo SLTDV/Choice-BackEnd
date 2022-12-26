@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.PATCH,"/auth").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/auth").authenticated()
                 .antMatchers(HttpMethod.POST,"/comment/**").authenticated()
+                .antMatchers(HttpMethod.PATCH,"/comment/**").authenticated()
                 .antMatchers(HttpMethod.POST,"/post").authenticated()
                 .anyRequest().permitAll();
         http

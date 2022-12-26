@@ -29,17 +29,17 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-    public ImageUploadDto uploadImage(MultipartFile multipartFile) throws IOException {
+    public ImageUploadDto uploadImage(MultipartFile multipartFile, String dirName) throws IOException {
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
-        String uploadImageUrl = upload(uploadFile);
+        String uploadImageUrl = upload(uploadFile, dirName);
         return ImageUploadDto.builder()
                 .imageUrl(uploadImageUrl)
                 .build();
     }
 
     private String upload(File uploadFile) {
-        String fileName = "image" + "/" + uploadFile.getName();
+        String fileName = "images" + "/" + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
 
         removeNewFile(uploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
