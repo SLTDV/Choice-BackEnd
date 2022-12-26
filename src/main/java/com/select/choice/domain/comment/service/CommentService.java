@@ -6,4 +6,6 @@ public interface CommentService {
     void write(Long postIdx,CommentDto commentDto);
 
     void edit(Long commentIdx, CommentDto commentDto);
+
+    void delete(Long commentIdx);
 }

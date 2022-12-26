@@ -44,4 +44,10 @@ public class CommentServiceImpl implements CommentService {
         comment.updateContent(commentDto.getContent());
         commentRepository.save(comment);
     }
+
+    @Override
+    public void delete(Long commentIdx) {
+        Comment comment = commentRepository.findById(commentIdx).orElseThrow(() -> new CommentNotFoundException(ErrorCode.Comment_NOT_FOUND));
+        commentRepository.delete(comment);
+    }
 }
