@@ -12,7 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,10 +40,13 @@ public class PostServiceImpl implements PostService {
     }
     @Transactional
     @Override
-    public void createPost(CreatePostDto postDto) {
-        Post post = postConverter.toEntity(postDto);
+    public void createPost(CreatePostDto postDto, MultipartFile image) throws IOException {
+            Post post = postConverter.toEntity(postDto);
+        if(!image.isEmpty()) {
+            String storedFileName = String.valueOf(imageService.uploadImage(image));
+            post.updateThumbnail(storedFileName);
+        }
         postRepository.save(post);
-
     }
 
 }

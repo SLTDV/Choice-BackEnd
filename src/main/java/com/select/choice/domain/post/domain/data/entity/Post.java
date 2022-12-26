@@ -32,7 +32,7 @@ public class Post extends BaseIdEntity {
     private User user;
 
     @Builder
-    public Post(String title, String content, String thumbnail, String firstVotingOption, String secondVotingOption,Integer firstVotingCount, Integer secondVotingCount){
+    public Post(String title, String content, String thumbnail, String firstVotingOption, String secondVotingOption, Integer firstVotingCount, Integer secondVotingCount) {
         this.thumbnail = thumbnail;
         this.title = title;
         this.content = content;
@@ -40,5 +40,9 @@ public class Post extends BaseIdEntity {
         this.secondVotingOption = secondVotingOption;
         this.firstVotingCount = firstVotingCount;
         this.secondVotingCount = secondVotingCount;
+    }
+
+    public void updateThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

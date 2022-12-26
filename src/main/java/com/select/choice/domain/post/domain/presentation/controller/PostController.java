@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,9 +33,11 @@ public class PostController {
         return ResponseEntity.ok(body);
     }
     @PostMapping()
-    public ResponseEntity<Void> createPost(@RequestBody CreatePostRequestDto createPostRequestDto){
+    public ResponseEntity<Void> createPost(
+            @RequestPart(value = "file", required = false)MultipartFile image,
+            @RequestPart(value = "req") CreatePostRequestDto createPostRequestDto) throws Exception{
         CreatePostDto dto = postConverter.toCreatePost(createPostRequestDto);
-        postService.createPost(dto);
+        postService.createPost(dto,image);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
