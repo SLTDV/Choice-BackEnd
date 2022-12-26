@@ -52,9 +52,8 @@ public class PostConverterImpl implements PostConverter{
         return Post.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .thumbnail(dto.getThumbnail())
                 .firstVotingOption(dto.getFirstVotingOption())
-                .secondVotingOption(dto.getSecondVotingOtion())
+                .secondVotingOption(dto.getSecondVotingOption())
                 .build();
     }
 
@@ -63,9 +62,8 @@ public class PostConverterImpl implements PostConverter{
         return CreatePostDto.builder()
                 .title(requestDtos.getTitle())
                 .content(requestDtos.getContent())
-                .thumbnail(requestDtos.getThumbnail())
                 .firstVotingOption(requestDtos.getFirstVotingOption())
-                .secondVotingOtion(requestDtos.getSecondVotingOtion())
+                .secondVotingOption(requestDtos.getSecondVotingOption())
                 .build();
     }
 }

@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 public class CreatePostRequestDto {
     private String title;
     private String content;
-    private String thumbnail;
     private String firstVotingOption;
-    private String secondVotingOtion;
+    private String secondVotingOption;
 }
