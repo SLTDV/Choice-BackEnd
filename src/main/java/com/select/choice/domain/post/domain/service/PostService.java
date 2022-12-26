@@ -12,7 +12,7 @@ public interface PostService {
 
     List<PostDto> getAllPostList();
     List<PostDto> getBestPostList();
-    void createPost(CreatePostDto createPostDto, MultipartFile image) throws IOException;
+    void createPost(CreatePostDto createPostDto);
 
     void deletePost(Long postIdx);
 }
