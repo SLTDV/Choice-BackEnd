@@ -4,7 +4,7 @@ import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
-import com.select.choice.domain.post.domain.request.CreatePostRequestDto;
+import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
