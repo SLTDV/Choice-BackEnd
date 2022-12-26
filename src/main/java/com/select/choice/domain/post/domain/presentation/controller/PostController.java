@@ -3,7 +3,7 @@ package com.select.choice.domain.post.domain.presentation.controller;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
-import com.select.choice.domain.post.domain.request.CreatePostRequestDto;
+import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
 import com.select.choice.domain.post.domain.service.PostService;
 import com.select.choice.domain.post.domain.util.PostConverter;
 import lombok.RequiredArgsConstructor;

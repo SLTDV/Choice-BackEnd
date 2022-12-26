@@ -4,7 +4,7 @@ import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
-import com.select.choice.domain.post.domain.request.CreatePostRequestDto;
+import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -52,9 +52,8 @@ public class PostConverterImpl implements PostConverter{
         return Post.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .thumbnail(dto.getThumbnail())
                 .firstVotingOption(dto.getFirstVotingOption())
-                .secondVotingOption(dto.getSecondVotingOtion())
+                .secondVotingOption(dto.getSecondVotingOption())
                 .build();
     }
 
@@ -63,9 +62,8 @@ public class PostConverterImpl implements PostConverter{
         return CreatePostDto.builder()
                 .title(requestDtos.getTitle())
                 .content(requestDtos.getContent())
-                .thumbnail(requestDtos.getThumbnail())
                 .firstVotingOption(requestDtos.getFirstVotingOption())
-                .secondVotingOtion(requestDtos.getSecondVotingOtion())
+                .secondVotingOption(requestDtos.getSecondVotingOption())
                 .build();
     }
 }
