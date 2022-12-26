@@ -2,6 +2,7 @@ package com.select.choice.domain.image.controller;
 
 
 import com.select.choice.domain.image.data.dto.ImageUploadDto;
+import com.select.choice.domain.image.response.ImageResponse;
 import com.select.choice.domain.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,9 @@ import java.io.IOException;
 public class ImageController {
     private final ImageService imageService;
     @PostMapping()
-    public ResponseEntity<String> imageUpload(@RequestPart(value = "file", required = false)MultipartFile image) throws IOException {
-        ImageUploadDto imageUploadDto = imageService.uploadImage(image);
-        return new ResponseEntity<>(imageUploadDto.getImageUrl(),HttpStatus.OK);
+    public ResponseEntity<ImageResponse> imageUpload(@RequestPart(value = "file", required = false)MultipartFile image) throws IOException {
+        String imageUrl = imageService.uploadImage(image);
+        ImageResponse imageResponse = new ImageResponse(imageUrl);
+        return ResponseEntity.ok(imageResponse);
     }
 }
