@@ -33,6 +33,8 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
                 .authorizeRequests()
+                .antMatchers(HttpMethod.DELETE,"/user/").authenticated()
+                .antMatchers(HttpMethod.DELETE,"/comment/**").authenticated()
                 .antMatchers(HttpMethod.POST,"/auth/signin").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth/signup").permitAll()
                 .antMatchers(HttpMethod.GET,"/post/").permitAll()
