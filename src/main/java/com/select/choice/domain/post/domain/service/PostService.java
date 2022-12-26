@@ -13,4 +13,6 @@ public interface PostService {
     List<PostDto> getAllPostList();
     List<PostDto> getBestPostList();
     void createPost(CreatePostDto createPostDto, MultipartFile image) throws IOException;
+
+    void deletePost(Long postIdx);
 }
