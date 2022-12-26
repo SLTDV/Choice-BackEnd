@@ -40,13 +40,10 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.PATCH,"/auth").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/auth").authenticated()
                 .antMatchers(HttpMethod.POST,"/comment/**").authenticated()
-<<<<<<< HEAD
                 .antMatchers(HttpMethod.PATCH,"/comment/**").authenticated()
                 .antMatchers(HttpMethod.POST,"/post").authenticated()
-=======
                 .antMatchers(HttpMethod.POST,"/post").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/comment/**").authenticated()
->>>>>>> 11128b9cf2bb5736f0edd165cd441ae985e5a9dc
                 .anyRequest().permitAll();
         http
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
