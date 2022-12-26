@@ -32,14 +32,12 @@ public class Post extends BaseIdEntity {
     private User user;
 
     @Builder
-    public Post(String title, String content, String thumbnail, String firstVotingOption, String secondVotingOption, Integer firstVotingCount, Integer secondVotingCount) {
-        this.thumbnail = thumbnail;
+    public Post(String title, String content, String firstVotingOption, String secondVotingOption, User user) {
         this.title = title;
         this.content = content;
         this.firstVotingOption = firstVotingOption;
         this.secondVotingOption = secondVotingOption;
-        this.firstVotingCount = firstVotingCount;
-        this.secondVotingCount = secondVotingCount;
+        this.user = user;
     }
 
     public void updateThumbnail(String thumbnail) {
