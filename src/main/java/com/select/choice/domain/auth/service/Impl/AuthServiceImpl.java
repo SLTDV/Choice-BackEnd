@@ -6,7 +6,7 @@ import com.select.choice.domain.auth.data.request.SignUpRequest;
 import com.select.choice.domain.auth.exception.*;
 import com.select.choice.domain.auth.service.AuthService;
 import com.select.choice.domain.auth.util.AuthConverter;
-import com.select.choice.domain.user.entity.User;
+import com.select.choice.domain.user.data.entity.User;
 import com.select.choice.domain.user.facade.UserFacade;
 import com.select.choice.global.error.type.ErrorCode;
 import com.select.choice.global.security.JwtTokenProvider;

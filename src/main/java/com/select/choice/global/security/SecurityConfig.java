@@ -41,6 +41,7 @@ public class SecurityConfig {
 
                 // user
                 .antMatchers(HttpMethod.DELETE,"/user").authenticated()
+                .antMatchers(HttpMethod.GET,"/user").authenticated()
 
                 // post
                 .antMatchers(HttpMethod.GET,"/post/").permitAll()
@@ -52,7 +53,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST,"/comment/**").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/comment/**").authenticated()
 
-                .anyRequest().permitAll();
+                .anyRequest().authenticated();
         http
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class);
