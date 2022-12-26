@@ -1,6 +1,5 @@
-package com.select.choice.domain.post.domain.data.reponse;
+package com.select.choice.domain.post.domain.data.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +10,8 @@ import lombok.RequiredArgsConstructor;
 @Builder
 public class PostResponse {
     private final Long idx;
-    private final String title;
     private final String thumbnail;
+    private final String title;
     private final String content;
     private final String firstVotingOption;
     private final String secondVotingOption;

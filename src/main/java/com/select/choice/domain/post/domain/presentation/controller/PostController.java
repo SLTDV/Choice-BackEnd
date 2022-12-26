@@ -1,12 +1,16 @@
 package com.select.choice.domain.post.domain.presentation.controller;
 
+import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
-import com.select.choice.domain.post.domain.data.reponse.PostResponse;
+import com.select.choice.domain.post.domain.data.response.PostResponse;
+import com.select.choice.domain.post.domain.request.CreatePostRequestDto;
 import com.select.choice.domain.post.domain.service.PostService;
 import com.select.choice.domain.post.domain.util.PostConverter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,5 +31,13 @@ public class PostController {
         List<PostDto> dto = postService.getBestPostList();
         List<PostResponse> body = postConverter.toResponse(dto);
         return ResponseEntity.ok(body);
+    }
+    @PostMapping()
+    public ResponseEntity<Void> createPost(
+            @RequestPart(value = "file", required = false)MultipartFile image,
+            @RequestPart(value = "req") CreatePostRequestDto createPostRequestDto) throws Exception{
+        CreatePostDto dto = postConverter.toCreatePost(createPostRequestDto);
+        postService.createPost(dto,image);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

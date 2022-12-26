@@ -1,15 +1,18 @@
 package com.select.choice.domain.post.domain.service.impl;
 
+import com.select.choice.domain.image.service.ImageService;
+import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.post.domain.service.PostService;
 import com.select.choice.domain.post.domain.util.PostConverter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -17,6 +20,7 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final PostConverter postConverter;
+    private final ImageService imageService;
 
     @Override
     public List<PostDto> getAllPostList() {
@@ -30,4 +34,15 @@ public class PostServiceImpl implements PostService {
         List<Post> list = postRepository.getBestPostList();
         return postConverter.toPostDto(list);
     }
+    @Transactional
+    @Override
+    public void createPost(CreatePostDto postDto, MultipartFile image) throws IOException {
+            Post post = postConverter.toEntity(postDto);
+        if(!image.isEmpty()) {
+            String storedFileName = String.valueOf(imageService.uploadImage(image));
+            post.updateThumbnail(storedFileName);
+        }
+        postRepository.save(post);
+    }
+
 }

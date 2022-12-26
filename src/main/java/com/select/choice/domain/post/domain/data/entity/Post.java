@@ -14,11 +14,11 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseIdEntity {
     @Column(nullable = false)
+    private String thumbnail;
+    @Column(nullable = false)
     private String title;
     @Column(nullable = false)
     private String content;
-    @Column(nullable = false)
-    private String thumbnail;
     @Column(nullable = false)
     private String firstVotingOption;
     @Column(nullable = false)
@@ -32,13 +32,17 @@ public class Post extends BaseIdEntity {
     private User user;
 
     @Builder
-    public Post(String title, String content, String thumbnail, String firstVotingOption, String secondVotingOption,Integer firstVotingCount, Integer secondVotingCount){
+    public Post(String title, String content, String thumbnail, String firstVotingOption, String secondVotingOption, Integer firstVotingCount, Integer secondVotingCount) {
+        this.thumbnail = thumbnail;
         this.title = title;
         this.content = content;
-        this.thumbnail = thumbnail;
         this.firstVotingOption = firstVotingOption;
         this.secondVotingOption = secondVotingOption;
         this.firstVotingCount = firstVotingCount;
         this.secondVotingCount = secondVotingCount;
+    }
+
+    public void updateThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

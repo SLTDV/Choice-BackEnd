@@ -1,16 +1,19 @@
 package com.select.choice.domain.post.domain.util;
 
+import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
-import com.select.choice.domain.post.domain.data.reponse.PostResponse;
+import com.select.choice.domain.post.domain.data.response.PostResponse;
+import com.select.choice.domain.post.domain.request.CreatePostRequestDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class PostConverterImpl implements PostConverter{
-
     @Override
     public List<PostResponse> toResponse(List<PostDto> dto){
 
@@ -42,6 +45,28 @@ public class PostConverterImpl implements PostConverter{
                         post.getSecondVotingCount()
                 )
         ).collect(Collectors.toList());
+    }
+
+    @Override
+    public Post toEntity(CreatePostDto dto) {
+        return Post.builder()
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .thumbnail(dto.getThumbnail())
+                .firstVotingOption(dto.getFirstVotingOption())
+                .secondVotingOption(dto.getSecondVotingOtion())
+                .build();
+    }
+
+    @Override
+    public CreatePostDto toCreatePost(CreatePostRequestDto requestDtos){
+        return CreatePostDto.builder()
+                .title(requestDtos.getTitle())
+                .content(requestDtos.getContent())
+                .thumbnail(requestDtos.getThumbnail())
+                .firstVotingOption(requestDtos.getFirstVotingOption())
+                .secondVotingOtion(requestDtos.getSecondVotingOtion())
+                .build();
     }
 }
 
