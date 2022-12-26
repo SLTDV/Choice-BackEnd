@@ -40,8 +40,8 @@ public class PostController {
         postService.createPost(dto,image);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-    @DeleteMapping("/{post-idx}")
-    public ResponseEntity<Void>deletePost(Long postIdx){
+    @DeleteMapping("/{postIdx}")
+    public ResponseEntity<Void> deletePost(@PathVariable("postIdx") Long postIdx){
         postService.deletePost(postIdx);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
