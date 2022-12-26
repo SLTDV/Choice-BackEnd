@@ -1,8 +1,6 @@
 package com.select.choice.domain.post.domain.repository;
 
-import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
-import net.bytebuddy.TypeCache;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
