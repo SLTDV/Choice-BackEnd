@@ -1,8 +1,10 @@
 package com.select.choice.domain.post.domain.util.Impl;
 
+import com.select.choice.domain.post.domain.data.dto.AddCountDto;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
+import com.select.choice.domain.post.domain.data.request.AddCountRequest;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
 import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
 import com.select.choice.domain.post.domain.util.PostConverter;
@@ -18,13 +20,12 @@ import java.util.stream.Collectors;
 public class PostConverterImpl implements PostConverter {
     @Override
     public List<PostResponse> toResponse(List<PostDto> dto){
-
         return dto.stream().map(post ->
                     new PostResponse(
                             post.getIdx(),
-                            post.getContent(),
-                            post.getTitle(),
                             post.getThumbnail(),
+                            post.getTitle(),
+                            post.getContent(),
                             post.getFirstVotingOption(),
                             post.getSecondVotingOption(),
                             post.getFirstVotingCount(),
@@ -38,9 +39,9 @@ public class PostConverterImpl implements PostConverter {
         return entity.stream().map(post ->
                 new PostDto(
                         post.getIdx(),
-                        post.getContent(),
-                        post.getTitle(),
                         post.getThumbnail(),
+                        post.getTitle(),
+                        post.getContent(),
                         post.getFirstVotingOption(),
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
@@ -71,6 +72,14 @@ public class PostConverterImpl implements PostConverter {
                 .firstVotingOption(requestDto.getFirstVotingOption())
                 .secondVotingOption(requestDto.getSecondVotingOption())
                 .thumbnail(requestDto.getThumbnail())
+                .build();
+    }
+
+    @Override
+    public AddCountDto toAddCountDto(AddCountRequest addCountRequest) {
+        Integer choice = addCountRequest.getChoice();
+        return AddCountDto.builder()
+                .choice(choice)
                 .build();
     }
 }
