@@ -1,6 +1,7 @@
 package com.select.choice.domain.post.domain.util;
 
 import com.select.choice.domain.post.domain.data.dto.AddCountDto;
+import com.select.choice.domain.comment.domain.data.entity.Comment;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDetailDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
@@ -22,4 +23,6 @@ public interface PostConverter {
     CreatePostDto toCreatePost(CreatePostRequestDto createPostRequestDto);
 
     AddCountDto toAddCountDto(AddCountRequest addCountRequest);
+
+    PostDetailDto postDetailDto(Post post, List<Comment> commentList, User user);
 }
