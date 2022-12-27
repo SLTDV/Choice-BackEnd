@@ -46,14 +46,17 @@ public class SecurityConfig {
                 // post
                 .antMatchers(HttpMethod.GET,"/post/").permitAll()
                 .antMatchers(HttpMethod.GET,"/post/list").permitAll()
-                .antMatchers(HttpMethod.POST,"/post").authenticated()
+                .antMatchers(HttpMethod.POST,"/post").permitAll()
 
                 // comment
                 .antMatchers(HttpMethod.DELETE,"/comment/**").authenticated()
                 .antMatchers(HttpMethod.POST,"/comment/**").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/comment/**").authenticated()
 
-                .anyRequest().authenticated();
+                // upload
+                .antMatchers(HttpMethod.POST,"/image").permitAll()
+
+                .anyRequest().permitAll();
         http
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class);

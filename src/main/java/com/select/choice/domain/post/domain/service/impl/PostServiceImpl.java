@@ -1,7 +1,5 @@
 package com.select.choice.domain.post.domain.service.impl;
 
-import com.select.choice.domain.image.data.dto.ImageUploadDto;
-import com.select.choice.domain.image.service.ImageService;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
@@ -15,9 +13,7 @@ import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -25,7 +21,6 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final PostConverter postConverter;
-    private final ImageService imageService;
     private final UserFacade userFacade;
 
     @Override

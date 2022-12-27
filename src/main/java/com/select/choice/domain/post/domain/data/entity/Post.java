@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseIdEntity {
-    @Column(nullable = false)
     private String thumbnail;
     @Column(nullable = false)
     private String title;
@@ -39,9 +38,5 @@ public class Post extends BaseIdEntity {
         this.secondVotingOption = secondVotingOption;
         this.thumbnail = thumbnail;
         this.user = user;
-    }
-
-    public void updateThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
     }
 }
