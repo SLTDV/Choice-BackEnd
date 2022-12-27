@@ -53,9 +53,10 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     //게시물 상세페이지 조회
-    @GetMapping({"/postIdx"})
-    public ResponseEntity<PostDetailResponse>postDetail(Long postIdx) {
-        postService.
+    @GetMapping({"/{postIdx}"})
+    public ResponseEntity<PostDetailResponse>postDetail(@PathVariable("postIdx")Long postIdx) {
+        PostDetailResponse postDetailResponse = postService.aggregateDetail(postIdx);
+        return ResponseEntity.status(HttpStatus.OK).body(postDetailResponse);
     }
 
 }
