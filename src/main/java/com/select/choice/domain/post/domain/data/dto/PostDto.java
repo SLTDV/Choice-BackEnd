@@ -11,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 public class PostDto {
     private Long idx;
-    private String title;
     private String thumbnail;
+    private String title;
     private String content;
     private String firstVotingOption;
     private String secondVotingOption;

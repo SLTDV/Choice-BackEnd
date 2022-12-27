@@ -1,14 +1,15 @@
 package com.select.choice.domain.post.domain.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.select.choice.domain.post.domain.data.dto.AddCountDto;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
+import com.select.choice.domain.post.domain.data.request.AddCountRequest;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
 import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
 import com.select.choice.domain.post.domain.service.PostService;
 import com.select.choice.domain.post.domain.util.PostConverter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,4 +47,10 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @PostMapping("/add/{postIdx}")
+    public ResponseEntity<Void> addCount(@PathVariable("postIdx") Long postIdx, @RequestBody AddCountRequest addCountRequest){
+        AddCountDto addCountDto = postConverter.toAddCountDto(addCountRequest);
+        postService.addCount(addCountDto, postIdx);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

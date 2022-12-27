@@ -1,8 +1,10 @@
 package com.select.choice.domain.post.domain.util;
 
+import com.select.choice.domain.post.domain.data.dto.AddCountDto;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
+import com.select.choice.domain.post.domain.data.request.AddCountRequest;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
 import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
 import com.select.choice.domain.user.domain.data.entity.User;
@@ -15,4 +17,6 @@ public interface PostConverter {
     Post toEntity(CreatePostDto dto, User user);
 
     CreatePostDto toCreatePost(CreatePostRequestDto createPostRequestDto);
+
+    AddCountDto toAddCountDto(AddCountRequest addCountRequest);
 }
