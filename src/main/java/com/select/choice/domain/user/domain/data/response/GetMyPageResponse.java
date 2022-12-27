@@ -11,6 +11,6 @@ import java.util.List;
 @Getter
 @Builder
 public class GetMyPageResponse {
-    private final String username;
+    private final String nickname;
     private final List<PostResponse> postList;
 }

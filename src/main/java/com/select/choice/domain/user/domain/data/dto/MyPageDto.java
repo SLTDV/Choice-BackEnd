@@ -11,6 +11,6 @@ import java.util.List;
 @Builder
 @Getter
 public class MyPageDto {
-    private final String username;
+    private final String nickname;
     private final List<PostDto> postList;
 }
