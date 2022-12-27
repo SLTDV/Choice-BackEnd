@@ -5,7 +5,9 @@ import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
 import com.select.choice.domain.post.domain.util.PostConverter;
 import com.select.choice.domain.user.domain.data.dto.MyPageDto;
+import com.select.choice.domain.user.domain.data.dto.NicknameDto;
 import com.select.choice.domain.user.domain.data.entity.User;
+import com.select.choice.domain.user.domain.data.request.ChangeNicknameRequest;
 import com.select.choice.domain.user.domain.data.response.GetMyPageResponse;
 import com.select.choice.domain.user.domain.util.UserConverter;
 import lombok.RequiredArgsConstructor;
@@ -20,21 +22,29 @@ public class UserConverterImpl implements UserConverter {
 
     @Override
     public MyPageDto toMyPageDto(User user, List<Post> postList) {
-        String username = user.getNickname();
+        String nickname = user.getNickname();
         List<PostDto> postDtoList = postConverter.toPostDto(postList);
         return MyPageDto.builder()
-                .username(username)
+                .nickname(nickname)
                 .postList(postDtoList)
                 .build();
     }
 
     @Override
     public GetMyPageResponse toMyPageResponse(MyPageDto myPageDto) {
-        String username = myPageDto.getUsername();
+        String nickname = myPageDto.getNickname();
         List<PostResponse> postResponseList = postConverter.toResponse(myPageDto.getPostList());
         return GetMyPageResponse.builder()
-                .username(username)
+                .nickname(nickname)
                 .postList(postResponseList)
+                .build();
+    }
+
+    @Override
+    public NicknameDto toNicknameDto(ChangeNicknameRequest changeNicknameRequest) {
+        String nickname = changeNicknameRequest.getNickname();
+        return NicknameDto.builder()
+                .nickname(nickname)
                 .build();
     }
 }
