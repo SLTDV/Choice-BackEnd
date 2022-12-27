@@ -12,6 +12,7 @@ import com.select.choice.domain.user.domain.data.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,22 @@ public class PostConverterImpl implements PostConverter {
 
     @Override
     public List<PostDto> toPostDto(List<Post> entity) {
+        return entity.stream().map(post ->
+                new PostDto(
+                        post.getIdx(),
+                        post.getThumbnail(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getFirstVotingOption(),
+                        post.getSecondVotingOption(),
+                        post.getFirstVotingCount(),
+                        post.getSecondVotingCount()
+                )
+        ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PostDto> toBestPostDto(List<Post> entity) {
         return entity.stream().map(post ->
                 new PostDto(
                         post.getIdx(),
