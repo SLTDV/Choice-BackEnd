@@ -1,5 +1,6 @@
 package com.select.choice.domain.post.domain.service.impl;
 
+import com.select.choice.domain.post.domain.data.dto.AddCountDto;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
@@ -47,6 +48,17 @@ public class PostServiceImpl implements PostService {
     public void deletePost(Long postIdx) {
         Post post = postRepository.findById(postIdx).orElseThrow(()->new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
         postRepository.delete(post);
+    }
+
+    @Transactional
+    @Override
+    public void addCount(AddCountDto addCountDto, Long postIdx) {
+        Post post = postRepository.findById(postIdx).orElseThrow(()->new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
+        Integer choice = addCountDto.getChoice();
+        if(choice == 1){
+            post.updateFirstVotingCount();
+        } else
+            post.updateSecondVotingCount();
     }
 
 }
