@@ -31,12 +31,14 @@ public class Post extends BaseIdEntity {
     private User user;
 
     @Builder
-    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String thumbnail,User user) {
+    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String thumbnail,Integer firstVotingCount, Integer secondVotingCount, User user) {
         this.title = title;
         this.content = content;
         this.firstVotingOption = firstVotingOption;
         this.secondVotingOption = secondVotingOption;
         this.thumbnail = thumbnail;
+        this.firstVotingCount = firstVotingCount;
+        this.secondVotingCount = secondVotingCount;
         this.user = user;
     }
 }
