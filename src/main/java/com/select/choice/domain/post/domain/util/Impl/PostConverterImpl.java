@@ -104,8 +104,21 @@ public class PostConverterImpl implements PostConverter {
                 .secondVotingOption(postDetailDto.getSecondVotingOption())
                 .firstVotingCount(postDetailDto.getFirstVotingCount())
                 .secondVotingCount(postDetailDto.getSecondVotingCount())
+                .comment(postDetailDto.getComment())
                 .build();
-
+    }
+         @Override
+         public PostDetailDto postDetailDto(Post post, List<Comment> commentList, User user) {
+            return PostDetailDto.builder()
+                .authorname(user.getNickname())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .firstVotingOption(post.getFirstVotingOption())
+                .secondVotingOption(post.getSecondVotingOption())
+                .firstVotingCount(post.getFirstVotingCount())
+                .secondVotingCount(post.getSecondVotingCount())
+                .comment(commentList)
+                .build();
     }
 
     @Override
