@@ -28,9 +28,9 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<HttpStatus> signUp(@RequestBody @Validated SignUpRequest signUpRequest){
+    public ResponseEntity<Void> signUp(@RequestBody @Validated SignUpRequest signUpRequest){
         authService.signUp(signUpRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED,HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PatchMapping()
