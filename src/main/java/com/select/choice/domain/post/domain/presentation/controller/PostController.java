@@ -3,6 +3,7 @@ package com.select.choice.domain.post.domain.presentation.controller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
+import com.select.choice.domain.post.domain.data.response.PostDetailResponse;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
 import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
 import com.select.choice.domain.post.domain.service.PostService;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,6 +50,12 @@ public class PostController {
     public ResponseEntity<Void> deletePost(@PathVariable("postIdx") Long postIdx){
         postService.deletePost(postIdx);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    //게시물 상세페이지 조회
+    @GetMapping({"/postIdx"})
+    public ResponseEntity<PostDetailResponse>postDetail(Long idx, Model model) {
+        List<>
+        model.addAttribute()
     }
 
 }
