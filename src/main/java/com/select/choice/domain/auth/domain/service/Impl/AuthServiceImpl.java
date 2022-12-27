@@ -4,7 +4,6 @@ import com.select.choice.domain.auth.domain.data.dto.TokenDto;
 import com.select.choice.domain.auth.domain.data.request.SignInRequest;
 import com.select.choice.domain.auth.domain.data.request.SignUpRequest;
 import com.select.choice.domain.auth.domain.exception.*;
-import com.select.choice.domain.auth.exception.*;
 import com.select.choice.domain.auth.domain.service.AuthService;
 import com.select.choice.domain.auth.domain.util.AuthConverter;
 import com.select.choice.domain.user.domain.data.entity.User;

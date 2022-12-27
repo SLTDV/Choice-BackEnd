@@ -1,7 +1,6 @@
 package com.select.choice.global.error.handler;
 
 import com.select.choice.domain.auth.domain.exception.*;
-import com.select.choice.domain.auth.exception.*;
 import com.select.choice.domain.comment.domain.exception.CommentNotFoundException;
 import com.select.choice.domain.comment.domain.exception.IsNotMyCommentException;
 import com.select.choice.domain.post.domain.exception.PostNotFoundException;
