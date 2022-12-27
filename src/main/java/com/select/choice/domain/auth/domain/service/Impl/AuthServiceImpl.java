@@ -94,7 +94,7 @@ public class AuthServiceImpl implements AuthService {
         Long expiredAt = jwtTokenProvider.getExpiredTime(newAccessToken);
 
         redisTemplate.opsForValue()
-                .set("RefreshToken:" + user.getIdx(), refreshToken,
+                .set("RefreshToken:" + user.getIdx(), newRefreshToken,
                         jwtTokenProvider.getExpiredTime(newRefreshToken), TimeUnit.MILLISECONDS);
 
         return new TokenDto(newAccessToken, newRefreshToken, expiredAt);
