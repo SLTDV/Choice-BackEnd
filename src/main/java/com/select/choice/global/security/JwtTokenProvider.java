@@ -20,7 +20,7 @@ import java.util.Date;
 public class JwtTokenProvider {
     private final JwtProperties jwtProperties;
 
-    private final long ACCESS_TOKEN_EXPIRED_TIME = 2 * 60 * 100;
+    private final long ACCESS_TOKEN_EXPIRED_TIME = 2 * 60 * 1000;
     private final long REFRESH_TOKEN_EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000; // 1주
 
     @AllArgsConstructor
