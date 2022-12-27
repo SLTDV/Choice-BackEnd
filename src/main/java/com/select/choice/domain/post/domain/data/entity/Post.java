@@ -1,7 +1,7 @@
 package com.select.choice.domain.post.domain.data.entity;
 
 
-import com.select.choice.domain.user.data.entity.User;
+import com.select.choice.domain.user.domain.data.entity.User;
 import com.select.choice.global.common.entity.BaseIdEntity;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
