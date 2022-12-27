@@ -34,7 +34,7 @@ public class PostServiceImpl implements PostService {
     @Transactional(readOnly = true)
     public List<PostDto> getBestPostList() {
         List<Post> list = postRepository.getBestPostList();
-        return postConverter.toPostDto(list);
+        return postConverter.toBestPostDto(list);
     }
     @Transactional
     @Override
