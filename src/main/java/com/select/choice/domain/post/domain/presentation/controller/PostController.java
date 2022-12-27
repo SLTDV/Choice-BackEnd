@@ -21,18 +21,21 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
     private final PostConverter postConverter;
+    //게시물 조회
     @GetMapping()
     public ResponseEntity<List<PostResponse>>getAllPostList(){
         List<PostDto> dto = postService.getAllPostList();
         List<PostResponse> body = postConverter.toResponse(dto);
         return ResponseEntity.ok(body);
     }
+    //인기 게시물 조회
     @GetMapping("/list")
     public ResponseEntity<List<PostResponse>>getBestPostList(){
         List<PostDto> dto = postService.getBestPostList();
         List<PostResponse> body = postConverter.toResponse(dto);
         return ResponseEntity.ok(body);
     }
+    //게시물 생성
     @PostMapping()
     @JsonProperty("CreatePostRequestDto")
     public ResponseEntity<Void> createPost(@RequestBody CreatePostRequestDto createPostRequestDto) {
@@ -40,6 +43,7 @@ public class PostController {
         postService.createPost(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+    //게시물 삭제
     @DeleteMapping("/{postIdx}")
     public ResponseEntity<Void> deletePost(@PathVariable("postIdx") Long postIdx){
         postService.deletePost(postIdx);
