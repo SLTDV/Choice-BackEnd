@@ -56,6 +56,7 @@ public class SecurityConfig {
                 // upload
                 .antMatchers(HttpMethod.POST,"/image").authenticated()
 
+
                 .anyRequest().permitAll();
         http
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
