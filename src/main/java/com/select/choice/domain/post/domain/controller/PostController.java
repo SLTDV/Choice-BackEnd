@@ -1,4 +1,4 @@
-package com.select.choice.domain.post.domain.presentation.controller;
+package com.select.choice.domain.post.domain.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;

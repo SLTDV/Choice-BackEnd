@@ -1,7 +1,7 @@
 package com.select.choice.domain.image.domain.controller;
 
 
-import com.select.choice.domain.image.domain.data.response.response.ImageResponse;
+import com.select.choice.domain.image.domain.data.response.ImageResponse;
 import com.select.choice.domain.image.domain.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

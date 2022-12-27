@@ -1,4 +1,4 @@
-package com.select.choice.domain.comment.domain.controller.controller;
+package com.select.choice.domain.comment.domain.controller;
 
 import com.select.choice.domain.comment.domain.data.dto.CommentDto;
 import com.select.choice.domain.comment.domain.data.request.EditCommentRequest;

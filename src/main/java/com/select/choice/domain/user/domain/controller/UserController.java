@@ -1,4 +1,4 @@
-package com.select.choice.domain.user.domain.controller.controller;
+package com.select.choice.domain.user.domain.controller;
 
 import com.select.choice.domain.user.domain.Service.UserService;
 import com.select.choice.domain.user.domain.data.response.GetMyPageResponse;
