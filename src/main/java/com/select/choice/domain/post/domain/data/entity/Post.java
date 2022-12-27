@@ -41,4 +41,12 @@ public class Post extends BaseIdEntity {
         this.secondVotingCount = secondVotingCount;
         this.user = user;
     }
+
+    public void updateFirstVotingCount(){
+        ++this.firstVotingCount;
+    }
+
+    public void updateSecondVotingCount(){
+        ++this.secondVotingCount;
+    }
 }
