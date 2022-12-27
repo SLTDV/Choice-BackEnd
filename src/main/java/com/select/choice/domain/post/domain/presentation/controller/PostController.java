@@ -2,6 +2,7 @@ package com.select.choice.domain.post.domain.presentation.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
+import com.select.choice.domain.post.domain.data.dto.PostDetailDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.response.PostDetailResponse;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
@@ -53,9 +54,8 @@ public class PostController {
     }
     //게시물 상세페이지 조회
     @GetMapping({"/postIdx"})
-    public ResponseEntity<PostDetailResponse>postDetail(Long idx, Model model) {
-        List<>
-        model.addAttribute()
+    public ResponseEntity<PostDetailResponse>postDetail(Long postIdx) {
+        postService.
     }
 
 }

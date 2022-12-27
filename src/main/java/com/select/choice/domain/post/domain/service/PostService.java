@@ -13,6 +13,6 @@ public interface PostService {
     List<PostDto> getAllPostList();
     List<PostDto> getBestPostList();
     void createPost(CreatePostDto createPostDto);
-
+    void getDetail(Long postIdx);
     void deletePost(Long postIdx);
 }
