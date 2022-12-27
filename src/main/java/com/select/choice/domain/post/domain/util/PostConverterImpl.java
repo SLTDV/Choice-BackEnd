@@ -1,8 +1,11 @@
 package com.select.choice.domain.post.domain.util;
 
+import com.select.choice.domain.comment.data.entity.Comment;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
+import com.select.choice.domain.post.domain.data.dto.PostDetailDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
+import com.select.choice.domain.post.domain.data.response.PostDetailResponse;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
 import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
 import com.select.choice.domain.user.data.entity.User;
@@ -70,6 +73,18 @@ public class PostConverterImpl implements PostConverter{
                 .thumbnail(requestDto.getThumbnail())
                 .build();
     }
-}
+    @Override
+    public PostDetailResponse toDetailResponse(PostDetailDto postDetailDto) {
+        return PostDetailResponse.builder()
+                .authorname(postDetailDto.getAuthorname())
+                .title(postDetailDto.getTitle())
+                .content(postDetailDto.getContent())
+                .firstVotingOption(postDetailDto.getFirstVotingOption())
+                .secondVotingOption(postDetailDto.getSecondVotingOption())
+                .firstVotingCount(postDetailDto.getFirstVotingCount())
+                .secondVotingCount(postDetailDto.getSecondVotingCount())
+                .build();
 
+    }
+}
 
