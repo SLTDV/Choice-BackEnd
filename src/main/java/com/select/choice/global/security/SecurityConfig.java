@@ -53,7 +53,10 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST,"/comment/**").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/comment/**").authenticated()
 
-                .anyRequest().authenticated();
+                // upload
+                .antMatchers(HttpMethod.POST,"/image").permitAll()
+
+                .anyRequest().permitAll();
         http
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class);

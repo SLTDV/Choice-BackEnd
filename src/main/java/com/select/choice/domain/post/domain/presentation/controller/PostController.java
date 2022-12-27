@@ -1,5 +1,6 @@
 package com.select.choice.domain.post.domain.presentation.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
@@ -7,10 +8,10 @@ import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
 import com.select.choice.domain.post.domain.service.PostService;
 import com.select.choice.domain.post.domain.util.PostConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,10 +34,11 @@ public class PostController {
         return ResponseEntity.ok(body);
     }
     @PostMapping()
+    @JsonProperty("CreatePostRequestDto")
     public ResponseEntity<Void> createPost(@RequestBody CreatePostRequestDto createPostRequestDto) {
         CreatePostDto dto = postConverter.toCreatePost(createPostRequestDto);
         postService.createPost(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @DeleteMapping("/{postIdx}")
     public ResponseEntity<Void> deletePost(@PathVariable("postIdx") Long postIdx){
