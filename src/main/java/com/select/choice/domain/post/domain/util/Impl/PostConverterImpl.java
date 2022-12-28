@@ -1,10 +1,13 @@
 package com.select.choice.domain.post.domain.util.Impl;
 
 import com.select.choice.domain.post.domain.data.dto.AddCountDto;
+import com.select.choice.domain.comment.domain.data.entity.Comment;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
+import com.select.choice.domain.post.domain.data.dto.PostDetailDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.request.AddCountRequest;
+import com.select.choice.domain.post.domain.data.response.PostDetailResponse;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
 import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
 import com.select.choice.domain.post.domain.util.PostConverter;
@@ -40,7 +43,7 @@ public class PostConverterImpl implements PostConverter {
         return entity.stream().map(post ->
                 new PostDto(
                         post.getIdx(),
-                        post.getThumbnail(),
+                        post.getContent(),
                         post.getTitle(),
                         post.getContent(),
                         post.getFirstVotingOption(),
@@ -89,6 +92,32 @@ public class PostConverterImpl implements PostConverter {
                 .firstVotingOption(requestDto.getFirstVotingOption())
                 .secondVotingOption(requestDto.getSecondVotingOption())
                 .thumbnail(requestDto.getThumbnail())
+                .build();
+    }
+    @Override
+    public PostDetailResponse toDetailResponse(PostDetailDto postDetailDto) {
+        return PostDetailResponse.builder()
+                .authorname(postDetailDto.getAuthorname())
+                .title(postDetailDto.getTitle())
+                .content(postDetailDto.getContent())
+                .firstVotingOption(postDetailDto.getFirstVotingOption())
+                .secondVotingOption(postDetailDto.getSecondVotingOption())
+                .firstVotingCount(postDetailDto.getFirstVotingCount())
+                .secondVotingCount(postDetailDto.getSecondVotingCount())
+                .comment(postDetailDto.getComment())
+                .build();
+    }
+         @Override
+         public PostDetailDto postDetailDto(Post post, List<Comment> commentList, User user) {
+            return PostDetailDto.builder()
+                .authorname(user.getNickname())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .firstVotingOption(post.getFirstVotingOption())
+                .secondVotingOption(post.getSecondVotingOption())
+                .firstVotingCount(post.getFirstVotingCount())
+                .secondVotingCount(post.getSecondVotingCount())
+                .comment(commentList)
                 .build();
     }
 
