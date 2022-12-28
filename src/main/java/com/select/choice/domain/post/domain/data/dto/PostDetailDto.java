@@ -1,4 +1,3 @@
-
 package com.select.choice.domain.post.domain.data.dto;
 
 import com.select.choice.domain.comment.domain.data.entity.Comment;

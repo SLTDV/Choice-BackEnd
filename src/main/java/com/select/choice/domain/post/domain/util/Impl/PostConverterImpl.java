@@ -43,7 +43,7 @@ public class PostConverterImpl implements PostConverter {
         return entity.stream().map(post ->
                 new PostDto(
                         post.getIdx(),
-                        post.getThumbnail(),
+                        post.getContent(),
                         post.getTitle(),
                         post.getContent(),
                         post.getFirstVotingOption(),
