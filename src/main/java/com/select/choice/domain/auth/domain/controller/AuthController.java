@@ -1,5 +1,7 @@
 package com.select.choice.domain.auth.domain.controller;
 
+import com.select.choice.domain.auth.domain.data.dto.SignInDto;
+import com.select.choice.domain.auth.domain.data.dto.SignUpDto;
 import com.select.choice.domain.auth.domain.data.dto.TokenDto;
 import com.select.choice.domain.auth.domain.data.request.SignInRequest;
 import com.select.choice.domain.auth.domain.data.request.SignUpRequest;
@@ -19,30 +21,48 @@ public class AuthController {
     private final AuthService authService;
     private final AuthConverter authConverter;
 
+    /*
+    기능: 로그인
+    담당자: 노혁
+     */
     @PostMapping("/signin")
     public ResponseEntity<TokenResponse> signIn(@RequestBody SignInRequest signInRequest){
-        TokenDto tokenDto = authService.signIn(signInRequest);
+        SignInDto signInDto = authConverter.toSignInDto(signInRequest);
+        TokenDto tokenDto = authService.signIn(signInDto);
         TokenResponse response = authConverter.toResponse(tokenDto);
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
 
+    /*
+    기능: 회원가입
+    담당자: 노혁
+     */
     @PostMapping("/signup")
     public ResponseEntity<Void> signUp(@RequestBody @Validated SignUpRequest signUpRequest){
-        authService.signUp(signUpRequest);
+        SignUpDto signUpDto = authConverter.toSignUpDto(signUpRequest);
+        authService.signUp(signUpDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PatchMapping()
+    /*
+    기능: 토큰 재발급
+    담당자: 노혁
+     */
+    @PatchMapping
     public ResponseEntity<TokenResponse> refresh(@RequestHeader("RefreshToken") String refreshToken){
         TokenDto tokenDto = authService.refresh(refreshToken);
         TokenResponse response = authConverter.toResponse(tokenDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @DeleteMapping()
-    public ResponseEntity<String> logout(@RequestHeader("Authorization") String token){
+    /*
+    기능: 로그아웃
+    담당자: 노혁
+     */
+    @DeleteMapping
+    public ResponseEntity<Void> logout(@RequestHeader("Authorization") String token){
         authService.logout(token);
-        return new ResponseEntity<>("success",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

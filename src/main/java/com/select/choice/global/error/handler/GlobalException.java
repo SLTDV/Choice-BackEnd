@@ -3,6 +3,7 @@ package com.select.choice.global.error.handler;
 import com.select.choice.domain.auth.domain.exception.*;
 import com.select.choice.domain.comment.domain.exception.CommentNotFoundException;
 import com.select.choice.domain.comment.domain.exception.IsNotMyCommentException;
+import com.select.choice.domain.post.domain.exception.IsNotMyPostException;
 import com.select.choice.domain.post.domain.exception.PostNotFoundException;
 import com.select.choice.domain.user.domain.exception.UserNotFoundException;
 import com.select.choice.global.error.response.ErrorResponse;
@@ -82,6 +83,12 @@ public class GlobalException {
 
     @ExceptionHandler(CommentNotFoundException.class)
     public ResponseEntity<ErrorResponse> CommentNotFoundException(CommentNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(IsNotMyPostException.class)
+    public ResponseEntity<ErrorResponse> IsNotMyPostException(IsNotMyPostException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
