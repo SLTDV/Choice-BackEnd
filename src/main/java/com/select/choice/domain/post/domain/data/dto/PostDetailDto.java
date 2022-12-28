@@ -12,12 +12,5 @@ import java.util.List;
 @Builder
 public class PostDetailDto {
     private String authorname;
-    private String thumbnail;
-    private String title;
-    private String content;
-    private String firstVotingOption;
-    private String secondVotingOption;
-    private Integer firstVotingCount;
-    private Integer secondVotingCount;
     private List<Comment> comment;
 }
