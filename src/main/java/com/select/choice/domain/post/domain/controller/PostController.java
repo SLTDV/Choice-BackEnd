@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.select.choice.domain.post.domain.data.dto.AddCountDto;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
+import com.select.choice.domain.post.domain.data.response.AddCountResponse;
 import com.select.choice.domain.post.domain.data.response.PostDetailResponse;
 import com.select.choice.domain.post.domain.data.request.AddCountRequest;
 
@@ -84,9 +85,9 @@ public class PostController {
     담당자: 노혁
      */
     @PostMapping("/add/{postIdx}")
-    public ResponseEntity<Void> addCount(@PathVariable("postIdx") Long postIdx, @RequestBody AddCountRequest addCountRequest){
+    public ResponseEntity<AddCountResponse> addCount(@PathVariable("postIdx") Long postIdx, @RequestBody AddCountRequest addCountRequest){
         AddCountDto addCountDto = postConverter.toAddCountDto(addCountRequest);
-        postService.addCount(addCountDto, postIdx);
-        return new ResponseEntity<>(HttpStatus.OK);
+         AddCountResponse addCountResponse = postService.addCount(addCountDto, postIdx);
+        return new ResponseEntity<>(addCountResponse,HttpStatus.OK);
     }
 }
