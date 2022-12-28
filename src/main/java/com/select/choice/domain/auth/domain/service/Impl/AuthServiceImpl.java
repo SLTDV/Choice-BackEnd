@@ -12,6 +12,7 @@ import com.select.choice.global.error.type.ErrorCode;
 import com.select.choice.global.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,23 +47,23 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void signUp(SignUpDto signUpDto) {
-        User user = authConverter.toEntity(signUpDto);
 
         String emailPattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}";
         String pwPattern = "^.*(?=^.{8,15}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$";
 
-        if(!Pattern.matches(emailPattern,user.getEmail())){
+        if(!Pattern.matches(emailPattern,signUpDto.getEmail())){
             throw new EmailRegexpException(ErrorCode.EMAIL_REGEXP);
         }
-        else if (!Pattern.matches(pwPattern, user.getPassword())) {
+        else if (!Pattern.matches(pwPattern, signUpDto.getPassword())) {
             throw new PasswordRegexpException(ErrorCode.PASSWORD_REGEXP);
         }
-        else if(userFacade.existsByEmail(user.getEmail())) {
+        else if(userFacade.existsByEmail(signUpDto.getEmail())) {
             throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
         }
-        else if (userFacade.existsByNickname(user.getNickname())) {
+        else if (userFacade.existsByNickname(signUpDto.getNickname())) {
             throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);
         }
+        User user = authConverter.toEntity(signUpDto);
         userFacade.save(user);
     }
 
