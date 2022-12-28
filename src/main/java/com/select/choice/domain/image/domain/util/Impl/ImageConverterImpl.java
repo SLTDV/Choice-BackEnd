@@ -3,7 +3,9 @@ package com.select.choice.domain.image.domain.util.Impl;
 import com.select.choice.domain.image.domain.data.dto.ImageUploadDto;
 import com.select.choice.domain.image.domain.data.response.ImageResponse;
 import com.select.choice.domain.image.domain.util.ImageConverter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ImageConverterImpl implements ImageConverter {
 
     @Override
