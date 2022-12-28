@@ -15,7 +15,4 @@ public class PostResponse {
     private final String content;
     private final String firstVotingOption;
     private final String secondVotingOption;
-    private final Integer firstVotingCount;
-    private final Integer secondVotingCount;
-
 }

@@ -16,6 +16,4 @@ public class PostDto {
     private String content;
     private String firstVotingOption;
     private String secondVotingOption;
-    private Integer firstVotingCount;
-    private Integer secondVotingCount;
 }

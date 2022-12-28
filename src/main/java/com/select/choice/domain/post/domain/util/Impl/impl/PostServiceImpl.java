@@ -7,6 +7,7 @@ import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDetailDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
+import com.select.choice.domain.post.domain.data.response.AddCountResponse;
 import com.select.choice.domain.post.domain.exception.IsNotMyPostException;
 import com.select.choice.domain.post.domain.data.response.PostDetailResponse;
 import com.select.choice.domain.post.domain.exception.PostNotFoundException;
@@ -34,7 +35,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostDto> getAllPostList() {
         List<Post> list = postRepository.findAll();
-        return postConverter.toPostDto(list);
+        return postConverter.toDetailPostDto(list);
     }
 
     @Override
@@ -54,9 +55,8 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDetailResponse aggregateDetail(Long postIdx) {
         User user = userFacade.currentUser();
-        Post post = postRepository.findByIdx(postIdx);
         List<Comment> comment = commentRepository.findAllByPostIdx(postIdx);
-        PostDetailDto postDetailDto = postConverter.postDetailDto(post,comment,user);
+        PostDetailDto postDetailDto = postConverter.postDetailDto(comment,user);
         return postConverter.toDetailResponse(postDetailDto);
     }
 
@@ -71,13 +71,13 @@ public class PostServiceImpl implements PostService {
 
     @Transactional
     @Override
-    public void addCount(AddCountDto addCountDto, Long postIdx) {
+    public AddCountResponse addCount(AddCountDto addCountDto, Long postIdx) {
         Post post = postRepository.findById(postIdx).orElseThrow(()->new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
         Integer choice = addCountDto.getChoice();
         if(choice == 0){
             post.updateFirstVotingCount();
         } else
             post.updateSecondVotingCount();
+        return postConverter.toAddCountResponse(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
-
 }
