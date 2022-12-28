@@ -20,5 +20,5 @@ public class PostDetailResponse {
     private String secondVotingOption;
     private Integer firstVotingCount;
     private Integer secondVotingCount;
-    List<Comment> comment;
+    private List<Comment> comment;
 }
