@@ -3,10 +3,8 @@ package com.select.choice.domain.post.domain.controller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.select.choice.domain.post.domain.data.dto.AddCountDto;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
-import com.select.choice.domain.post.domain.data.dto.PostDetailDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.response.PostDetailResponse;
-import com.select.choice.domain.post.domain.data.dto.AddCountDto;
 import com.select.choice.domain.post.domain.data.request.AddCountRequest;
 
 import com.select.choice.domain.post.domain.data.response.PostResponse;
