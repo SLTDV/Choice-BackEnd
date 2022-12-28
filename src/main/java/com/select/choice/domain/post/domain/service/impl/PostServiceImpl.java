@@ -4,6 +4,7 @@ import com.select.choice.domain.post.domain.data.dto.AddCountDto;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
 import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
+import com.select.choice.domain.post.domain.exception.IsNotMyPostException;
 import com.select.choice.domain.post.domain.exception.PostNotFoundException;
 import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.post.domain.service.PostService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +48,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void deletePost(Long postIdx) {
+        User user = userFacade.currentUser();
         Post post = postRepository.findById(postIdx).orElseThrow(()->new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
+        if(!Objects.equals(post.getUser().getIdx(), user.getIdx()))
+            throw new IsNotMyPostException(ErrorCode.IS_NOT_MY_POST);
         postRepository.delete(post);
     }
 
@@ -55,7 +60,7 @@ public class PostServiceImpl implements PostService {
     public void addCount(AddCountDto addCountDto, Long postIdx) {
         Post post = postRepository.findById(postIdx).orElseThrow(()->new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
         Integer choice = addCountDto.getChoice();
-        if(choice == 1){
+        if(choice == 0){
             post.updateFirstVotingCount();
         } else
             post.updateSecondVotingCount();
