@@ -9,12 +9,16 @@ import com.select.choice.domain.auth.domain.data.response.TokenResponse;
 import com.select.choice.domain.auth.domain.util.AuthConverter;
 import com.select.choice.domain.user.domain.data.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.websocket.Encoder;
 
 @Component
 @RequiredArgsConstructor
 public class AuthConverterImpl implements AuthConverter {
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public TokenResponse toResponse(TokenDto dto) {
@@ -67,7 +71,7 @@ public class AuthConverterImpl implements AuthConverter {
     public User toEntity(SignUpDto signUpDto) {
         String dtoEmail = signUpDto.getEmail();
         String dtoNickname = signUpDto.getNickname();
-        String dtoPassword = signUpDto.getPassword();
+        String dtoPassword = passwordEncoder.encode(signUpDto.getPassword());
 
         return User.builder()
                 .email(dtoEmail)
