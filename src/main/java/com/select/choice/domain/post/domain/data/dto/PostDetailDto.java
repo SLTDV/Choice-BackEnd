@@ -1,11 +1,12 @@
 package com.select.choice.domain.post.domain.data.dto;
 
-import com.select.choice.domain.comment.data.entity.Comment;
+import com.select.choice.domain.comment.domain.data.entity.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
+
 
 @Getter
 @AllArgsConstructor

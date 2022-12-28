@@ -1,7 +1,7 @@
 package com.select.choice.global.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.select.choice.domain.user.exception.UserNotFoundException;
+import com.select.choice.domain.user.domain.exception.UserNotFoundException;
 import com.select.choice.global.error.response.ErrorResponse;
 import com.select.choice.global.error.type.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;

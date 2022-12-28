@@ -1,7 +1,7 @@
 package com.select.choice.domain.post.domain.data.entity;
 
 
-import com.select.choice.domain.user.data.entity.User;
+import com.select.choice.domain.user.domain.data.entity.User;
 import com.select.choice.global.common.entity.BaseIdEntity;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -31,12 +31,22 @@ public class Post extends BaseIdEntity {
     private User user;
 
     @Builder
-    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String thumbnail,User user) {
+    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String thumbnail,Integer firstVotingCount, Integer secondVotingCount, User user) {
         this.title = title;
         this.content = content;
         this.firstVotingOption = firstVotingOption;
         this.secondVotingOption = secondVotingOption;
         this.thumbnail = thumbnail;
+        this.firstVotingCount = firstVotingCount;
+        this.secondVotingCount = secondVotingCount;
         this.user = user;
+    }
+
+    public void updateFirstVotingCount(){
+        ++this.firstVotingCount;
+    }
+
+    public void updateSecondVotingCount(){
+        ++this.secondVotingCount;
     }
 }
