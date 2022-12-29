@@ -11,6 +11,7 @@ public enum ErrorCode {
     EMAIL_REGEXP("이메일 형식에 알맞지 않습니다.", 400),
     PASSWORD_REGEXP("비밀번호 형식에 알맞지 않습니다.", 400),
     IS_NOT_MY_POST("당신의 게시물이 아닙니다.", 400),
+    NICKNAME_REGEXP("닉네임 형식에 알맞지 않습니다.", 400),
     UNAUTHORIZED("UNAUTHORIZED", 401),
     INVALID_TOKEN("유효하지 않은 토큰입니다.", 403),
     EXPIRED_TOKEN("만료된 토큰 입니다.", 403),

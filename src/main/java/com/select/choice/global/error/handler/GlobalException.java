@@ -21,6 +21,12 @@ public class GlobalException {
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(NicknameRegexpException.class)
+    public ResponseEntity<ErrorResponse> NicknameRegexpException(NicknameRegexpException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
     @ExceptionHandler(EmailRegexpException.class)
     public ResponseEntity<ErrorResponse> EmailRegexpException(EmailRegexpException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
