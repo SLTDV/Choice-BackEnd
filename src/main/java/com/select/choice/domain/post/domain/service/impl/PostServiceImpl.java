@@ -1,4 +1,4 @@
-package com.select.choice.domain.post.domain.util.Impl.impl;
+package com.select.choice.domain.post.domain.service.impl;
 
 import com.select.choice.domain.comment.domain.data.entity.Comment;
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
