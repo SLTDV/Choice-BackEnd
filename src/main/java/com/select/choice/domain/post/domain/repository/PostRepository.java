@@ -13,5 +13,4 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     List<Post> getBestPostList();
 
     List<Post> findAllByUserIdx(Long userIdx);
-    Post findByIdx(Long postIdx);
 }
