@@ -1,10 +1,7 @@
 package com.select.choice.domain.post.domain.util.Impl;
 
-import com.select.choice.domain.post.domain.data.dto.AddCountDto;
+import com.select.choice.domain.post.domain.data.dto.*;
 import com.select.choice.domain.comment.domain.data.entity.Comment;
-import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
-import com.select.choice.domain.post.domain.data.dto.PostDetailDto;
-import com.select.choice.domain.post.domain.data.dto.PostDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.request.AddCountRequest;
 import com.select.choice.domain.post.domain.data.response.AddCountResponse;
@@ -24,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostConverterImpl implements PostConverter {
     @Override
-    public List<PostResponse> toResponse(List<PostDto> dto){
+    public List<PostResponse> toResponse(List<PostListDto> dto){
         return dto.stream().map(post ->
                     new PostResponse(
                             post.getIdx(),
@@ -32,50 +29,42 @@ public class PostConverterImpl implements PostConverter {
                             post.getTitle(),
                             post.getContent(),
                             post.getFirstVotingOption(),
-                            post.getSecondVotingOption()
+                            post.getSecondVotingOption(),
+                            post.getFirstVotingCount(),
+                            post.getSecondVotingCount()
                     )
         ).collect(Collectors.toList());
     }
 
     @Override
-    public List<PostDto> toPostDto(List<Post> entity) {
+    public List<PostListDto> toPostListDto(List<Post> entity) {
         return entity.stream().map(post ->
-                new PostDto(
+                new PostListDto(
                         post.getIdx(),
                         post.getThumbnail(),
                         post.getTitle(),
                         post.getContent(),
                         post.getFirstVotingOption(),
-                        post.getSecondVotingOption()
+                        post.getSecondVotingOption(),
+                        post.getFirstVotingCount(),
+                        post.getSecondVotingCount()
                 )
-        ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<PostDto> toDetailPostDto(List<Post> entity) {
-        return entity.stream().map(post ->
-                new PostDto(
-                        post.getIdx(),
-                        post.getThumbnail(),
-                        post.getTitle(),
-                        post.getContent(),
-                        post.getFirstVotingOption(),
-                        post.getSecondVotingOption()
-                )
-        ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
+        ).sorted(Comparator.comparing(PostListDto::getIdx).reversed()).collect(Collectors.toList());
     }
 
 
     @Override
-    public List<PostDto> toBestPostDto(List<Post> entity) {
+    public List<PostListDto> toBestPostDto(List<Post> entity) {
         return entity.stream().map(post ->
-                new PostDto(
+                new PostListDto(
                         post.getIdx(),
                         post.getThumbnail(),
                         post.getTitle(),
                         post.getContent(),
                         post.getFirstVotingOption(),
-                        post.getSecondVotingOption()
+                        post.getSecondVotingOption(),
+                        post.getFirstVotingCount(),
+                        post.getSecondVotingCount()
                 )
         ).collect(Collectors.toList());
     }

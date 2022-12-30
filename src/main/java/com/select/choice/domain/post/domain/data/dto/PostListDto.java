@@ -1,14 +1,13 @@
-package com.select.choice.domain.post.domain.data.response;
+package com.select.choice.domain.post.domain.data.dto;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-
-@Getter
 @RequiredArgsConstructor
+@Getter
 @Builder
-public class PostResponse {
+public class PostListDto {
     private final Long idx;
     private final String thumbnail;
     private final String title;
