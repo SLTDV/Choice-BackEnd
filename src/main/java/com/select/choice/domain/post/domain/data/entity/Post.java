@@ -26,6 +26,7 @@ public class Post extends BaseIdEntity {
     private Integer firstVotingCount;
     @Column
     private Integer secondVotingCount;
+    private boolean IsVoting;
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
@@ -48,5 +49,9 @@ public class Post extends BaseIdEntity {
 
     public void updateSecondVotingCount(){
         ++this.secondVotingCount;
+    }
+
+    public void updateIsVoting(){
+        this.IsVoting = true;
     }
 }

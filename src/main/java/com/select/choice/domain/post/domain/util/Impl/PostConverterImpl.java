@@ -31,7 +31,8 @@ public class PostConverterImpl implements PostConverter {
                             post.getFirstVotingOption(),
                             post.getSecondVotingOption(),
                             post.getFirstVotingCount(),
-                            post.getSecondVotingCount()
+                            post.getSecondVotingCount(),
+                            post.isIsVoting()
                     )
         ).collect(Collectors.toList());
     }
@@ -47,7 +48,8 @@ public class PostConverterImpl implements PostConverter {
                         post.getFirstVotingOption(),
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
-                        post.getSecondVotingCount()
+                        post.getSecondVotingCount(),
+                        post.isIsVoting()
                 )
         ).sorted(Comparator.comparing(PostListDto::getIdx).reversed()).collect(Collectors.toList());
     }
@@ -64,7 +66,8 @@ public class PostConverterImpl implements PostConverter {
                         post.getFirstVotingOption(),
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
-                        post.getSecondVotingCount()
+                        post.getSecondVotingCount(),
+                        post.isIsVoting()
                 )
         ).collect(Collectors.toList());
     }
