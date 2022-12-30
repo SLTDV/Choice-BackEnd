@@ -16,4 +16,5 @@ public class PostListDto {
     private final String secondVotingOption;
     private final Integer firstVotingCount;
     private final Integer secondVotingCount;
+    private final boolean IsVoting;
 }

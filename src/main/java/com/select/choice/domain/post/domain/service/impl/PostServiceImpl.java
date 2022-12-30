@@ -79,6 +79,7 @@ public class PostServiceImpl implements PostService {
             post.updateFirstVotingCount();
         } else
             post.updateSecondVotingCount();
+        post.updateIsVoting();
         return postConverter.toAddCountResponse(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
 }
