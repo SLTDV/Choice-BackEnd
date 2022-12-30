@@ -1,7 +1,9 @@
 package com.select.choice.domain.post.domain.service.impl;
 
+import com.select.choice.domain.comment.domain.data.dto.CommentDetailDto;
 import com.select.choice.domain.comment.domain.data.entity.Comment;
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
+import com.select.choice.domain.comment.domain.util.CommentConverter;
 import com.select.choice.domain.post.domain.data.dto.*;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.response.AddCountResponse;
@@ -28,6 +30,7 @@ public class PostServiceImpl implements PostService {
     private final PostConverter postConverter;
     private final UserFacade userFacade;
     private final CommentRepository commentRepository;
+    private final CommentConverter commentConverter;
 
     @Override
     public List<PostListDto> getAllPostList() {
@@ -53,7 +56,8 @@ public class PostServiceImpl implements PostService {
     public PostDetailResponse aggregateDetail(Long postIdx) {
         User user = userFacade.currentUser();
         List<Comment> comment = commentRepository.findAllByPostIdx(postIdx);
-        PostDetailDto postDetailDto = postConverter.postDetailDto(comment,user);
+        List<CommentDetailDto> commentDetailDtoList = commentConverter.toDetailDto(comment);
+        PostDetailDto postDetailDto = postConverter.postDetailDto(commentDetailDtoList,user);
         return postConverter.toDetailResponse(postDetailDto);
     }
 

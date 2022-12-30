@@ -1,7 +1,7 @@
 package com.select.choice.domain.post.domain.util;
 
+import com.select.choice.domain.comment.domain.data.dto.CommentDetailDto;
 import com.select.choice.domain.post.domain.data.dto.*;
-import com.select.choice.domain.comment.domain.data.entity.Comment;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.response.AddCountResponse;
 import com.select.choice.domain.post.domain.data.response.PostDetailResponse;
@@ -20,7 +20,7 @@ public interface PostConverter {
     PostDetailResponse toDetailResponse(PostDetailDto postDetailDto);
     CreatePostDto toCreatePost(CreatePostRequestDto createPostRequestDto);
     AddCountDto toAddCountDto(AddCountRequest addCountRequest);
-    PostDetailDto postDetailDto(List<Comment> commentList, User user);
+    PostDetailDto postDetailDto(List<CommentDetailDto> commentDetailDtoList , User user);
 
     AddCountResponse toAddCountResponse(Integer firstVotingCount, Integer secondVotingCount);
 }

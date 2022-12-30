@@ -1,7 +1,7 @@
 package com.select.choice.domain.post.domain.util.Impl;
 
+import com.select.choice.domain.comment.domain.data.dto.CommentDetailDto;
 import com.select.choice.domain.post.domain.data.dto.*;
-import com.select.choice.domain.comment.domain.data.entity.Comment;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.request.AddCountRequest;
 import com.select.choice.domain.post.domain.data.response.AddCountResponse;
@@ -100,11 +100,11 @@ public class PostConverterImpl implements PostConverter {
                 .comment(postDetailDto.getComment())
                 .build();
     }
-         @Override
-         public PostDetailDto postDetailDto(List<Comment> commentList, User user) {
+    @Override
+    public PostDetailDto postDetailDto(List<CommentDetailDto> commentDetailDtoList, User user) {
             return PostDetailDto.builder()
                 .authorname(user.getNickname())
-                .comment(commentList)
+                .comment(commentDetailDtoList)
                 .build();
     }
 

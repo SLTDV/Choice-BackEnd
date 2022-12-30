@@ -1,5 +1,6 @@
 package com.select.choice.domain.post.domain.data.response;
 
+import com.select.choice.domain.comment.domain.data.dto.CommentDetailDto;
 import com.select.choice.domain.comment.domain.data.entity.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,5 +13,5 @@ import java.util.List;
 @Builder
 public class PostDetailResponse {
     private String authorname;
-    private List<Comment> comment;
+    private List<CommentDetailDto> comment;
 }
