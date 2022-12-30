@@ -1,6 +1,6 @@
 package com.select.choice.domain.user.domain.util.Impl;
 
-import com.select.choice.domain.post.domain.data.dto.PostDto;
+import com.select.choice.domain.post.domain.data.dto.PostListDto;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.response.PostResponse;
 import com.select.choice.domain.post.domain.util.PostConverter;
@@ -23,7 +23,7 @@ public class UserConverterImpl implements UserConverter {
     @Override
     public MyPageDto toMyPageDto(User user, List<Post> postList) {
         String nickname = user.getNickname();
-        List<PostDto> postDtoList = postConverter.toPostDto(postList);
+        List<PostListDto> postDtoList = postConverter.toPostListDto(postList);
         return MyPageDto.builder()
                 .nickname(nickname)
                 .postList(postDtoList)

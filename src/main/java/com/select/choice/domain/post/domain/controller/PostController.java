@@ -3,7 +3,7 @@ package com.select.choice.domain.post.domain.controller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.select.choice.domain.post.domain.data.dto.AddCountDto;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
-import com.select.choice.domain.post.domain.data.dto.PostDto;
+import com.select.choice.domain.post.domain.data.dto.PostListDto;
 import com.select.choice.domain.post.domain.data.response.AddCountResponse;
 import com.select.choice.domain.post.domain.data.response.PostDetailResponse;
 import com.select.choice.domain.post.domain.data.request.AddCountRequest;
@@ -32,7 +32,7 @@ public class PostController {
      */
     @GetMapping
     public ResponseEntity<List<PostResponse>>getAllPostList(){
-        List<PostDto> dto = postService.getAllPostList();
+        List<PostListDto> dto = postService.getAllPostList();
         List<PostResponse> body = postConverter.toResponse(dto);
         return ResponseEntity.ok(body);
     }
@@ -43,7 +43,7 @@ public class PostController {
      */
     @GetMapping("/list")
     public ResponseEntity<List<PostResponse>>getBestPostList(){
-        List<PostDto> dto = postService.getBestPostList();
+        List<PostListDto> dto = postService.getBestPostList();
         List<PostResponse> body = postConverter.toResponse(dto);
         return ResponseEntity.ok(body);
     }

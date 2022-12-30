@@ -2,10 +2,7 @@ package com.select.choice.domain.post.domain.service.impl;
 
 import com.select.choice.domain.comment.domain.data.entity.Comment;
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
-import com.select.choice.domain.post.domain.data.dto.AddCountDto;
-import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
-import com.select.choice.domain.post.domain.data.dto.PostDetailDto;
-import com.select.choice.domain.post.domain.data.dto.PostDto;
+import com.select.choice.domain.post.domain.data.dto.*;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.response.AddCountResponse;
 import com.select.choice.domain.post.domain.exception.IsNotMyPostException;
@@ -33,14 +30,14 @@ public class PostServiceImpl implements PostService {
     private final CommentRepository commentRepository;
 
     @Override
-    public List<PostDto> getAllPostList() {
+    public List<PostListDto> getAllPostList() {
         List<Post> list = postRepository.findAll();
-        return postConverter.toDetailPostDto(list);
+        return postConverter.toPostListDto(list);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<PostDto> getBestPostList() {
+    public List<PostListDto> getBestPostList() {
         List<Post> list = postRepository.getBestPostList();
         return postConverter.toBestPostDto(list);
     }
