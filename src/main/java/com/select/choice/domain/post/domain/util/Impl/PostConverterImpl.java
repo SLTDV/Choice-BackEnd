@@ -38,7 +38,7 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public List<PostListDto> toPostListDto(List<Post> entity) {
+    public List<PostListDto>toPostListDto(List<Post> entity) {
         return entity.stream().map(post ->
                 new PostListDto(
                         post.getIdx(),
