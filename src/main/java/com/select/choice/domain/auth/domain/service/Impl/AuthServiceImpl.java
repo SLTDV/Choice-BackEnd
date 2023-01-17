@@ -87,7 +87,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public TokenDto refresh(String refreshToken) {
+    public TokenResponse refresh(String refreshToken) {
         if(jwtTokenProvider.validateToken(refreshToken)){
             throw new ExpiredTokenException(ErrorCode.EXPIRED_TOKEN);
         }
@@ -103,10 +103,13 @@ public class AuthServiceImpl implements AuthService {
         String newRefreshToken  = jwtTokenProvider.generateRefreshToken(user.getEmail());
         Long expiredAt = jwtTokenProvider.getExpiredTime(newAccessToken);
 
+        TokenDto tokenDto = authConverter.toTokenDto(newAccessToken, newRefreshToken, expiredAt);
+
+
         redisTemplate.opsForValue()
                 .set("RefreshToken:" + user.getIdx(), newRefreshToken,
                         jwtTokenProvider.getExpiredTime(newRefreshToken), TimeUnit.MILLISECONDS);
 
-        return new TokenDto(newAccessToken, newRefreshToken, expiredAt);
+        return authConverter.toResponse(tokenDto);
     }
 }
