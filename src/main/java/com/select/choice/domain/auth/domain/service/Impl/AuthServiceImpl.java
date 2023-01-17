@@ -3,6 +3,7 @@ package com.select.choice.domain.auth.domain.service.Impl;
 import com.select.choice.domain.auth.domain.data.dto.SignInDto;
 import com.select.choice.domain.auth.domain.data.dto.SignUpDto;
 import com.select.choice.domain.auth.domain.data.dto.TokenDto;
+import com.select.choice.domain.auth.domain.data.response.TokenResponse;
 import com.select.choice.domain.auth.domain.exception.*;
 import com.select.choice.domain.auth.domain.service.AuthService;
 import com.select.choice.domain.auth.domain.util.AuthConverter;
@@ -29,7 +30,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public TokenDto signIn(SignInDto signInDto) {
+    public TokenResponse signIn(SignInDto signInDto) {
         User user = userFacade.findUserByEmail(signInDto.getEmail());
         userFacade.checkPassword(user, signInDto.getPassword());
 
@@ -41,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
         redisTemplate.opsForValue()
                 .set("RefreshToken:" + user.getIdx(), tokenDto.getRefreshToken(),
                         jwtTokenProvider.getExpiredTime(tokenDto.getRefreshToken()), TimeUnit.MILLISECONDS);
-        return tokenDto;
+        return authConverter.toResponse(tokenDto);
     }
 
     @Override

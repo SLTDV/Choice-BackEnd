@@ -28,8 +28,7 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<TokenResponse> signIn(@RequestBody SignInRequest signInRequest){
         SignInDto signInDto = authConverter.toSignInDto(signInRequest);
-        TokenDto tokenDto = authService.signIn(signInDto);
-        TokenResponse response = authConverter.toResponse(tokenDto);
+        TokenResponse response = authService.signIn(signInDto);
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
