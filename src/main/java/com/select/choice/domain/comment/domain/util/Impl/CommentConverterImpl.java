@@ -3,6 +3,8 @@ package com.select.choice.domain.comment.domain.util.Impl;
 import com.select.choice.domain.comment.domain.data.dto.CommentDetailDto;
 import com.select.choice.domain.comment.domain.data.dto.CommentDto;
 import com.select.choice.domain.comment.domain.data.entity.Comment;
+import com.select.choice.domain.comment.domain.data.request.EditCommentRequest;
+import com.select.choice.domain.comment.domain.data.request.WriteCommentRequest;
 import com.select.choice.domain.comment.domain.util.CommentConverter;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.user.domain.data.entity.User;
@@ -28,14 +30,21 @@ public class CommentConverterImpl implements CommentConverter {
     }
 
     @Override
-    public CommentDto toDto(String content) {
+    public CommentDto toDto(EditCommentRequest editCommentRequest) {
         return CommentDto.builder()
-                .content(content)
+                .content(editCommentRequest.getContent())
                 .build();
     }
 
     @Override
-    public List<CommentDetailDto> toDetailDto(List<Comment> comment) {
+    public CommentDto toDto(WriteCommentRequest writeCommentRequest) {
+        return CommentDto.builder()
+                .content(writeCommentRequest.getContent())
+                .build();
+    }
+
+    @Override
+    public List<CommentDetailDto> toDto(List<Comment> comment) {
         return comment.stream().map(list ->
                 new CommentDetailDto(
                         list.getIdx(),

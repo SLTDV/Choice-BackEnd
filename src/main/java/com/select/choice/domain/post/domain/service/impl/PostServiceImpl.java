@@ -56,7 +56,7 @@ public class PostServiceImpl implements PostService {
     public PostDetailResponse aggregateDetail(Long postIdx) {
         User user = userFacade.currentUser();
         List<Comment> comment = commentRepository.findAllByPostIdx(postIdx);
-        List<CommentDetailDto> commentDetailDtoList = commentConverter.toDetailDto(comment);
+        List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment);
         PostDetailDto postDetailDto = postConverter.postDetailDto(commentDetailDtoList,user);
         return postConverter.toDetailResponse(postDetailDto);
     }
