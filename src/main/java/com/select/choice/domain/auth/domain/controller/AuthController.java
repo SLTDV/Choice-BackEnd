@@ -2,7 +2,6 @@ package com.select.choice.domain.auth.domain.controller;
 
 import com.select.choice.domain.auth.domain.data.dto.SignInDto;
 import com.select.choice.domain.auth.domain.data.dto.SignUpDto;
-import com.select.choice.domain.auth.domain.data.dto.TokenDto;
 import com.select.choice.domain.auth.domain.data.request.SignInRequest;
 import com.select.choice.domain.auth.domain.data.request.SignUpRequest;
 import com.select.choice.domain.auth.domain.data.response.TokenResponse;
@@ -27,7 +26,7 @@ public class AuthController {
      */
     @PostMapping("/signin")
     public ResponseEntity<TokenResponse> signIn(@RequestBody SignInRequest signInRequest){
-        SignInDto signInDto = authConverter.toSignInDto(signInRequest);
+        SignInDto signInDto = authConverter.toDto(signInRequest);
         TokenResponse response = authService.signIn(signInDto);
         return new ResponseEntity<>(response, HttpStatus.OK);
 
@@ -39,7 +38,7 @@ public class AuthController {
      */
     @PostMapping("/signup")
     public ResponseEntity<Void> signUp(@RequestBody @Validated SignUpRequest signUpRequest){
-        SignUpDto signUpDto = authConverter.toSignUpDto(signUpRequest);
+        SignUpDto signUpDto = authConverter.toDto(signUpRequest);
         authService.signUp(signUpDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
