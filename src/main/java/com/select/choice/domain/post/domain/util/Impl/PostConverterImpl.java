@@ -6,7 +6,7 @@ import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.request.AddCountRequest;
 import com.select.choice.domain.post.domain.data.response.AddCountResponse;
 import com.select.choice.domain.post.domain.data.response.PostDetailResponse;
-import com.select.choice.domain.post.domain.data.response.PostResponse;
+import com.select.choice.domain.post.domain.data.response.PostListResponse;
 import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
 import com.select.choice.domain.post.domain.util.PostConverter;
 import com.select.choice.domain.user.domain.data.entity.User;
@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostConverterImpl implements PostConverter {
     @Override
-    public List<PostResponse> toResponse(List<PostListDto> dto){
+    public List<PostListResponse> toResponse(List<PostListDto> dto){
         return dto.stream().map(post ->
-                    new PostResponse(
+                    new PostListResponse(
                             post.getIdx(),
                             post.getThumbnail(),
                             post.getTitle(),
@@ -38,7 +38,7 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public List<PostListDto>toPostListDto(List<Post> entity) {
+    public List<PostListDto> toPostListDto(List<Post> entity) {
         return entity.stream().map(post ->
                 new PostListDto(
                         post.getIdx(),
@@ -87,7 +87,7 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public CreatePostDto toCreatePost(CreatePostRequestDto requestDto){
+    public CreatePostDto toDto(CreatePostRequestDto requestDto){
         return CreatePostDto.builder()
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
@@ -97,14 +97,14 @@ public class PostConverterImpl implements PostConverter {
                 .build();
     }
     @Override
-    public PostDetailResponse toDetailResponse(PostDetailDto postDetailDto) {
+    public PostDetailResponse toResponse(PostDetailDto postDetailDto) {
         return PostDetailResponse.builder()
                 .authorname(postDetailDto.getAuthorname())
                 .comment(postDetailDto.getComment())
                 .build();
     }
     @Override
-    public PostDetailDto postDetailDto(List<CommentDetailDto> commentDetailDtoList, User user) {
+    public PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList, User user) {
             return PostDetailDto.builder()
                 .authorname(user.getNickname())
                 .comment(commentDetailDtoList)
@@ -112,7 +112,7 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public AddCountResponse toAddCountResponse(Integer firstVotingCount, Integer secondVotingCount) {
+    public AddCountResponse toResponse(Integer firstVotingCount, Integer secondVotingCount) {
         return AddCountResponse.builder()
                 .firstVotingCount(firstVotingCount)
                 .secondVotingCount(secondVotingCount)
@@ -120,7 +120,7 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public AddCountDto toAddCountDto(AddCountRequest addCountRequest) {
+    public AddCountDto toDto(AddCountRequest addCountRequest) {
         Integer choice = addCountRequest.getChoice();
         return AddCountDto.builder()
                 .choice(choice)

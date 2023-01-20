@@ -6,21 +6,21 @@ import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.response.AddCountResponse;
 import com.select.choice.domain.post.domain.data.response.PostDetailResponse;
 import com.select.choice.domain.post.domain.data.request.AddCountRequest;
-import com.select.choice.domain.post.domain.data.response.PostResponse;
+import com.select.choice.domain.post.domain.data.response.PostListResponse;
 import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
 import com.select.choice.domain.user.domain.data.entity.User;
 
 import java.util.List;
 
 public interface PostConverter {
-    List<PostResponse> toResponse(List<PostListDto> dto);
+    List<PostListResponse> toResponse(List<PostListDto> dto);
     List<PostListDto> toBestPostDto(List<Post> post);
     List<PostListDto> toPostListDto(List<Post> postList);
     Post toEntity(CreatePostDto dto, User user);
-    PostDetailResponse toDetailResponse(PostDetailDto postDetailDto);
-    CreatePostDto toCreatePost(CreatePostRequestDto createPostRequestDto);
-    AddCountDto toAddCountDto(AddCountRequest addCountRequest);
-    PostDetailDto postDetailDto(List<CommentDetailDto> commentDetailDtoList , User user);
+    PostDetailResponse toResponse(PostDetailDto postDetailDto);
+    CreatePostDto toDto(CreatePostRequestDto createPostRequestDto);
+    AddCountDto toDto(AddCountRequest addCountRequest);
+    PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList , User user);
 
-    AddCountResponse toAddCountResponse(Integer firstVotingCount, Integer secondVotingCount);
+    AddCountResponse toResponse(Integer firstVotingCount, Integer secondVotingCount);
 }
