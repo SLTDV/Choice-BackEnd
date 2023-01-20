@@ -3,12 +3,11 @@ package com.select.choice.domain.post.domain.controller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.select.choice.domain.post.domain.data.dto.AddCountDto;
 import com.select.choice.domain.post.domain.data.dto.CreatePostDto;
-import com.select.choice.domain.post.domain.data.dto.PostListDto;
 import com.select.choice.domain.post.domain.data.response.AddCountResponse;
 import com.select.choice.domain.post.domain.data.response.PostDetailResponse;
 import com.select.choice.domain.post.domain.data.request.AddCountRequest;
 
-import com.select.choice.domain.post.domain.data.response.PostResponse;
+import com.select.choice.domain.post.domain.data.response.PostListResponse;
 import com.select.choice.domain.post.domain.data.request.CreatePostRequestDto;
 import com.select.choice.domain.post.domain.service.PostService;
 import com.select.choice.domain.post.domain.util.PostConverter;
@@ -31,10 +30,9 @@ public class PostController {
     담당자: 진시윤
      */
     @GetMapping
-    public ResponseEntity<List<PostResponse>>getAllPostList(){
-        List<PostListDto> dto = postService.getAllPostList();
-        List<PostResponse> body = postConverter.toResponse(dto);
-        return ResponseEntity.ok(body);
+    public ResponseEntity<List<PostListResponse>> getAllPostList(){
+        List<PostListResponse> response = postService.getAllPostList();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /*
@@ -42,10 +40,9 @@ public class PostController {
     담당자: 진시윤
      */
     @GetMapping("/list")
-    public ResponseEntity<List<PostResponse>>getBestPostList(){
-        List<PostListDto> dto = postService.getBestPostList();
-        List<PostResponse> body = postConverter.toResponse(dto);
-        return ResponseEntity.ok(body);
+    public ResponseEntity<List<PostListResponse>> getBestPostList(){
+        List<PostListResponse> response = postService.getBestPostList();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /*
@@ -55,7 +52,7 @@ public class PostController {
     @PostMapping
     @JsonProperty("CreatePostRequestDto")
     public ResponseEntity<Void> createPost(@RequestBody CreatePostRequestDto createPostRequestDto) {
-        CreatePostDto dto = postConverter.toCreatePost(createPostRequestDto);
+        CreatePostDto dto = postConverter.toDto(createPostRequestDto);
         postService.createPost(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -67,7 +64,7 @@ public class PostController {
     @DeleteMapping("/{postIdx}")
     public ResponseEntity<Void> deletePost(@PathVariable("postIdx") Long postIdx){
         postService.deletePost(postIdx);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /*
@@ -75,9 +72,9 @@ public class PostController {
     담당자: 진시윤
      */
     @GetMapping({"/{postIdx}"})
-    public ResponseEntity<PostDetailResponse>postDetail(@PathVariable("postIdx")Long postIdx) {
-        PostDetailResponse postDetailResponse = postService.aggregateDetail(postIdx);
-        return ResponseEntity.status(HttpStatus.OK).body(postDetailResponse);
+    public ResponseEntity<PostDetailResponse> postDetail(@PathVariable("postIdx") Long postIdx) {
+        PostDetailResponse response = postService.aggregateDetail(postIdx);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /*
@@ -86,8 +83,8 @@ public class PostController {
      */
     @PostMapping("/add/{postIdx}")
     public ResponseEntity<AddCountResponse> addCount(@PathVariable("postIdx") Long postIdx, @RequestBody AddCountRequest addCountRequest){
-        AddCountDto addCountDto = postConverter.toAddCountDto(addCountRequest);
-         AddCountResponse addCountResponse = postService.addCount(addCountDto, postIdx);
-        return new ResponseEntity<>(addCountResponse,HttpStatus.OK);
+        AddCountDto addCountDto = postConverter.toDto(addCountRequest);
+         AddCountResponse response = postService.addCount(addCountDto, postIdx);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
