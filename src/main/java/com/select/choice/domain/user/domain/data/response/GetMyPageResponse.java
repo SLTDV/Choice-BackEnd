@@ -1,6 +1,6 @@
 package com.select.choice.domain.user.domain.data.response;
 
-import com.select.choice.domain.post.domain.data.response.PostResponse;
+import com.select.choice.domain.post.domain.data.response.PostListResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,5 +12,5 @@ import java.util.List;
 @Builder
 public class GetMyPageResponse {
     private final String nickname;
-    private final List<PostResponse> postList;
+    private final List<PostListResponse> postList;
 }
