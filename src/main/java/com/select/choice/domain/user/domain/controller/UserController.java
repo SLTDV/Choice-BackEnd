@@ -31,7 +31,7 @@ public class UserController {
 
     @PatchMapping()
     public ResponseEntity<Void> changeNickname(@RequestBody ChangeNicknameRequest changeNicknameRequest){
-        NicknameDto nicknameDto = userConverter.toNicknameDto(changeNicknameRequest);
+        NicknameDto nicknameDto = userConverter.toDto(changeNicknameRequest);
         userService.changeNickname(nicknameDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

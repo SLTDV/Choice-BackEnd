@@ -21,7 +21,7 @@ public class UserConverterImpl implements UserConverter {
     private final PostConverter postConverter;
 
     @Override
-    public MyPageDto toMyPageDto(User user, List<Post> postList) {
+    public MyPageDto toDto(User user, List<Post> postList) {
         String nickname = user.getNickname();
         List<PostListDto> postDtoList = postConverter.toPostListDto(postList);
         return MyPageDto.builder()
@@ -31,7 +31,7 @@ public class UserConverterImpl implements UserConverter {
     }
 
     @Override
-    public GetMyPageResponse toMyPageResponse(MyPageDto myPageDto) {
+    public GetMyPageResponse toResponse(MyPageDto myPageDto) {
         String nickname = myPageDto.getNickname();
         List<PostListResponse> postResponseList = postConverter.toResponse(myPageDto.getPostList());
         return GetMyPageResponse.builder()
@@ -41,7 +41,7 @@ public class UserConverterImpl implements UserConverter {
     }
 
     @Override
-    public NicknameDto toNicknameDto(ChangeNicknameRequest changeNicknameRequest) {
+    public NicknameDto toDto(ChangeNicknameRequest changeNicknameRequest) {
         String nickname = changeNicknameRequest.getNickname();
         return NicknameDto.builder()
                 .nickname(nickname)
