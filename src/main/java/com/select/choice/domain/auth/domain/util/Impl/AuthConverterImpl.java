@@ -35,7 +35,7 @@ public class AuthConverterImpl implements AuthConverter {
 
     @Transactional
     @Override
-    public TokenDto toTokenDto(String accessToken, String refreshToken, Long expiredAt) {
+    public TokenDto toDto(String accessToken, String refreshToken, Long expiredAt) {
         return TokenDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -44,7 +44,7 @@ public class AuthConverterImpl implements AuthConverter {
     }
 
     @Override
-    public SignInDto toSignInDto(SignInRequest signInRequest) {
+    public SignInDto toDto(SignInRequest signInRequest) {
         String reqEmail = signInRequest.getEmail();
         String reqPassword = signInRequest.getPassword();
 
@@ -55,7 +55,7 @@ public class AuthConverterImpl implements AuthConverter {
     }
 
     @Override
-    public SignUpDto toSignUpDto(SignUpRequest signUpRequest) {
+    public SignUpDto toDto(SignUpRequest signUpRequest) {
         String reqEmail = signUpRequest.getEmail();
         String reqNickname = signUpRequest.getNickname();
         String reqPassword = signUpRequest.getPassword();

@@ -10,11 +10,11 @@ import com.select.choice.domain.user.domain.data.entity.User;
 
 public interface AuthConverter {
     TokenResponse toResponse(TokenDto dto);
-    TokenDto toTokenDto(String accessToken, String refreshToken, Long expiredAt);
+    TokenDto toDto(String accessToken, String refreshToken, Long expiredAt);
 
-    SignInDto toSignInDto(SignInRequest signInRequest);
+    SignInDto toDto(SignInRequest signInRequest);
 
-    SignUpDto toSignUpDto(SignUpRequest signUpRequest);
+    SignUpDto toDto(SignUpRequest signUpRequest);
 
     User toEntity(SignUpDto signUpDto);
 }

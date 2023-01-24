@@ -7,6 +7,7 @@ import com.select.choice.domain.comment.domain.util.CommentConverter;
 import com.select.choice.domain.post.domain.data.dto.*;
 import com.select.choice.domain.post.domain.data.entity.Post;
 import com.select.choice.domain.post.domain.data.response.AddCountResponse;
+import com.select.choice.domain.post.domain.data.response.PostListResponse;
 import com.select.choice.domain.post.domain.exception.IsNotMyPostException;
 import com.select.choice.domain.post.domain.data.response.PostDetailResponse;
 import com.select.choice.domain.post.domain.exception.PostNotFoundException;
@@ -33,16 +34,18 @@ public class PostServiceImpl implements PostService {
     private final CommentConverter commentConverter;
 
     @Override
-    public List<PostListDto> getAllPostList() {
+    public List<PostListResponse> getAllPostList() {
         List<Post> list = postRepository.findAll();
-        return postConverter.toPostListDto(list);
+        List<PostListDto> postListDtoList = postConverter.toPostListDto(list);
+        return postConverter.toResponse(postListDtoList);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<PostListDto> getBestPostList() {
+    public List<PostListResponse> getBestPostList() {
         List<Post> list = postRepository.getBestPostList();
-        return postConverter.toBestPostDto(list);
+        List<PostListDto> postListDtoList = postConverter.toBestPostDto(list);
+        return postConverter.toResponse(postListDtoList);
     }
     @Transactional
     @Override
@@ -56,9 +59,9 @@ public class PostServiceImpl implements PostService {
     public PostDetailResponse aggregateDetail(Long postIdx) {
         User user = userFacade.currentUser();
         List<Comment> comment = commentRepository.findAllByPostIdx(postIdx);
-        List<CommentDetailDto> commentDetailDtoList = commentConverter.toDetailDto(comment);
-        PostDetailDto postDetailDto = postConverter.postDetailDto(commentDetailDtoList,user);
-        return postConverter.toDetailResponse(postDetailDto);
+        List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment);
+        PostDetailDto postDetailDto = postConverter.toDto(commentDetailDtoList,user);
+        return postConverter.toResponse(postDetailDto);
     }
 
     @Override
@@ -79,7 +82,8 @@ public class PostServiceImpl implements PostService {
             post.updateFirstVotingCount();
         } else
             post.updateSecondVotingCount();
+
         post.updateIsVoting();
-        return postConverter.toAddCountResponse(post.getFirstVotingCount(), post.getSecondVotingCount());
+        return postConverter.toResponse(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
 }

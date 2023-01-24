@@ -10,9 +10,9 @@ import com.select.choice.domain.user.domain.data.response.GetMyPageResponse;
 import java.util.List;
 
 public interface UserConverter {
-    MyPageDto toMyPageDto(User user, List<Post> postList);
+    MyPageDto toDto(User user, List<Post> postList);
 
-    GetMyPageResponse toMyPageResponse(MyPageDto myPageDto);
+    GetMyPageResponse toResponse(MyPageDto myPageDto);
 
-    NicknameDto toNicknameDto(ChangeNicknameRequest changeNicknameRequest);
+    NicknameDto toDto(ChangeNicknameRequest changeNicknameRequest);
 }

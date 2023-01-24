@@ -33,9 +33,9 @@ public class UserServiceImpl implements UserService {
         User user = userFacade.currentUser();
         List<Post> postList = postRepository.findAllByUserIdx(user.getIdx());
 
-        MyPageDto myPageDto = userConverter.toMyPageDto(user, postList);
+        MyPageDto myPageDto = userConverter.toDto(user, postList);
 
-        return userConverter.toMyPageResponse(myPageDto);
+        return userConverter.toResponse(myPageDto);
     }
 
     @Transactional

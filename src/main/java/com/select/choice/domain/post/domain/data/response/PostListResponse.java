@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 @Builder
-public class PostResponse {
+public class PostListResponse {
     private final Long idx;
     private final String thumbnail;
     private final String title;
