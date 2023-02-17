@@ -1,5 +1,6 @@
 package com.select.choice.global.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.select.choice.global.filter.ExceptionHandlerFilter;
 import com.select.choice.global.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+    private final ObjectMapper objectMapper;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final ExceptionHandlerFilter exceptionHandlerFilter;
 
@@ -62,6 +64,9 @@ public class SecurityConfig {
 
 
                 .anyRequest().permitAll();
+        http
+                .exceptionHandling()
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint(objectMapper));
         http
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class);

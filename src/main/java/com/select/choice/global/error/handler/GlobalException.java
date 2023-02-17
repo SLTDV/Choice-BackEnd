@@ -1,11 +1,11 @@
 package com.select.choice.global.error.handler;
 
-import com.select.choice.domain.auth.domain.exception.*;
-import com.select.choice.domain.comment.domain.exception.CommentNotFoundException;
-import com.select.choice.domain.comment.domain.exception.IsNotMyCommentException;
-import com.select.choice.domain.post.domain.exception.IsNotMyPostException;
-import com.select.choice.domain.post.domain.exception.PostNotFoundException;
-import com.select.choice.domain.user.domain.exception.UserNotFoundException;
+import com.select.choice.domain.auth.exception.*;
+import com.select.choice.domain.comment.exception.CommentNotFoundException;
+import com.select.choice.domain.comment.exception.IsNotMyCommentException;
+import com.select.choice.domain.post.exception.IsNotMyPostException;
+import com.select.choice.domain.post.exception.PostNotFoundException;
+import com.select.choice.domain.user.exception.UserNotFoundException;
 import com.select.choice.global.error.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
