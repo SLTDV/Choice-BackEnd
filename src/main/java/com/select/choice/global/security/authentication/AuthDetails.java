@@ -1,6 +1,6 @@
 package com.select.choice.global.security.authentication;
 
-import com.select.choice.domain.user.domain.data.entity.User;
+import com.select.choice.domain.user.data.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

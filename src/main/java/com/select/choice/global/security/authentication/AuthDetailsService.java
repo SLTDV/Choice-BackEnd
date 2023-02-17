@@ -1,7 +1,7 @@
 package com.select.choice.global.security.authentication;
 
-import com.select.choice.domain.user.domain.exception.UserNotFoundException;
-import com.select.choice.domain.user.domain.repository.UserRepository;
+import com.select.choice.domain.user.exception.UserNotFoundException;
+import com.select.choice.domain.user.repository.UserRepository;
 import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
