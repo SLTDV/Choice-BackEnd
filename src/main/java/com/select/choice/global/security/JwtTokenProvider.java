@@ -20,8 +20,8 @@ import java.util.Date;
 public class JwtTokenProvider {
     private final JwtProperties jwtProperties;
 
-    private final long ACCESS_TOKEN_EXPIRED_TIME = 2 * 60 * 1000;
-    private final long REFRESH_TOKEN_EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000; // 1주
+    private final long ACCESS_TOKEN_EXPIRED_TIME = 60L * 2;
+    private final long REFRESH_TOKEN_EXPIRED_TIME = 60L * 60 * 24 * 7; // 1주
 
     @AllArgsConstructor
     enum TokenType{
@@ -51,7 +51,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() +  expiredTime))
+                .setExpiration(new Date(System.currentTimeMillis() +  expiredTime * 1000))
                 .signWith(getSignInKey(jwtProperties.getKey()))
                 .compact();
     }
