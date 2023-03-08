@@ -11,8 +11,9 @@ import com.select.choice.domain.auth.util.AuthConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -39,7 +40,7 @@ public class AuthController {
     담당자: 노혁
      */
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@RequestBody @Validated SignUpRequest signUpRequest){
+    public ResponseEntity<Void> signUp(@RequestBody @Valid SignUpRequest signUpRequest){
         SignUpDto signUpDto = authConverter.toDto(signUpRequest);
         authService.signUp(signUpDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
