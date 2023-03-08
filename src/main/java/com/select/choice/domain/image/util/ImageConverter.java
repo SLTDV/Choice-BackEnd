@@ -5,5 +5,6 @@ import com.select.choice.domain.image.presentation.data.response.ImageResponse;
 
 public interface ImageConverter {
     ImageResponse toResponse(ImageUploadDto imageUploadDto);
-    ImageUploadDto toDto(String uploadImageUrl);
+    ImageUploadDto toDto(String firstUploadImageUrl, String secondUploadImageUrl);
+
 }

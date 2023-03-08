@@ -10,17 +10,18 @@ public class ImageConverterImpl implements ImageConverter {
 
     @Override
     public ImageResponse toResponse(ImageUploadDto imageUploadDto) {
-        String dtoImageUrl = imageUploadDto.getImageUrl();
-
         return ImageResponse.builder()
-                .imageUrl(dtoImageUrl)
+                .firstUploadImageUrl(imageUploadDto.getFirstUploadImageUrl())
+                .secondUploadImageUrl(imageUploadDto.getSecondUploadImageUrl())
                 .build();
     }
 
     @Override
-    public ImageUploadDto toDto(String uploadImageUrl) {
+    public ImageUploadDto toDto(String firstUploadImageUrl, String secondUploadImageUrl) {
         return ImageUploadDto.builder()
-                .imageUrl(uploadImageUrl)
+                .firstUploadImageUrl(firstUploadImageUrl)
+                .secondUploadImageUrl(secondUploadImageUrl)
                 .build();
     }
+
 }
