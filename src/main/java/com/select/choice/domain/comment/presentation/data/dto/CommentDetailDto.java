@@ -1,12 +1,12 @@
-package com.select.choice.domain.comment.data.dto;
+package com.select.choice.domain.comment.presentation.data.dto;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Getter
 @Builder
+@RequiredArgsConstructor
 public class CommentDetailDto {
     private final Long idx;
     private final String content;

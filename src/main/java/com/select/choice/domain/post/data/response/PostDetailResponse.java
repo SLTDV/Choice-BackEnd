@@ -1,6 +1,6 @@
 package com.select.choice.domain.post.data.response;
 
-import com.select.choice.domain.comment.data.dto.CommentDetailDto;
+import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

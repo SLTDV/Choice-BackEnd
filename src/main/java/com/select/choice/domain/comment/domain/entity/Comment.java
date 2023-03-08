@@ -1,4 +1,4 @@
-package com.select.choice.domain.comment.data.entity;
+package com.select.choice.domain.comment.domain.entity;
 
 import com.select.choice.domain.post.data.entity.Post;
 import com.select.choice.domain.user.data.entity.User;
