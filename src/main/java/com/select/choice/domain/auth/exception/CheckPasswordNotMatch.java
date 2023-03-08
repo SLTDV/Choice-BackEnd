@@ -1,11 +1,10 @@
 package com.select.choice.domain.auth.exception;
 
+import com.select.choice.global.error.exception.GlobalExceptions;
 import com.select.choice.global.error.type.ErrorCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@Getter
-@RequiredArgsConstructor
-public class CheckPasswordNotMatch extends RuntimeException {
-    private final ErrorCode errorCode;
+public class CheckPasswordNotMatch extends GlobalExceptions {
+    public CheckPasswordNotMatch(ErrorCode errorCode) {
+        super(errorCode);
+    }
 }

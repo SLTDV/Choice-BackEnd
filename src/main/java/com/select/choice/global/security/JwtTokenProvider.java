@@ -1,95 +1,137 @@
 package com.select.choice.global.security;
 
+import com.select.choice.domain.auth.exception.ExpiredTokenException;
+import com.select.choice.domain.auth.exception.IllegalArgumentJwtTokenException;
+import com.select.choice.domain.auth.exception.InvalidJwtSignatureException;
+import com.select.choice.domain.auth.exception.UnsupportedJwtTokenException;
+import com.select.choice.global.error.type.ErrorCode;
 import com.select.choice.global.security.authentication.AuthDetailsService;
 import com.select.choice.global.security.properties.JwtProperties;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
     private final JwtProperties jwtProperties;
+    private final AuthDetailsService authDetailsService;
 
     private final long ACCESS_TOKEN_EXPIRED_TIME = 60L * 2;
     private final long REFRESH_TOKEN_EXPIRED_TIME = 60L * 60 * 24 * 7; // 1주
 
     @AllArgsConstructor
-    enum TokenType{
+    public enum TokenType{
         ACCESS_TOKEN("accessToken"),
         REFRESH_TOKEN("refreshToken");
 
         private final String value;
     }
 
-    public Key getSignInKey(String key){
+    public String generateAccessToken(String email){
+        return createToken(email,TokenType.ACCESS_TOKEN);
+    }
+
+    public String generateRefreshToken(String email){
+        return createToken(email,TokenType.REFRESH_TOKEN);
+    }
+
+    public LocalDateTime getAccessTokenExpiredTime(){
+        return LocalDateTime.now().plusSeconds(ACCESS_TOKEN_EXPIRED_TIME);
+    }
+
+    public LocalDateTime getRefreshTokenExpiredTime(){
+        return LocalDateTime.now().plusSeconds(REFRESH_TOKEN_EXPIRED_TIME);
+    }
+
+    public Authentication getAuthentication(String token){
+        UserDetails userDetails = authDetailsService.loadUserByUsername(getTokenSubject(token, TokenType.ACCESS_TOKEN));
+        return new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities());
+    }
+
+    public String resolveToken(HttpServletRequest servletRequest){
+        String token = servletRequest.getHeader("Authorization");
+        if((token != null) && token.startsWith("Bearer ")){
+            return token.replace("Bearer ","");
+        }
+        return null;
+    }
+
+    public void validateToken(String token, TokenType tokenType) throws InvalidJwtSignatureException, UnsupportedJwtTokenException {
+        try{
+            getTokenBody(token, tokenType);
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            throw new InvalidJwtSignatureException(ErrorCode.INVALID_JWT_SIGNATURE);
+        } catch (ExpiredJwtException e) {
+            throw new ExpiredTokenException(ErrorCode.EXPIRED_TOKEN);
+        } catch (UnsupportedJwtException e) {
+            throw new UnsupportedJwtTokenException(ErrorCode.UNSUPPORTED_JWT);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentJwtTokenException(ErrorCode.ILLEGAL_ARGUMENT_JWT);
+        }
+    }
+
+    public String getTokenSubject(String token, TokenType tokenType){
+        return getTokenBody(token, tokenType).getSubject();
+    }
+
+    public Long getExpiration(String accessToken) {
+        Date expiration = getTokenBody(accessToken, TokenType.ACCESS_TOKEN).getExpiration();
+        long now = new Date().getTime();
+        return (expiration.getTime() - now);
+    }
+
+    private Claims getTokenBody(String token, TokenType tokenType){
+        return Jwts.parserBuilder()
+                .setSigningKey(getKeyByTokenType(tokenType))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+    }
+
+    private Key getByteKey(String key){
         byte[] keyByte = key.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyByte);
     }
 
-    public Claims extractAllClaims(String token) throws ExpiredJwtException, IllegalStateException, UnsupportedOperationException {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSignInKey(jwtProperties.getKey()))
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    public String createToken(String email, TokenType tokenType, Long expiredTime) {
-        Claims claims = Jwts.claims().setSubject(email);
-        claims.put("tokenType", tokenType.value);
-
+    private String createToken(String email,TokenType tokenType){
         return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() +  expiredTime * 1000))
-                .signWith(getSignInKey(jwtProperties.getKey()))
+                .signWith(getKeyByTokenType(tokenType),SignatureAlgorithm.HS256)
+                .claim("email",email)
+                .claim("type",tokenType)
+                .setIssuedAt(new Date())
+                .setSubject(email)
+                .setExpiration(new Date(System.currentTimeMillis() + getTokenExpiredTime(tokenType) * 1000))
                 .compact();
     }
 
-    public Long getExpiredTime(String token) {
-        Date expirationTime = extractAllClaims(token).getExpiration();
-        long now = new Date().getTime();
-        return expirationTime.getTime() - now;
-    }
-
-    public String resolveToken(HttpServletRequest request) {
-        String bearToken = request.getHeader("Authorization");
-        if(bearToken != null && bearToken.startsWith("Bearer ")){
-            return bearToken.substring(7);
-        } else {
-            return null;
+    private Key getKeyByTokenType(TokenType tokenType){
+        if(tokenType == TokenType.ACCESS_TOKEN){
+            return getByteKey(jwtProperties.getAccessSecret());
+        }
+        else{
+            return getByteKey(jwtProperties.getRefreshSecret());
         }
     }
 
-    public String getUserPk(String token){
-        String refreshToken = token.replace("Bearer", "");
-        return extractAllClaims(refreshToken).getSubject();
-    }
-
-    public String generateAccessToken(String email) {
-        return createToken(email, TokenType.ACCESS_TOKEN, ACCESS_TOKEN_EXPIRED_TIME);
-    }
-
-    public String generateRefreshToken(String email) {
-        return createToken(email, TokenType.REFRESH_TOKEN, REFRESH_TOKEN_EXPIRED_TIME);
-    }
-
-    public boolean validateToken(String token){
-        try {
-            extractAllClaims(token).getExpiration();
-            return false;
-        } catch (Exception e){
-            return  true;
+    private long getTokenExpiredTime(TokenType tokenType){
+        if(tokenType == TokenType.ACCESS_TOKEN){
+            return ACCESS_TOKEN_EXPIRED_TIME;
+        }
+        else{
+            return REFRESH_TOKEN_EXPIRED_TIME;
         }
     }
 }

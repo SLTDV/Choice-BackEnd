@@ -1,17 +1,19 @@
-package com.select.choice.domain.auth.controller;
+package com.select.choice.domain.auth.presentation;
 
-import com.select.choice.domain.auth.data.dto.SignInDto;
-import com.select.choice.domain.auth.data.dto.SignUpDto;
-import com.select.choice.domain.auth.data.request.SignInRequest;
-import com.select.choice.domain.auth.data.request.SignUpRequest;
-import com.select.choice.domain.auth.data.response.TokenResponse;
+import com.select.choice.domain.auth.presentation.data.dto.SignInDto;
+import com.select.choice.domain.auth.presentation.data.dto.SignUpDto;
+import com.select.choice.domain.auth.presentation.data.dto.TokenDto;
+import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
+import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
+import com.select.choice.domain.auth.presentation.data.response.TokenResponse;
 import com.select.choice.domain.auth.service.AuthService;
 import com.select.choice.domain.auth.util.AuthConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,8 +29,9 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<TokenResponse> signIn(@RequestBody SignInRequest signInRequest){
         SignInDto signInDto = authConverter.toDto(signInRequest);
-        TokenResponse response = authService.signIn(signInDto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        TokenDto tokenDto = authService.signIn(signInDto);
+        TokenResponse tokenResponse = authConverter.toResponse(tokenDto);
+        return new ResponseEntity<>(tokenResponse, HttpStatus.OK);
 
     }
 
@@ -37,7 +40,7 @@ public class AuthController {
     담당자: 노혁
      */
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@RequestBody @Validated SignUpRequest signUpRequest){
+    public ResponseEntity<Void> signUp(@RequestBody @Valid SignUpRequest signUpRequest){
         SignUpDto signUpDto = authConverter.toDto(signUpRequest);
         authService.signUp(signUpDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -49,8 +52,9 @@ public class AuthController {
      */
     @PatchMapping
     public ResponseEntity<TokenResponse> refresh(@RequestHeader("RefreshToken") String refreshToken){
-        TokenResponse response = authService.refresh(refreshToken);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        TokenDto tokenDto = authService.refresh(refreshToken);
+        TokenResponse tokenResponse = authConverter.toResponse(tokenDto);
+        return new ResponseEntity<>(tokenResponse, HttpStatus.CREATED);
     }
 
     /*
