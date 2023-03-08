@@ -1,10 +1,11 @@
-package com.select.choice.domain.auth.controller;
+package com.select.choice.domain.auth.presentation;
 
-import com.select.choice.domain.auth.data.dto.SignInDto;
-import com.select.choice.domain.auth.data.dto.SignUpDto;
-import com.select.choice.domain.auth.data.request.SignInRequest;
-import com.select.choice.domain.auth.data.request.SignUpRequest;
-import com.select.choice.domain.auth.data.response.TokenResponse;
+import com.select.choice.domain.auth.presentation.data.dto.SignInDto;
+import com.select.choice.domain.auth.presentation.data.dto.SignUpDto;
+import com.select.choice.domain.auth.presentation.data.dto.TokenDto;
+import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
+import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
+import com.select.choice.domain.auth.presentation.data.response.TokenResponse;
 import com.select.choice.domain.auth.service.AuthService;
 import com.select.choice.domain.auth.util.AuthConverter;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,9 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<TokenResponse> signIn(@RequestBody SignInRequest signInRequest){
         SignInDto signInDto = authConverter.toDto(signInRequest);
-        TokenResponse response = authService.signIn(signInDto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        TokenDto tokenDto = authService.signIn(signInDto);
+        TokenResponse tokenResponse = authConverter.toResponse(tokenDto);
+        return new ResponseEntity<>(tokenResponse, HttpStatus.OK);
 
     }
 

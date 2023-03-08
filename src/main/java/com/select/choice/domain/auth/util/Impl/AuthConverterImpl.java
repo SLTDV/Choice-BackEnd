@@ -1,11 +1,12 @@
 package com.select.choice.domain.auth.util.Impl;
 
-import com.select.choice.domain.auth.data.dto.SignInDto;
-import com.select.choice.domain.auth.data.dto.SignUpDto;
-import com.select.choice.domain.auth.data.dto.TokenDto;
-import com.select.choice.domain.auth.data.request.SignInRequest;
-import com.select.choice.domain.auth.data.request.SignUpRequest;
-import com.select.choice.domain.auth.data.response.TokenResponse;
+import com.select.choice.domain.auth.domain.entity.RefreshToken;
+import com.select.choice.domain.auth.presentation.data.dto.SignInDto;
+import com.select.choice.domain.auth.presentation.data.dto.SignUpDto;
+import com.select.choice.domain.auth.presentation.data.dto.TokenDto;
+import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
+import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
+import com.select.choice.domain.auth.presentation.data.response.TokenResponse;
 import com.select.choice.domain.auth.util.AuthConverter;
 import com.select.choice.domain.user.data.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -75,6 +76,14 @@ public class AuthConverterImpl implements AuthConverter {
                 .email(dtoEmail)
                 .nickname(dtoNickname)
                 .password(dtoPassword)
+                .build();
+    }
+
+    @Override
+    public RefreshToken toEntity(Long userIdx, String refreshToken) {
+        return RefreshToken.builder()
+                .userId(userIdx)
+                .refreshToken(refreshToken)
                 .build();
     }
 }

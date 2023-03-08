@@ -1,9 +1,11 @@
 package com.select.choice.domain.auth.service.Impl;
 
-import com.select.choice.domain.auth.data.dto.SignInDto;
-import com.select.choice.domain.auth.data.dto.SignUpDto;
-import com.select.choice.domain.auth.data.dto.TokenDto;
-import com.select.choice.domain.auth.data.response.TokenResponse;
+import com.select.choice.domain.auth.presentation.data.dto.SignInDto;
+import com.select.choice.domain.auth.presentation.data.dto.SignUpDto;
+import com.select.choice.domain.auth.presentation.data.dto.TokenDto;
+import com.select.choice.domain.auth.domain.entity.RefreshToken;
+import com.select.choice.domain.auth.presentation.data.response.TokenResponse;
+import com.select.choice.domain.auth.domain.repository.RefreshTokenRepository;
 import com.select.choice.domain.auth.service.AuthService;
 import com.select.choice.domain.auth.util.AuthConverter;
 import com.select.choice.domain.auth.exception.*;
@@ -27,10 +29,11 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthConverter authConverter;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
     @Override
-    public TokenResponse signIn(SignInDto signInDto) {
+    public TokenDto signIn(SignInDto signInDto) {
         User user = userFacade.findUserByEmail(signInDto.getEmail());
         userFacade.checkPassword(user, signInDto.getPassword());
 
@@ -38,11 +41,14 @@ public class AuthServiceImpl implements AuthService {
         String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
         Long expiredAt = jwtTokenProvider.getExpiredTime(accessToken);
 
-        TokenDto tokenDto = authConverter.toDto(accessToken, refreshToken, expiredAt);
-        redisTemplate.opsForValue()
-                .set("RefreshToken:" + user.getIdx(), tokenDto.getRefreshToken(),
-                        jwtTokenProvider.getExpiredTime(tokenDto.getRefreshToken()), TimeUnit.MILLISECONDS);
-        return authConverter.toResponse(tokenDto);
+        RefreshToken refresh = authConverter.toEntity(user.getIdx(), refreshToken);
+        refreshTokenRepository.save(refresh);
+
+        return new TokenDto(
+                accessToken,
+                refreshToken,
+                expiredAt
+        );
     }
 
     @Override

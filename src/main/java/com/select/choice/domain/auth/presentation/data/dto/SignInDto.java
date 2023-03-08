@@ -1,4 +1,4 @@
-package com.select.choice.domain.auth.data.dto;
+package com.select.choice.domain.auth.presentation.data.dto;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.select.choice.domain.auth.data.response;
+package com.select.choice.domain.auth.presentation.data.response;
 
 import lombok.*;
 
