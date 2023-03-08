@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -39,7 +40,8 @@ public class AuthServiceImpl implements AuthService {
 
         String accessToken = jwtTokenProvider.generateAccessToken(user.getEmail());
         String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
-        Long expiredAt = jwtTokenProvider.getExpiredTime(accessToken);
+        LocalDateTime accessExpiredTime = jwtTokenProvider.getAccessTokenExpiredTime();
+        LocalDateTime refreshExpiredTime = jwtTokenProvider.getRefreshTokenExpiredTime();
 
         RefreshToken refresh = authConverter.toEntity(user.getIdx(), refreshToken);
         refreshTokenRepository.save(refresh);
@@ -47,7 +49,8 @@ public class AuthServiceImpl implements AuthService {
         return new TokenDto(
                 accessToken,
                 refreshToken,
-                expiredAt
+                accessExpiredTime,
+                refreshExpiredTime
         );
     }
 
@@ -80,7 +83,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public TokenResponse refresh(String refreshToken) {
+    public TokenDto refresh(String refreshToken) {
         if(jwtTokenProvider.validateToken(refreshToken)){
             throw new ExpiredTokenException(ErrorCode.EXPIRED_TOKEN);
         }
