@@ -82,28 +82,25 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     @Override
     public TokenDto refresh(String refreshToken) {
-        if(jwtTokenProvider.validateToken(refreshToken)){
-            throw new ExpiredTokenException(ErrorCode.EXPIRED_TOKEN);
-        }
+        jwtTokenProvider.validateToken(refreshToken, JwtTokenProvider.TokenType.REFRESH_TOKEN);
 
-        User user = userFacade.findUserByEmail(jwtTokenProvider.getUserPk(refreshToken));
+        String email = jwtTokenProvider.getTokenSubject(refreshToken, JwtTokenProvider.TokenType.REFRESH_TOKEN);
+        RefreshToken existingRefreshToken = refreshTokenRepository.findByRefreshToken(refreshToken);
 
-        String redisRefreshToken = (String) redisTemplate.opsForValue().get("RefreshToken:" + user.getIdx());
-        if(!Objects.equals(redisRefreshToken, refreshToken)){
-            throw new InvalidTokenException(ErrorCode.INVALID_TOKEN);
-        }
+        String newAccessToken = jwtTokenProvider.generateAccessToken(email);
+        String newRefreshToken = jwtTokenProvider.generateRefreshToken(email);
+        LocalDateTime newAccessExpiredTime = jwtTokenProvider.getAccessTokenExpiredTime();
+        LocalDateTime newRefreshExpiredTime = jwtTokenProvider.getRefreshTokenExpiredTime();
 
-        String newAccessToken = jwtTokenProvider.generateAccessToken(user.getEmail());
-        String newRefreshToken  = jwtTokenProvider.generateRefreshToken(user.getEmail());
-        Long expiredAt = jwtTokenProvider.getExpiredTime(newAccessToken);
+        RefreshToken newRefreshTokenEntity =  authConverter.toEntity(existingRefreshToken.getUserId(), newRefreshToken);
 
-        TokenDto tokenDto = authConverter.toDto(newAccessToken, newRefreshToken, expiredAt);
+        refreshTokenRepository.save(newRefreshTokenEntity);
 
-
-        redisTemplate.opsForValue()
-                .set("RefreshToken:" + user.getIdx(), newRefreshToken,
-                        jwtTokenProvider.getExpiredTime(newRefreshToken), TimeUnit.MILLISECONDS);
-
-        return authConverter.toResponse(tokenDto);
+        return new TokenDto(
+                newAccessToken,
+                newRefreshToken,
+                newAccessExpiredTime,
+                newRefreshExpiredTime
+        );
     }
 }
