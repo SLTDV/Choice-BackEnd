@@ -3,7 +3,7 @@ package com.select.choice.domain.image.service.Impl;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.select.choice.domain.image.data.dto.ImageUploadDto;
+import com.select.choice.domain.image.presentation.data.dto.ImageUploadDto;
 import com.select.choice.domain.image.service.ImageService;
 import com.select.choice.domain.image.util.ImageConverter;
 import lombok.RequiredArgsConstructor;

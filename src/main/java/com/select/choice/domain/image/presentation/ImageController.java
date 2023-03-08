@@ -1,8 +1,8 @@
-package com.select.choice.domain.image.controller;
+package com.select.choice.domain.image.presentation;
 
 
-import com.select.choice.domain.image.data.dto.ImageUploadDto;
-import com.select.choice.domain.image.data.response.ImageResponse;
+import com.select.choice.domain.image.presentation.data.dto.ImageUploadDto;
+import com.select.choice.domain.image.presentation.data.response.ImageResponse;
 import com.select.choice.domain.image.service.ImageService;
 import com.select.choice.domain.image.util.ImageConverter;
 import lombok.RequiredArgsConstructor;
