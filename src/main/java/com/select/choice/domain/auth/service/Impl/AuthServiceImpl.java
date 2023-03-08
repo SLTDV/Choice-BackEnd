@@ -53,20 +53,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void signUp(SignUpDto signUpDto) {
-
-        String emailPattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}";
-        String pwPattern = "^.*(?=^.{8,15}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$";
-
-        if(!Pattern.matches(emailPattern,signUpDto.getEmail())){
-            throw new EmailRegexpException(ErrorCode.EMAIL_REGEXP);
-        }
-        else if (!Pattern.matches(pwPattern, signUpDto.getPassword())) {
-            throw new PasswordRegexpException(ErrorCode.PASSWORD_REGEXP);
-        }
-        else if (signUpDto.getNickname().length() > 6){
-            throw new NicknameRegexpException(ErrorCode.NICKNAME_REGEXP);
-        }
-        else if(userFacade.existsByEmail(signUpDto.getEmail())) {
+        if(userFacade.existsByEmail(signUpDto.getEmail())) {
             throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
         }
         else if (userFacade.existsByNickname(signUpDto.getNickname())) {
