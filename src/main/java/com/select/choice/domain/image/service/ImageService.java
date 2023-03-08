@@ -6,5 +6,5 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface ImageService {
-    ImageUploadDto uploadImage(MultipartFile image) throws IOException;
+    ImageUploadDto uploadImage(MultipartFile firstImage, MultipartFile secondImage) throws IOException;
 }
