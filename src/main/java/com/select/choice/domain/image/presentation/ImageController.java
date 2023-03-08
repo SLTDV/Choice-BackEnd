@@ -1,8 +1,8 @@
-package com.select.choice.domain.image.controller;
+package com.select.choice.domain.image.presentation;
 
 
-import com.select.choice.domain.image.data.dto.ImageUploadDto;
-import com.select.choice.domain.image.data.response.ImageResponse;
+import com.select.choice.domain.image.presentation.data.dto.ImageUploadDto;
+import com.select.choice.domain.image.presentation.data.response.ImageResponse;
 import com.select.choice.domain.image.service.ImageService;
 import com.select.choice.domain.image.util.ImageConverter;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +30,10 @@ public class ImageController {
      */
     @PostMapping
     public ResponseEntity<ImageResponse> imageUpload(
-            @RequestPart(value = "file", required = false)MultipartFile image) throws IOException {
-        ImageUploadDto imageUploadDto = imageService.uploadImage(image);
+            @RequestPart(value = "firstFile", required = false)MultipartFile firstImage,
+            @RequestPart(value = "secondFile", required = false)MultipartFile secondImage) throws IOException {
+        ImageUploadDto imageUploadDto = imageService.uploadImage(firstImage, secondImage);
         ImageResponse imageResponse = imageConverter.toResponse(imageUploadDto);
-        return new ResponseEntity<>(imageResponse,HttpStatus.OK);
+        return new ResponseEntity<>(imageResponse, HttpStatus.OK);
     }
 }

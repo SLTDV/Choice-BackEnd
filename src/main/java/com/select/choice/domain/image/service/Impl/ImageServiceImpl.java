@@ -3,9 +3,11 @@ package com.select.choice.domain.image.service.Impl;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.select.choice.domain.image.data.dto.ImageUploadDto;
+import com.select.choice.domain.image.exception.ConvertMultipartFileException;
+import com.select.choice.domain.image.presentation.data.dto.ImageUploadDto;
 import com.select.choice.domain.image.service.ImageService;
 import com.select.choice.domain.image.util.ImageConverter;
+import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,20 +33,27 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-    public ImageUploadDto uploadImage(MultipartFile multipartFile) throws IOException {
-        File uploadFile = convert(multipartFile)
-                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
+    public ImageUploadDto uploadImage(MultipartFile firstImage, MultipartFile secondImage) throws IOException {
+        File firstUploadFile = convert(firstImage)
+                .orElseThrow(() -> new ConvertMultipartFileException(ErrorCode.CONVERT_MULTIPART_FILE));
 
-        return upload(uploadFile);
+        File secondUploadFile = convert(secondImage)
+                .orElseThrow(() -> new ConvertMultipartFileException(ErrorCode.CONVERT_MULTIPART_FILE));
+
+        return upload(firstUploadFile, secondUploadFile);
     }
 
-    private ImageUploadDto upload(File uploadFile) {
-        String fileName = "images" + "/" + uploadFile.getName();
-        String uploadImageUrl = putS3(uploadFile, fileName);
+    private ImageUploadDto upload(File firstUploadFile, File secondUploadFile) {
+        String firstUploadName = "images" + "/" + firstUploadFile.getName();
+        String secondUploadName = "images" + "/" + secondUploadFile.getName();
 
-        removeNewFile(uploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+        String firstUploadImageUrl = putS3(firstUploadFile, firstUploadName);
+        String secondUploadImageUrl = putS3(firstUploadFile, secondUploadName);
 
-        return imageConverter.toDto(uploadImageUrl);      // 업로드된 파일의 S3 URL 주소 반환
+        removeNewFile(firstUploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+        removeNewFile(secondUploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+
+        return imageConverter.toDto(firstUploadImageUrl, secondUploadImageUrl);      // 업로드된 파일의 S3 URL 주소 반환
     }
 
     private String putS3(File uploadFile, String fileName) {
