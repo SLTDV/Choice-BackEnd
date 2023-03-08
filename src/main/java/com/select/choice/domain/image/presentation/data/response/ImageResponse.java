@@ -8,5 +8,6 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 public class ImageResponse {
-    private final String imageUrl;
+    private final String firstUploadImageUrl;
+    private final String secondUploadImageUrl;
 }
