@@ -1,6 +1,6 @@
 package com.select.choice.domain.comment.service;
 
-import com.select.choice.domain.comment.data.dto.CommentDto;
+import com.select.choice.domain.comment.presentation.data.dto.CommentDto;
 
 public interface CommentService {
     void write(Long postIdx,CommentDto commentDto);

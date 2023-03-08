@@ -1,6 +1,6 @@
 package com.select.choice.domain.post.util.Impl;
 
-import com.select.choice.domain.comment.data.dto.CommentDetailDto;
+import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.post.data.dto.AddCountDto;
 import com.select.choice.domain.post.data.dto.CreatePostDto;
 import com.select.choice.domain.post.data.dto.PostDetailDto;

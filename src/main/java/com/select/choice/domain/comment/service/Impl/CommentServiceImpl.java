@@ -1,9 +1,9 @@
 package com.select.choice.domain.comment.service.Impl;
 
-import com.select.choice.domain.comment.data.dto.CommentDto;
-import com.select.choice.domain.comment.data.entity.Comment;
+import com.select.choice.domain.comment.presentation.data.dto.CommentDto;
+import com.select.choice.domain.comment.domain.entity.Comment;
 import com.select.choice.domain.comment.exception.IsNotMyCommentException;
-import com.select.choice.domain.comment.repository.CommentRepository;
+import com.select.choice.domain.comment.domain.repository.CommentRepository;
 import com.select.choice.domain.comment.service.CommentService;
 import com.select.choice.domain.comment.util.CommentConverter;
 import com.select.choice.domain.comment.util.CommentUtil;

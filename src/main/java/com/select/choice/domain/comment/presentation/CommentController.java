@@ -1,8 +1,8 @@
-package com.select.choice.domain.comment.controller;
+package com.select.choice.domain.comment.presentation;
 
-import com.select.choice.domain.comment.data.dto.CommentDto;
-import com.select.choice.domain.comment.data.request.EditCommentRequest;
-import com.select.choice.domain.comment.data.request.WriteCommentRequest;
+import com.select.choice.domain.comment.presentation.data.dto.CommentDto;
+import com.select.choice.domain.comment.presentation.data.request.EditCommentRequest;
+import com.select.choice.domain.comment.presentation.data.request.WriteCommentRequest;
 import com.select.choice.domain.comment.service.CommentService;
 import com.select.choice.domain.comment.util.CommentConverter;
 import lombok.RequiredArgsConstructor;

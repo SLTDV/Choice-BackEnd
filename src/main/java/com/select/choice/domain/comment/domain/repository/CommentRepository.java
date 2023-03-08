@@ -1,6 +1,6 @@
-package com.select.choice.domain.comment.repository;
+package com.select.choice.domain.comment.domain.repository;
 
-import com.select.choice.domain.comment.data.entity.Comment;
+import com.select.choice.domain.comment.domain.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
