@@ -13,7 +13,7 @@ public enum ErrorCode {
     IS_NOT_MY_POST("당신의 게시물이 아닙니다.", 400),
     NICKNAME_REGEXP("닉네임 형식에 알맞지 않습니다.", 400),
     UNAUTHORIZED("UNAUTHORIZED", 401),
-    INVALID_JWT_SIGNATURE("올발지 않는 서명입니다.", 401),
+    INVALID_JWT_SIGNATURE("올바르지 않는 서명입니다.", 401),
     UNSUPPORTED_JWT("지원되지 않는 JWT 토큰입니다.", 401),
     ILLEGAL_ARGUMENT_JWT("JWT 토큰이 잘못되었습니다.", 401),
     INVALID_TOKEN("유효하지 않은 토큰입니다.", 401),
