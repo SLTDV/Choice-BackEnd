@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Component
 @RequiredArgsConstructor
 public class AuthConverterImpl implements AuthConverter {
@@ -21,24 +23,22 @@ public class AuthConverterImpl implements AuthConverter {
 
     @Override
     public TokenResponse toResponse(TokenDto dto) {
-        String dtoAccessToken = dto.getAccessToken();
-        String dtoRefreshToken = dto.getRefreshToken();
-        Long dtoExpiredAt = dto.getExpiredAt();
-
         return TokenResponse.builder()
-                .accessToken(dtoAccessToken)
-                .refreshToken(dtoRefreshToken)
-                .expiredAt(dtoExpiredAt)
+                .accessToken(dto.getAccessToken())
+                .refreshToken(dto.getRefreshToken())
+                .accessExpiredTime(dto.getAccessExpiredTime())
+                .refreshExpiredTime(dto.getRefreshExpiredTime())
                 .build();
     }
 
     @Transactional
     @Override
-    public TokenDto toDto(String accessToken, String refreshToken, Long expiredAt) {
+    public TokenDto toDto(String accessToken, String refreshToken, LocalDateTime accessExp, LocalDateTime refreshExp) {
         return TokenDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .expiredAt(expiredAt)
+                .accessExpiredTime(accessExp)
+                .refreshExpiredTime(refreshExp)
                 .build();
     }
 
