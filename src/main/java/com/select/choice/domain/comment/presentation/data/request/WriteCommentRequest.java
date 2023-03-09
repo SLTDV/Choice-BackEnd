@@ -4,7 +4,8 @@ import lombok.*;
 
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class WriteCommentRequest {
     private String content;
 }

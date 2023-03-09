@@ -3,7 +3,8 @@ package com.select.choice.domain.post.presentation.data.request;
 import lombok.*;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class AddCountRequest {
-    private final Integer choice;
+    private Integer choice;
 }
