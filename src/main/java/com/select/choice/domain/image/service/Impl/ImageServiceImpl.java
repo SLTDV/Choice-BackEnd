@@ -33,27 +33,20 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-    public ImageUploadDto uploadImage(MultipartFile firstImage, MultipartFile secondImage) throws IOException {
-        File firstUploadFile = convert(firstImage)
+    public ImageUploadDto uploadImage(MultipartFile file) throws IOException {
+        File uploadFile = convert(file)
                 .orElseThrow(() -> new ConvertMultipartFileException(ErrorCode.CONVERT_MULTIPART_FILE));
-
-        File secondUploadFile = convert(secondImage)
-                .orElseThrow(() -> new ConvertMultipartFileException(ErrorCode.CONVERT_MULTIPART_FILE));
-
-        return upload(firstUploadFile, secondUploadFile);
+        return upload(uploadFile);
     }
 
-    private ImageUploadDto upload(File firstUploadFile, File secondUploadFile) {
-        String firstUploadName = "images" + "/" + firstUploadFile.getName();
-        String secondUploadName = "images" + "/" + secondUploadFile.getName();
+    private ImageUploadDto upload(File file) {
+        String fileUploadName = "images" + "/" + file.getName();
 
-        String firstUploadImageUrl = putS3(firstUploadFile, firstUploadName);
-        String secondUploadImageUrl = putS3(firstUploadFile, secondUploadName);
+        String firstUploadImageUrl = putS3(file, fileUploadName);
 
-        removeNewFile(firstUploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
-        removeNewFile(secondUploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+        removeNewFile(file);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
 
-        return imageConverter.toDto(firstUploadImageUrl, secondUploadImageUrl);      // 업로드된 파일의 S3 URL 주소 반환
+        return imageConverter.toDto(firstUploadImageUrl);      // 업로드된 파일의 S3 URL 주소 반환
     }
 
     private String putS3(File uploadFile, String fileName) {
