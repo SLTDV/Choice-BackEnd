@@ -7,12 +7,10 @@ import com.select.choice.domain.comment.util.CommentConverter;
 import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.domain.entity.Post;
-import com.select.choice.domain.post.presentation.data.response.AddCountResponse;
 import com.select.choice.domain.post.exception.IsNotMyPostException;
-import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
-import com.select.choice.domain.post.exception.PostNotFoundException;
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
+import com.select.choice.domain.post.util.PostUtil;
 import com.select.choice.domain.user.data.entity.User;
 import com.select.choice.domain.user.facade.UserFacade;
 import com.select.choice.global.error.type.ErrorCode;
@@ -31,6 +29,7 @@ public class PostServiceImpl implements PostService {
     private final UserFacade userFacade;
     private final CommentRepository commentRepository;
     private final CommentConverter commentConverter;
+    private final PostUtil postUtil;
 
     @Override
     public List<PostDto> getAllPostList() {
@@ -68,8 +67,7 @@ public class PostServiceImpl implements PostService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public void deletePost(Long postIdx) {
         User user = userFacade.currentUser();
-        Post post = postRepository.findById(postIdx)
-                .orElseThrow(() -> new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
+        Post post = postUtil.findById(postIdx);
 
         if(!Objects.equals(post.getUser(), user))
             throw new IsNotMyPostException(ErrorCode.IS_NOT_MY_POST);
@@ -80,7 +78,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public VoteCountDto addCount(AddCountDto addCountDto, Long postIdx) {
-        Post post = postRepository.findById(postIdx).orElseThrow(()->new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
+        Post post = postUtil.findById(postIdx);
 
         Integer choice = addCountDto.getChoice();
         if(choice == 0){
