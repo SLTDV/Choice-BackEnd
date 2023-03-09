@@ -3,14 +3,12 @@ package com.select.choice.domain.post.presentation.data.request;
 import lombok.*;
 
 @Getter
-@Builder
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class CreatePostRequestDto {
-    private String title;
-    private String content;
-    private String firstVotingOption;
-    private String secondVotingOption;
-    private String thumbnail;
+    private final String title;
+    private final String content;
+    private final String firstVotingOption;
+    private final String secondVotingOption;
+    private final String firstImageUrl;
+    private final String secondImageUrl;
 }

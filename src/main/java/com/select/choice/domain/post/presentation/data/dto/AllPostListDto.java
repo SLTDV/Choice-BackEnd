@@ -4,12 +4,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Getter
 @Builder
+@RequiredArgsConstructor
 public class AllPostListDto {
     private final Long idx;
-    private final String thumbnail;
+    private final String firstImageUrl;
+    private final String secondImageUrl;
     private final String title;
     private final String content;
     private final String firstVotingOption;

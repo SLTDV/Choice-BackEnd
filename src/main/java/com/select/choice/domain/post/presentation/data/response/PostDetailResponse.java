@@ -11,6 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PostDetailResponse {
-    private String authorname;
+    private String writer;
     private List<CommentDetailDto> comment;
 }

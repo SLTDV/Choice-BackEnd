@@ -4,13 +4,14 @@ import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
 @Builder
+@RequiredArgsConstructor
 public class PostDetailDto {
-    private String authorname;
+    private String writer;
     private List<CommentDetailDto> comment;
 }

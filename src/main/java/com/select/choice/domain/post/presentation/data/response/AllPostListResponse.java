@@ -6,11 +6,12 @@ import lombok.RequiredArgsConstructor;
 
 
 @Getter
-@RequiredArgsConstructor
 @Builder
+@RequiredArgsConstructor
 public class AllPostListResponse {
     private final Long idx;
-    private final String thumbnail;
+    private final String firstImageUrl;
+    private final String secondImageUrl;
     private final String title;
     private final String content;
     private final String firstVotingOption;

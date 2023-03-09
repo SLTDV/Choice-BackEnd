@@ -1,14 +1,9 @@
 package com.select.choice.domain.post.presentation.data.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Getter
+@RequiredArgsConstructor
 public class AddCountRequest {
-    private Integer choice;
+    private final Integer choice;
 }

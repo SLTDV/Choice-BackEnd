@@ -6,13 +6,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 @Builder
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CreatePostDto {
-    private String title;
-    private String content;
-    private String firstVotingOption;
-    private String secondVotingOption;
-    private String thumbnail;
+    private final String title;
+    private final String content;
+    private final String firstVotingOption;
+    private final String secondVotingOption;
+    private final String firstImageUrl;
+    private final String secondImageUrl;
 }
