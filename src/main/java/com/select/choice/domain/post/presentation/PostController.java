@@ -1,13 +1,12 @@
 package com.select.choice.domain.post.presentation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.response.AddCountResponse;
 import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 
 import com.select.choice.domain.post.presentation.data.response.PostResponse;
-import com.select.choice.domain.post.presentation.data.request.CreatePostRequestDto;
+import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
 import lombok.RequiredArgsConstructor;
@@ -51,8 +50,7 @@ public class PostController {
     담당자: 진시윤
      */
     @PostMapping
-    @JsonProperty("CreatePostRequestDto")
-    public ResponseEntity<Void> createPost(@RequestBody CreatePostRequestDto createPostRequestDto) {
+    public ResponseEntity<Void> createPost(@RequestBody CreatePostRequest createPostRequestDto) {
         CreatePostDto dto = postConverter.toDto(createPostRequestDto);
         postService.createPost(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
