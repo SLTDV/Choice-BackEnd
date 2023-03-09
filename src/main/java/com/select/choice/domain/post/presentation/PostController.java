@@ -3,11 +3,12 @@ package com.select.choice.domain.post.presentation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.select.choice.domain.post.presentation.data.dto.AddCountDto;
 import com.select.choice.domain.post.presentation.data.dto.CreatePostDto;
+import com.select.choice.domain.post.presentation.data.dto.AllPostListDto;
 import com.select.choice.domain.post.presentation.data.response.AddCountResponse;
 import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 
-import com.select.choice.domain.post.presentation.data.response.PostListResponse;
+import com.select.choice.domain.post.presentation.data.response.AllPostListResponse;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequestDto;
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
@@ -30,9 +31,10 @@ public class PostController {
     담당자: 진시윤
      */
     @GetMapping
-    public ResponseEntity<List<PostListResponse>> getAllPostList(){
-        List<PostListResponse> response = postService.getAllPostList();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<AllPostListResponse>> getAllPostList(){
+        List<AllPostListDto> allPostList = postService.getAllPostList();
+        List<AllPostListResponse> postListResponseList = postConverter.toResponse(allPostList);
+        return new ResponseEntity<>(postListResponseList, HttpStatus.OK);
     }
 
     /*
@@ -40,8 +42,8 @@ public class PostController {
     담당자: 진시윤
      */
     @GetMapping("/list")
-    public ResponseEntity<List<PostListResponse>> getBestPostList(){
-        List<PostListResponse> response = postService.getBestPostList();
+    public ResponseEntity<List<AllPostListResponse>> getBestPostList(){
+        List<AllPostListResponse> response = postService.getBestPostList();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

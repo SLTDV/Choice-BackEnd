@@ -4,11 +4,11 @@ import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.post.presentation.data.dto.AddCountDto;
 import com.select.choice.domain.post.presentation.data.dto.CreatePostDto;
 import com.select.choice.domain.post.presentation.data.dto.PostDetailDto;
-import com.select.choice.domain.post.presentation.data.dto.PostListDto;
+import com.select.choice.domain.post.presentation.data.dto.AllPostListDto;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequestDto;
 import com.select.choice.domain.post.presentation.data.response.AddCountResponse;
 import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
-import com.select.choice.domain.post.presentation.data.response.PostListResponse;
+import com.select.choice.domain.post.presentation.data.response.AllPostListResponse;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 import com.select.choice.domain.post.util.PostConverter;
@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostConverterImpl implements PostConverter {
     @Override
-    public List<PostListResponse> toResponse(List<PostListDto> dto){
+    public List<AllPostListResponse> toResponse(List<AllPostListDto> dto){
         return dto.stream().map(post ->
-                    new PostListResponse(
+                    new AllPostListResponse(
                             post.getIdx(),
                             post.getThumbnail(),
                             post.getTitle(),
@@ -41,9 +41,9 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public List<PostListDto> toPostListDto(List<Post> entity) {
+    public List<AllPostListDto> toPostListDto(List<Post> entity) {
         return entity.stream().map(post ->
-                new PostListDto(
+                new AllPostListDto(
                         post.getIdx(),
                         post.getThumbnail(),
                         post.getTitle(),
@@ -54,14 +54,14 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingCount(),
                         post.isIsVoting()
                 )
-        ).sorted(Comparator.comparing(PostListDto::getIdx).reversed()).collect(Collectors.toList());
+        ).sorted(Comparator.comparing(AllPostListDto::getIdx).reversed()).collect(Collectors.toList());
     }
 
 
     @Override
-    public List<PostListDto> toBestPostDto(List<Post> entity) {
+    public List<AllPostListDto> toBestPostDto(List<Post> entity) {
         return entity.stream().map(post ->
-                new PostListDto(
+                new AllPostListDto(
                         post.getIdx(),
                         post.getThumbnail(),
                         post.getTitle(),

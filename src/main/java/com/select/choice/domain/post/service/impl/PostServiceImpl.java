@@ -4,17 +4,17 @@ import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.comment.domain.entity.Comment;
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
 import com.select.choice.domain.comment.util.CommentConverter;
+import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.post.presentation.data.dto.AddCountDto;
 import com.select.choice.domain.post.presentation.data.dto.CreatePostDto;
 import com.select.choice.domain.post.presentation.data.dto.PostDetailDto;
-import com.select.choice.domain.post.presentation.data.dto.PostListDto;
+import com.select.choice.domain.post.presentation.data.dto.AllPostListDto;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.response.AddCountResponse;
-import com.select.choice.domain.post.presentation.data.response.PostListResponse;
+import com.select.choice.domain.post.presentation.data.response.AllPostListResponse;
 import com.select.choice.domain.post.exception.IsNotMyPostException;
 import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
 import com.select.choice.domain.post.exception.PostNotFoundException;
-import com.select.choice.domain.post.domain.entity.repository.PostRepository;
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.data.entity.User;
@@ -37,17 +37,16 @@ public class PostServiceImpl implements PostService {
     private final CommentConverter commentConverter;
 
     @Override
-    public List<PostListResponse> getAllPostList() {
+    public List<AllPostListDto> getAllPostList() {
         List<Post> list = postRepository.findAll();
-        List<PostListDto> postListDtoList = postConverter.toPostListDto(list);
-        return postConverter.toResponse(postListDtoList);
+        return postConverter.toPostListDto(list);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<PostListResponse> getBestPostList() {
+    public List<AllPostListResponse> getBestPostList() {
         List<Post> list = postRepository.getBestPostList();
-        List<PostListDto> postListDtoList = postConverter.toBestPostDto(list);
+        List<AllPostListDto> postListDtoList = postConverter.toBestPostDto(list);
         return postConverter.toResponse(postListDtoList);
     }
     @Transactional

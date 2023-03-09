@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 @Builder
-public class PostListDto {
+public class AllPostListDto {
     private final Long idx;
     private final String thumbnail;
     private final String title;
