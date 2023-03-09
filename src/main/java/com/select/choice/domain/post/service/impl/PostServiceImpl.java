@@ -5,13 +5,9 @@ import com.select.choice.domain.comment.domain.entity.Comment;
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
 import com.select.choice.domain.comment.util.CommentConverter;
 import com.select.choice.domain.post.domain.repository.PostRepository;
-import com.select.choice.domain.post.presentation.data.dto.AddCountDto;
-import com.select.choice.domain.post.presentation.data.dto.CreatePostDto;
-import com.select.choice.domain.post.presentation.data.dto.PostDetailDto;
-import com.select.choice.domain.post.presentation.data.dto.AllPostListDto;
+import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.response.AddCountResponse;
-import com.select.choice.domain.post.presentation.data.response.AllPostListResponse;
 import com.select.choice.domain.post.exception.IsNotMyPostException;
 import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
 import com.select.choice.domain.post.exception.PostNotFoundException;
@@ -37,20 +33,19 @@ public class PostServiceImpl implements PostService {
     private final CommentConverter commentConverter;
 
     @Override
-    public List<AllPostListDto> getAllPostList() {
+    public List<PostDto> getAllPostList() {
         List<Post> list = postRepository.findAll();
-        return postConverter.toPostListDto(list);
+        return postConverter.toDto(list);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<AllPostListResponse> getBestPostList() {
+    public List<PostDto> getBestPostList() {
         List<Post> list = postRepository.getBestPostList();
-        List<AllPostListDto> postListDtoList = postConverter.toBestPostDto(list);
-        return postConverter.toResponse(postListDtoList);
+        return postConverter.toBestPostDto(list);
     }
-    @Transactional
+
     @Override
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public void createPost(CreatePostDto postDto) {
         User user = userFacade.currentUser();
         Post post = postConverter.toEntity(postDto, user);
@@ -58,34 +53,42 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDetailResponse aggregateDetail(Long postIdx) {
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public PostDetailDto aggregateDetail(Long postIdx) {
         User user = userFacade.currentUser();
+
         List<Comment> comment = commentRepository.findAllByPostIdx(postIdx);
+
         List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment);
-        PostDetailDto postDetailDto = postConverter.toDto(commentDetailDtoList,user);
-        return postConverter.toResponse(postDetailDto);
+
+        return postConverter.toDto(commentDetailDtoList,user);
     }
 
     @Override
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public void deletePost(Long postIdx) {
         User user = userFacade.currentUser();
-        Post post = postRepository.findById(postIdx).orElseThrow(()->new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
-        if(!Objects.equals(post.getUser().getIdx(), user.getIdx()))
+        Post post = postRepository.findById(postIdx)
+                .orElseThrow(() -> new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
+
+        if(!Objects.equals(post.getUser(), user))
             throw new IsNotMyPostException(ErrorCode.IS_NOT_MY_POST);
+
         postRepository.delete(post);
     }
 
-    @Transactional
     @Override
-    public AddCountResponse addCount(AddCountDto addCountDto, Long postIdx) {
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public VoteCountDto addCount(AddCountDto addCountDto, Long postIdx) {
         Post post = postRepository.findById(postIdx).orElseThrow(()->new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
+
         Integer choice = addCountDto.getChoice();
         if(choice == 0){
             post.updateFirstVotingCount();
         } else
             post.updateSecondVotingCount();
-
         post.updateIsVoting();
-        return postConverter.toResponse(post.getFirstVotingCount(), post.getSecondVotingCount());
+
+        return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
 }
