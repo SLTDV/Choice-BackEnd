@@ -1,14 +1,12 @@
 package com.select.choice.domain.post.presentation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.select.choice.domain.post.presentation.data.dto.AddCountDto;
-import com.select.choice.domain.post.presentation.data.dto.CreatePostDto;
-import com.select.choice.domain.post.presentation.data.dto.AllPostListDto;
+import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.response.AddCountResponse;
 import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 
-import com.select.choice.domain.post.presentation.data.response.AllPostListResponse;
+import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequestDto;
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
@@ -31,10 +29,10 @@ public class PostController {
     담당자: 진시윤
      */
     @GetMapping
-    public ResponseEntity<List<AllPostListResponse>> getAllPostList(){
-        List<AllPostListDto> allPostList = postService.getAllPostList();
-        List<AllPostListResponse> postListResponseList = postConverter.toResponse(allPostList);
-        return new ResponseEntity<>(postListResponseList, HttpStatus.OK);
+    public ResponseEntity<List<PostResponse>> getAllPostList(){
+        List<PostDto> postList = postService.getAllPostList();
+        List<PostResponse> postResponses = postConverter.toResponse(postList);
+        return new ResponseEntity<>(postResponses, HttpStatus.OK);
     }
 
     /*
@@ -42,9 +40,10 @@ public class PostController {
     담당자: 진시윤
      */
     @GetMapping("/list")
-    public ResponseEntity<List<AllPostListResponse>> getBestPostList(){
-        List<AllPostListResponse> response = postService.getBestPostList();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<PostResponse>> getBestPostList(){
+        List<PostDto> bestPostList = postService.getBestPostList();
+        List<PostResponse> bestPostResponseList = postConverter.toBesetPostResponse(bestPostList);
+        return new ResponseEntity<>(bestPostResponseList, HttpStatus.OK);
     }
 
     /*
@@ -75,7 +74,8 @@ public class PostController {
      */
     @GetMapping({"/{postIdx}"})
     public ResponseEntity<PostDetailResponse> postDetail(@PathVariable("postIdx") Long postIdx) {
-        PostDetailResponse response = postService.aggregateDetail(postIdx);
+        PostDetailDto dto = postService.aggregateDetail(postIdx);
+        PostDetailResponse response = postConverter.toResponse(dto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -86,7 +86,8 @@ public class PostController {
     @PostMapping("/add/{postIdx}")
     public ResponseEntity<AddCountResponse> addCount(@PathVariable("postIdx") Long postIdx, @RequestBody AddCountRequest addCountRequest){
         AddCountDto addCountDto = postConverter.toDto(addCountRequest);
-         AddCountResponse response = postService.addCount(addCountDto, postIdx);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        VoteCountDto voteCountDto = postService.addCount(addCountDto, postIdx);
+        AddCountResponse addCountResponse = postConverter.toResponse(voteCountDto);
+        return new ResponseEntity<>(addCountResponse, HttpStatus.OK);
     }
 }
