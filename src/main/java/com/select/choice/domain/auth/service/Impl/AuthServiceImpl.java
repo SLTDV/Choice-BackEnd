@@ -32,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
     private final RedisUtil redisUtil;
 
     @Override
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public TokenDto signIn(SignInDto signInDto) {
         User user = userFacade.findUserByEmail(signInDto.getEmail());
         userFacade.checkPassword(user, signInDto.getPassword());
@@ -66,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void logout(String token) {
         User user = userFacade.currentUser();
         String accessToken = token.substring(7);

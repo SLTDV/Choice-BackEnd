@@ -44,7 +44,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createPost(CreatePostDto postDto) {
         User user = userFacade.currentUser();
         Post post = postConverter.toEntity(postDto, user);
@@ -52,7 +52,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public PostDetailDto aggregateDetail(Long postIdx) {
         User user = userFacade.currentUser();
 
@@ -64,7 +64,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deletePost(Long postIdx) {
         User user = userFacade.currentUser();
         Post post = postUtil.findById(postIdx);
@@ -76,7 +76,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public VoteCountDto addCount(AddCountDto addCountDto, Long postIdx) {
         Post post = postUtil.findById(postIdx);
 

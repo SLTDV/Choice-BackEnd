@@ -26,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
     private final PostUtil postUtil;
 
     @Override
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void write(Long postIdx,CommentDto commentDto) {
         User user = userFacade.currentUser();
         Post post = postUtil.findById(postIdx);
@@ -35,7 +35,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void edit(Long commentIdx, CommentDto commentDto) {
         User user = userFacade.currentUser();
         Comment comment = commentUtil.findById(commentIdx);
@@ -47,7 +47,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void delete(Long commentIdx) {
         Comment comment = commentUtil.findById(commentIdx);
         commentRepository.delete(comment);
