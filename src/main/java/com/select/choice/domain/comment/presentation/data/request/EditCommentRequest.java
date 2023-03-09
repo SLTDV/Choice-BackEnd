@@ -5,5 +5,5 @@ import lombok.*;
 @Getter
 @RequiredArgsConstructor
 public class EditCommentRequest {
-    private String content;
+    private final String content;
 }

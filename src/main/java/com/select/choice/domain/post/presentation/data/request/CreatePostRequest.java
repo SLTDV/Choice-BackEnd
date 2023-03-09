@@ -4,7 +4,7 @@ import lombok.*;
 
 @Getter
 @RequiredArgsConstructor
-public class CreatePostRequestDto {
+public class CreatePostRequest {
     private final String title;
     private final String content;
     private final String firstVotingOption;
