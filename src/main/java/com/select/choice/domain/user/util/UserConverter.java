@@ -1,6 +1,6 @@
 package com.select.choice.domain.user.util;
 
-import com.select.choice.domain.post.data.entity.Post;
+import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.user.data.dto.MyPageDto;
 import com.select.choice.domain.user.data.dto.NicknameDto;
 import com.select.choice.domain.user.data.entity.User;

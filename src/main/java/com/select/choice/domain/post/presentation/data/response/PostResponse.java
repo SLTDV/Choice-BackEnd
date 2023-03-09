@@ -1,4 +1,4 @@
-package com.select.choice.domain.post.data.response;
+package com.select.choice.domain.post.presentation.data.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,11 +6,12 @@ import lombok.RequiredArgsConstructor;
 
 
 @Getter
-@RequiredArgsConstructor
 @Builder
-public class PostListResponse {
+@RequiredArgsConstructor
+public class PostResponse {
     private final Long idx;
-    private final String thumbnail;
+    private final String firstImageUrl;
+    private final String secondImageUrl;
     private final String title;
     private final String content;
     private final String firstVotingOption;

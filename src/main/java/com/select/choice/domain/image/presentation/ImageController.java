@@ -30,10 +30,11 @@ public class ImageController {
      */
     @PostMapping
     public ResponseEntity<ImageResponse> imageUpload(
-            @RequestPart(value = "firstFile", required = false)MultipartFile firstImage,
-            @RequestPart(value = "secondFile", required = false)MultipartFile secondImage) throws IOException {
-        ImageUploadDto imageUploadDto = imageService.uploadImage(firstImage, secondImage);
-        ImageResponse imageResponse = imageConverter.toResponse(imageUploadDto);
+            @RequestPart(value = "firstFile")MultipartFile firstImage,
+            @RequestPart(value = "secondFile")MultipartFile secondImage) throws IOException {
+        ImageUploadDto dto = imageService.uploadImage(firstImage);
+        ImageUploadDto uploadDto = imageService.uploadImage(secondImage);
+        ImageResponse imageResponse = imageConverter.toResponse(dto, uploadDto);
         return new ResponseEntity<>(imageResponse, HttpStatus.OK);
     }
 }

@@ -1,8 +1,8 @@
 package com.select.choice.domain.user.util.Impl;
 
-import com.select.choice.domain.post.data.dto.PostListDto;
-import com.select.choice.domain.post.data.entity.Post;
-import com.select.choice.domain.post.data.response.PostListResponse;
+import com.select.choice.domain.post.presentation.data.dto.PostDto;
+import com.select.choice.domain.post.domain.entity.Post;
+import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.data.dto.MyPageDto;
 import com.select.choice.domain.user.data.dto.NicknameDto;
@@ -23,7 +23,7 @@ public class UserConverterImpl implements UserConverter {
     @Override
     public MyPageDto toDto(User user, List<Post> postList) {
         String nickname = user.getNickname();
-        List<PostListDto> postDtoList = postConverter.toPostListDto(postList);
+        List<PostDto> postDtoList = postConverter.toDto(postList);
         return MyPageDto.builder()
                 .nickname(nickname)
                 .postList(postDtoList)
@@ -33,7 +33,7 @@ public class UserConverterImpl implements UserConverter {
     @Override
     public GetMyPageResponse toResponse(MyPageDto myPageDto) {
         String nickname = myPageDto.getNickname();
-        List<PostListResponse> postResponseList = postConverter.toResponse(myPageDto.getPostList());
+        List<PostResponse> postResponseList = postConverter.toResponse(myPageDto.getPostList());
         return GetMyPageResponse.builder()
                 .nickname(nickname)
                 .postList(postResponseList)

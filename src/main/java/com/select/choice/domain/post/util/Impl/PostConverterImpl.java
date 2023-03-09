@@ -1,16 +1,13 @@
 package com.select.choice.domain.post.util.Impl;
 
 import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
-import com.select.choice.domain.post.data.dto.AddCountDto;
-import com.select.choice.domain.post.data.dto.CreatePostDto;
-import com.select.choice.domain.post.data.dto.PostDetailDto;
-import com.select.choice.domain.post.data.dto.PostListDto;
-import com.select.choice.domain.post.data.request.CreatePostRequestDto;
-import com.select.choice.domain.post.data.response.AddCountResponse;
-import com.select.choice.domain.post.data.response.PostDetailResponse;
-import com.select.choice.domain.post.data.response.PostListResponse;
-import com.select.choice.domain.post.data.entity.Post;
-import com.select.choice.domain.post.data.request.AddCountRequest;
+import com.select.choice.domain.post.presentation.data.dto.*;
+import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
+import com.select.choice.domain.post.presentation.data.response.AddCountResponse;
+import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
+import com.select.choice.domain.post.domain.entity.Post;
+import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
+import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.data.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +21,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostConverterImpl implements PostConverter {
     @Override
-    public List<PostListResponse> toResponse(List<PostListDto> dto){
+    public List<PostResponse> toBesetPostResponse(List<PostDto> dto){
         return dto.stream().map(post ->
-                    new PostListResponse(
+                    new PostResponse(
                             post.getIdx(),
-                            post.getThumbnail(),
+                            post.getFirstImageUrl(),
+                            post.getSecondImageUrl(),
                             post.getTitle(),
                             post.getContent(),
                             post.getFirstVotingOption(),
@@ -41,11 +39,12 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public List<PostListDto> toPostListDto(List<Post> entity) {
+    public List<PostDto> toBestPostDto(List<Post> entity) {
         return entity.stream().map(post ->
-                new PostListDto(
+                new PostDto(
                         post.getIdx(),
-                        post.getThumbnail(),
+                        post.getFirstImageUrl(),
+                        post.getSecondImageUrl(),
                         post.getTitle(),
                         post.getContent(),
                         post.getFirstVotingOption(),
@@ -54,16 +53,36 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingCount(),
                         post.isIsVoting()
                 )
-        ).sorted(Comparator.comparing(PostListDto::getIdx).reversed()).collect(Collectors.toList());
+        ).collect(Collectors.toList());
     }
 
 
     @Override
-    public List<PostListDto> toBestPostDto(List<Post> entity) {
+    public List<PostDto> toDto(List<Post> entity) {
         return entity.stream().map(post ->
-                new PostListDto(
+                new PostDto(
                         post.getIdx(),
-                        post.getThumbnail(),
+                        post.getFirstImageUrl(),
+                        post.getSecondImageUrl(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getFirstVotingOption(),
+                        post.getSecondVotingOption(),
+                        post.getFirstVotingCount(),
+                        post.getSecondVotingCount(),
+                        post.isIsVoting()
+                )
+        ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
+    }
+
+
+    @Override
+    public List<PostResponse> toResponse(List<PostDto> dto) {
+        return dto.stream().map(post ->
+                new PostResponse(
+                        post.getIdx(),
+                        post.getFirstImageUrl(),
+                        post.getSecondImageUrl(),
                         post.getTitle(),
                         post.getContent(),
                         post.getFirstVotingOption(),
@@ -82,7 +101,8 @@ public class PostConverterImpl implements PostConverter {
                 dto.getContent(),
                 dto.getFirstVotingOption(),
                 dto.getSecondVotingOption(),
-                dto.getThumbnail(),
+                dto.getFirstImageUrl(),
+                dto.getSecondImageUrl(),
                 0,
                 0,
                 user
@@ -90,33 +110,42 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public CreatePostDto toDto(CreatePostRequestDto requestDto){
+    public CreatePostDto toDto(CreatePostRequest requestDto){
         return CreatePostDto.builder()
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
                 .firstVotingOption(requestDto.getFirstVotingOption())
                 .secondVotingOption(requestDto.getSecondVotingOption())
-                .thumbnail(requestDto.getThumbnail())
+                .firstImageUrl(requestDto.getFirstImageUrl())
+                .secondImageUrl(requestDto.getSecondImageUrl())
                 .build();
     }
     @Override
     public PostDetailResponse toResponse(PostDetailDto postDetailDto) {
         return PostDetailResponse.builder()
-                .authorname(postDetailDto.getAuthorname())
+                .writer(postDetailDto.getWriter())
                 .comment(postDetailDto.getComment())
                 .build();
     }
     @Override
     public PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList, User user) {
             return PostDetailDto.builder()
-                .authorname(user.getNickname())
+                .writer(user.getNickname())
                 .comment(commentDetailDtoList)
                 .build();
     }
 
     @Override
-    public AddCountResponse toResponse(Integer firstVotingCount, Integer secondVotingCount) {
+    public AddCountResponse toResponse(VoteCountDto voteCountDto) {
         return AddCountResponse.builder()
+                .firstVotingCount(voteCountDto.getFirstVotingCount())
+                .secondVotingCount(voteCountDto.getSecondVotingCount())
+                .build();
+    }
+
+    @Override
+    public VoteCountDto toDto(Integer firstVotingCount, Integer secondVotingCount) {
+        return VoteCountDto.builder()
                 .firstVotingCount(firstVotingCount)
                 .secondVotingCount(secondVotingCount)
                 .build();

@@ -1,14 +1,12 @@
-package com.select.choice.domain.post.controller;
+package com.select.choice.domain.post.presentation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.select.choice.domain.post.data.dto.AddCountDto;
-import com.select.choice.domain.post.data.dto.CreatePostDto;
-import com.select.choice.domain.post.data.response.AddCountResponse;
-import com.select.choice.domain.post.data.response.PostDetailResponse;
-import com.select.choice.domain.post.data.request.AddCountRequest;
+import com.select.choice.domain.post.presentation.data.dto.*;
+import com.select.choice.domain.post.presentation.data.response.AddCountResponse;
+import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
+import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 
-import com.select.choice.domain.post.data.response.PostListResponse;
-import com.select.choice.domain.post.data.request.CreatePostRequestDto;
+import com.select.choice.domain.post.presentation.data.response.PostResponse;
+import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +28,10 @@ public class PostController {
     담당자: 진시윤
      */
     @GetMapping
-    public ResponseEntity<List<PostListResponse>> getAllPostList(){
-        List<PostListResponse> response = postService.getAllPostList();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<PostResponse>> getAllPostList(){
+        List<PostDto> postList = postService.getAllPostList();
+        List<PostResponse> postResponses = postConverter.toResponse(postList);
+        return new ResponseEntity<>(postResponses, HttpStatus.OK);
     }
 
     /*
@@ -40,9 +39,10 @@ public class PostController {
     담당자: 진시윤
      */
     @GetMapping("/list")
-    public ResponseEntity<List<PostListResponse>> getBestPostList(){
-        List<PostListResponse> response = postService.getBestPostList();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<PostResponse>> getBestPostList(){
+        List<PostDto> bestPostList = postService.getBestPostList();
+        List<PostResponse> bestPostResponseList = postConverter.toBesetPostResponse(bestPostList);
+        return new ResponseEntity<>(bestPostResponseList, HttpStatus.OK);
     }
 
     /*
@@ -50,8 +50,7 @@ public class PostController {
     담당자: 진시윤
      */
     @PostMapping
-    @JsonProperty("CreatePostRequestDto")
-    public ResponseEntity<Void> createPost(@RequestBody CreatePostRequestDto createPostRequestDto) {
+    public ResponseEntity<Void> createPost(@RequestBody CreatePostRequest createPostRequestDto) {
         CreatePostDto dto = postConverter.toDto(createPostRequestDto);
         postService.createPost(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -73,7 +72,8 @@ public class PostController {
      */
     @GetMapping({"/{postIdx}"})
     public ResponseEntity<PostDetailResponse> postDetail(@PathVariable("postIdx") Long postIdx) {
-        PostDetailResponse response = postService.aggregateDetail(postIdx);
+        PostDetailDto dto = postService.aggregateDetail(postIdx);
+        PostDetailResponse response = postConverter.toResponse(dto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -84,7 +84,8 @@ public class PostController {
     @PostMapping("/add/{postIdx}")
     public ResponseEntity<AddCountResponse> addCount(@PathVariable("postIdx") Long postIdx, @RequestBody AddCountRequest addCountRequest){
         AddCountDto addCountDto = postConverter.toDto(addCountRequest);
-         AddCountResponse response = postService.addCount(addCountDto, postIdx);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        VoteCountDto voteCountDto = postService.addCount(addCountDto, postIdx);
+        AddCountResponse addCountResponse = postConverter.toResponse(voteCountDto);
+        return new ResponseEntity<>(addCountResponse, HttpStatus.OK);
     }
 }

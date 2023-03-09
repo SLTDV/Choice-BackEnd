@@ -7,9 +7,8 @@ import com.select.choice.domain.comment.domain.repository.CommentRepository;
 import com.select.choice.domain.comment.service.CommentService;
 import com.select.choice.domain.comment.util.CommentConverter;
 import com.select.choice.domain.comment.util.CommentUtil;
-import com.select.choice.domain.post.data.entity.Post;
-import com.select.choice.domain.post.exception.PostNotFoundException;
-import com.select.choice.domain.post.repository.PostRepository;
+import com.select.choice.domain.post.domain.entity.Post;
+import com.select.choice.domain.post.util.PostUtil;
 import com.select.choice.domain.user.data.entity.User;
 import com.select.choice.domain.user.facade.UserFacade;
 import com.select.choice.global.error.type.ErrorCode;
@@ -23,20 +22,20 @@ public class CommentServiceImpl implements CommentService {
     private final UserFacade userFacade;
     private final CommentRepository commentRepository;
     private final CommentConverter commentConverter;
-    private final PostRepository postRepository;
     private final CommentUtil commentUtil;
+    private final PostUtil postUtil;
 
-    @Transactional
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void write(Long postIdx,CommentDto commentDto) {
         User user = userFacade.currentUser();
-        Post post = postRepository.findById(postIdx)
-                .orElseThrow(() -> new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
+        Post post = postUtil.findById(postIdx);
         Comment comment = commentConverter.toEntity(commentDto, user, post);
         commentRepository.save(comment);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void edit(Long commentIdx, CommentDto commentDto) {
         User user = userFacade.currentUser();
         Comment comment = commentUtil.findById(commentIdx);
@@ -48,6 +47,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void delete(Long commentIdx) {
         Comment comment = commentUtil.findById(commentIdx);
         commentRepository.delete(comment);

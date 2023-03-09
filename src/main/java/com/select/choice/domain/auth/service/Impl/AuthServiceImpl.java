@@ -28,12 +28,11 @@ public class AuthServiceImpl implements AuthService {
     private final UserFacade userFacade;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthConverter authConverter;
-    private final RedisTemplate<String, Object> redisTemplate;
     private final RefreshTokenRepository refreshTokenRepository;
     private final RedisUtil redisUtil;
 
-    @Transactional
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public TokenDto signIn(SignInDto signInDto) {
         User user = userFacade.findUserByEmail(signInDto.getEmail());
         userFacade.checkPassword(user, signInDto.getPassword());
@@ -66,8 +65,8 @@ public class AuthServiceImpl implements AuthService {
         userFacade.save(user);
     }
 
-    @Transactional
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void logout(String token) {
         User user = userFacade.currentUser();
         String accessToken = token.substring(7);
@@ -79,7 +78,6 @@ public class AuthServiceImpl implements AuthService {
 
     }
 
-    @Transactional
     @Override
     public TokenDto refresh(String refreshToken) {
         jwtTokenProvider.validateToken(refreshToken, JwtTokenProvider.TokenType.REFRESH_TOKEN);

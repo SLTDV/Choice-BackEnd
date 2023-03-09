@@ -6,7 +6,7 @@ import com.select.choice.domain.comment.domain.entity.Comment;
 import com.select.choice.domain.comment.presentation.data.request.EditCommentRequest;
 import com.select.choice.domain.comment.presentation.data.request.WriteCommentRequest;
 import com.select.choice.domain.comment.util.CommentConverter;
-import com.select.choice.domain.post.data.entity.Post;
+import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.user.data.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

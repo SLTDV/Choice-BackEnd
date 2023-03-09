@@ -1,7 +1,7 @@
 package com.select.choice.domain.user.Service.Impl;
 
-import com.select.choice.domain.post.data.entity.Post;
-import com.select.choice.domain.post.repository.PostRepository;
+import com.select.choice.domain.post.domain.entity.Post;
+import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.user.Service.UserService;
 import com.select.choice.domain.user.data.dto.MyPageDto;
 import com.select.choice.domain.user.data.dto.NicknameDto;
