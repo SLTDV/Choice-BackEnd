@@ -8,6 +8,5 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 public class ImageUploadDto {
-    private final String firstUploadImageUrl;
-    private final String secondUploadImageUrl;
+    private final String uploadImageUrl;
 }

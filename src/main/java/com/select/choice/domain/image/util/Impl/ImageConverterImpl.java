@@ -9,18 +9,17 @@ import org.springframework.stereotype.Component;
 public class ImageConverterImpl implements ImageConverter {
 
     @Override
-    public ImageResponse toResponse(ImageUploadDto imageUploadDto) {
+    public ImageResponse toResponse(ImageUploadDto dto, ImageUploadDto uploadDto) {
         return ImageResponse.builder()
-                .firstUploadImageUrl(imageUploadDto.getFirstUploadImageUrl())
-                .secondUploadImageUrl(imageUploadDto.getSecondUploadImageUrl())
+                .firstUploadImageUrl(dto.getUploadImageUrl())
+                .secondUploadImageUrl(uploadDto.getUploadImageUrl())
                 .build();
     }
 
     @Override
-    public ImageUploadDto toDto(String firstUploadImageUrl, String secondUploadImageUrl) {
+    public ImageUploadDto toDto(String firstUploadImageUrl) {
         return ImageUploadDto.builder()
-                .firstUploadImageUrl(firstUploadImageUrl)
-                .secondUploadImageUrl(secondUploadImageUrl)
+                .uploadImageUrl(firstUploadImageUrl)
                 .build();
     }
 
