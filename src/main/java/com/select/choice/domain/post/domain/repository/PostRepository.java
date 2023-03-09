@@ -1,6 +1,6 @@
-package com.select.choice.domain.post.repository;
+package com.select.choice.domain.post.domain.repository;
 
-import com.select.choice.domain.post.data.entity.Post;
+import com.select.choice.domain.post.domain.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

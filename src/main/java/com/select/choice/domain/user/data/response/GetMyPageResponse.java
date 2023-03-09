@@ -1,6 +1,6 @@
 package com.select.choice.domain.user.data.response;
 
-import com.select.choice.domain.post.data.response.PostListResponse;
+import com.select.choice.domain.post.presentation.data.response.PostListResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

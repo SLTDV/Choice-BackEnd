@@ -1,4 +1,4 @@
-package com.select.choice.domain.post.data.request;
+package com.select.choice.domain.post.presentation.data.request;
 
 import lombok.*;
 

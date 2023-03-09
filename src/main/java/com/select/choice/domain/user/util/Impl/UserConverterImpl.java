@@ -1,8 +1,8 @@
 package com.select.choice.domain.user.util.Impl;
 
-import com.select.choice.domain.post.data.dto.PostListDto;
-import com.select.choice.domain.post.data.entity.Post;
-import com.select.choice.domain.post.data.response.PostListResponse;
+import com.select.choice.domain.post.presentation.data.dto.PostListDto;
+import com.select.choice.domain.post.domain.entity.Post;
+import com.select.choice.domain.post.presentation.data.response.PostListResponse;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.data.dto.MyPageDto;
 import com.select.choice.domain.user.data.dto.NicknameDto;

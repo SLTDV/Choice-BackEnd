@@ -1,6 +1,6 @@
 package com.select.choice.domain.user.data.dto;
 
-import com.select.choice.domain.post.data.dto.PostListDto;
+import com.select.choice.domain.post.presentation.data.dto.PostListDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,16 +1,16 @@
 package com.select.choice.domain.post.util.Impl;
 
 import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
-import com.select.choice.domain.post.data.dto.AddCountDto;
-import com.select.choice.domain.post.data.dto.CreatePostDto;
-import com.select.choice.domain.post.data.dto.PostDetailDto;
-import com.select.choice.domain.post.data.dto.PostListDto;
-import com.select.choice.domain.post.data.request.CreatePostRequestDto;
-import com.select.choice.domain.post.data.response.AddCountResponse;
-import com.select.choice.domain.post.data.response.PostDetailResponse;
-import com.select.choice.domain.post.data.response.PostListResponse;
-import com.select.choice.domain.post.data.entity.Post;
-import com.select.choice.domain.post.data.request.AddCountRequest;
+import com.select.choice.domain.post.presentation.data.dto.AddCountDto;
+import com.select.choice.domain.post.presentation.data.dto.CreatePostDto;
+import com.select.choice.domain.post.presentation.data.dto.PostDetailDto;
+import com.select.choice.domain.post.presentation.data.dto.PostListDto;
+import com.select.choice.domain.post.presentation.data.request.CreatePostRequestDto;
+import com.select.choice.domain.post.presentation.data.response.AddCountResponse;
+import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
+import com.select.choice.domain.post.presentation.data.response.PostListResponse;
+import com.select.choice.domain.post.domain.entity.Post;
+import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.data.entity.User;
 import lombok.RequiredArgsConstructor;

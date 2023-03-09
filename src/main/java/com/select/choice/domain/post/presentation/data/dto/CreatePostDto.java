@@ -1,4 +1,4 @@
-package com.select.choice.domain.post.data.dto;
+package com.select.choice.domain.post.presentation.data.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

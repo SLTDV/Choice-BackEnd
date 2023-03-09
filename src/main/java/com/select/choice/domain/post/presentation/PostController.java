@@ -1,14 +1,14 @@
-package com.select.choice.domain.post.controller;
+package com.select.choice.domain.post.presentation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.select.choice.domain.post.data.dto.AddCountDto;
-import com.select.choice.domain.post.data.dto.CreatePostDto;
-import com.select.choice.domain.post.data.response.AddCountResponse;
-import com.select.choice.domain.post.data.response.PostDetailResponse;
-import com.select.choice.domain.post.data.request.AddCountRequest;
+import com.select.choice.domain.post.presentation.data.dto.AddCountDto;
+import com.select.choice.domain.post.presentation.data.dto.CreatePostDto;
+import com.select.choice.domain.post.presentation.data.response.AddCountResponse;
+import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
+import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 
-import com.select.choice.domain.post.data.response.PostListResponse;
-import com.select.choice.domain.post.data.request.CreatePostRequestDto;
+import com.select.choice.domain.post.presentation.data.response.PostListResponse;
+import com.select.choice.domain.post.presentation.data.request.CreatePostRequestDto;
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
 import lombok.RequiredArgsConstructor;
