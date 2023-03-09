@@ -13,7 +13,10 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseIdEntity {
-    private String thumbnail;
+    @Column(nullable = false)
+    private String firstImageUrl;
+    @Column(nullable = false)
+    private String secondImageUrl;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
@@ -22,22 +25,22 @@ public class Post extends BaseIdEntity {
     private String firstVotingOption;
     @Column(nullable = false)
     private String secondVotingOption;
-    @Column
     private Integer firstVotingCount;
-    @Column
     private Integer secondVotingCount;
+
     private boolean IsVoting;
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @Builder
-    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String thumbnail,Integer firstVotingCount, Integer secondVotingCount, User user) {
+    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String firstImageUrl, String secondImageUrl, Integer firstVotingCount, Integer secondVotingCount, User user) {
         this.title = title;
         this.content = content;
         this.firstVotingOption = firstVotingOption;
         this.secondVotingOption = secondVotingOption;
-        this.thumbnail = thumbnail;
+        this.firstImageUrl = firstImageUrl;
+        this.secondImageUrl = secondImageUrl;
         this.firstVotingCount = firstVotingCount;
         this.secondVotingCount = secondVotingCount;
         this.user = user;
