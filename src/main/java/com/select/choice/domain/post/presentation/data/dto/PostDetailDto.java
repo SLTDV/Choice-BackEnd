@@ -12,6 +12,6 @@ import java.util.List;
 @Builder
 @RequiredArgsConstructor
 public class PostDetailDto {
-    private String writer;
-    private List<CommentDetailDto> comment;
+    private final String writer;
+    private final List<CommentDetailDto> comment;
 }
