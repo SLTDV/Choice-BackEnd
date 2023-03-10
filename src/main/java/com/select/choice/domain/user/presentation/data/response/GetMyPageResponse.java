@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @Getter
 @Builder
+@RequiredArgsConstructor
 public class GetMyPageResponse {
     private final String nickname;
     private final List<PostResponse> postList;

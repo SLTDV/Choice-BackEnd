@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
-@Builder
 @Getter
+@Builder
+@RequiredArgsConstructor
 public class MyPageDto {
     private final String nickname;
     private final List<PostDto> postList;
