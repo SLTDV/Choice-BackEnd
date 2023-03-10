@@ -1,6 +1,7 @@
 package com.select.choice.domain.user.presentation;
 
 import com.select.choice.domain.user.Service.UserService;
+import com.select.choice.domain.user.presentation.data.dto.MyPageDto;
 import com.select.choice.domain.user.presentation.data.dto.NicknameDto;
 import com.select.choice.domain.user.presentation.data.request.ChangeNicknameRequest;
 import com.select.choice.domain.user.presentation.data.response.GetMyPageResponse;
@@ -27,10 +28,15 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    /*
+    기능: 마이페이지
+    담당자: 노혁
+     */
     @GetMapping
     public ResponseEntity<GetMyPageResponse> getMyPage(){
-        GetMyPageResponse response = userService.getMyPage();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        MyPageDto myPageDto = userService.getMyPage();
+        GetMyPageResponse myPageResponse = userConverter.toResponse(myPageDto);
+        return new ResponseEntity<>(myPageResponse, HttpStatus.OK);
     }
 
     @PatchMapping

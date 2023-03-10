@@ -29,13 +29,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public GetMyPageResponse getMyPage() {
+    public MyPageDto getMyPage() {
         User user = userUtil.currentUser();
         List<Post> postList = postRepository.findAllByUserIdx(user.getIdx());
 
-        MyPageDto myPageDto = userConverter.toDto(user, postList);
-
-        return userConverter.toResponse(myPageDto);
+        return userConverter.toDto(user, postList);
     }
 
     @Transactional
