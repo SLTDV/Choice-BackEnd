@@ -1,4 +1,4 @@
-package com.select.choice.domain.user.data.request;
+package com.select.choice.domain.user.presentation.data.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

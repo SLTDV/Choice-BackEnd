@@ -1,9 +1,10 @@
-package com.select.choice.domain.user.facade;
+package com.select.choice.domain.user.util.Impl;
 
-import com.select.choice.domain.user.data.entity.User;
+import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.auth.exception.PasswordNotMatchException;
 import com.select.choice.domain.user.exception.UserNotFoundException;
-import com.select.choice.domain.user.repository.UserRepository;
+import com.select.choice.domain.user.domain.repository.UserRepository;
+import com.select.choice.domain.user.util.UserUtil;
 import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,8 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-@Transactional(rollbackFor = Exception.class)
-public class UserFacade {
+public class UserUtilImpl implements UserUtil {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 

@@ -1,9 +1,9 @@
-package com.select.choice.domain.user.controller;
+package com.select.choice.domain.user.presentation;
 
 import com.select.choice.domain.user.Service.UserService;
-import com.select.choice.domain.user.data.dto.NicknameDto;
-import com.select.choice.domain.user.data.request.ChangeNicknameRequest;
-import com.select.choice.domain.user.data.response.GetMyPageResponse;
+import com.select.choice.domain.user.presentation.data.dto.NicknameDto;
+import com.select.choice.domain.user.presentation.data.request.ChangeNicknameRequest;
+import com.select.choice.domain.user.presentation.data.response.GetMyPageResponse;
 import com.select.choice.domain.user.util.UserConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

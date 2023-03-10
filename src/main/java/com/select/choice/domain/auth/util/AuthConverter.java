@@ -7,7 +7,7 @@ import com.select.choice.domain.auth.presentation.data.dto.TokenDto;
 import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
 import com.select.choice.domain.auth.presentation.data.response.TokenResponse;
-import com.select.choice.domain.user.data.entity.User;
+import com.select.choice.domain.user.domain.entity.User;
 
 import java.time.LocalDateTime;
 

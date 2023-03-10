@@ -8,7 +8,7 @@ import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
 import com.select.choice.domain.auth.presentation.data.response.TokenResponse;
 import com.select.choice.domain.auth.util.AuthConverter;
-import com.select.choice.domain.user.data.entity.User;
+import com.select.choice.domain.user.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

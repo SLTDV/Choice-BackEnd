@@ -1,4 +1,4 @@
-package com.select.choice.domain.user.data.response;
+package com.select.choice.domain.user.presentation.data.response;
 
 import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import lombok.Builder;

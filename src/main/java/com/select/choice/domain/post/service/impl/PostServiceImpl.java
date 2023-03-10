@@ -11,8 +11,8 @@ import com.select.choice.domain.post.exception.IsNotMyPostException;
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.post.util.PostUtil;
-import com.select.choice.domain.user.data.entity.User;
-import com.select.choice.domain.user.facade.UserFacade;
+import com.select.choice.domain.user.domain.entity.User;
+import com.select.choice.domain.user.util.UserUtil;
 import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ import java.util.Objects;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final PostConverter postConverter;
-    private final UserFacade userFacade;
+    private final UserUtil userUtil;
     private final CommentRepository commentRepository;
     private final CommentConverter commentConverter;
     private final PostUtil postUtil;
@@ -46,7 +46,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createPost(CreatePostDto postDto) {
-        User user = userFacade.currentUser();
+        User user = userUtil.currentUser();
         Post post = postConverter.toEntity(postDto, user);
         postRepository.save(post);
     }
@@ -54,7 +54,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public PostDetailDto aggregateDetail(Long postIdx) {
-        User user = userFacade.currentUser();
+        User user = userUtil.currentUser();
 
         List<Comment> comment = commentRepository.findAllByPostIdx(postIdx);
 
@@ -66,7 +66,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deletePost(Long postIdx) {
-        User user = userFacade.currentUser();
+        User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
 
         if(!Objects.equals(post.getUser(), user))
