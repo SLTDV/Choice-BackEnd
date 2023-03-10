@@ -1,11 +1,9 @@
 package com.select.choice.domain.post.exception;
 
-import com.select.choice.global.error.exception.GlobalExceptions;
+import com.select.choice.global.error.exception.GlobalException;
 import com.select.choice.global.error.type.ErrorCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-public class PostNotFoundException extends GlobalExceptions {
+public class PostNotFoundException extends GlobalException {
     public PostNotFoundException(ErrorCode errorCode) {
         super(errorCode);
     }
