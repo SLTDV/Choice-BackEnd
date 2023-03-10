@@ -87,7 +87,7 @@ public class AuthServiceImpl implements AuthService {
         LocalDateTime newAccessExpiredTime = jwtTokenProvider.getAccessTokenExpiredTime();
         LocalDateTime newRefreshExpiredTime = jwtTokenProvider.getRefreshTokenExpiredTime();
 
-        RefreshToken newRefreshTokenEntity =  authConverter.toEntity(existingRefreshToken.getUserId(), newRefreshToken);
+        RefreshToken newRefreshTokenEntity = authConverter.toEntity(existingRefreshToken.getUserId(), newRefreshToken);
 
         refreshTokenRepository.save(newRefreshTokenEntity);
 
