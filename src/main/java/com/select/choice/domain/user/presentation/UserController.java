@@ -17,19 +17,23 @@ public class UserController {
     private final UserService userService;
     private final UserConverter userConverter;
 
-    @DeleteMapping()
+    /*
+    기능: 회원탈퇴
+    담당자: 노혁
+     */
+    @DeleteMapping
     public ResponseEntity<Void> delete(){
         userService.delete();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<GetMyPageResponse> getMyPage(){
         GetMyPageResponse response = userService.getMyPage();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PatchMapping()
+    @PatchMapping
     public ResponseEntity<Void> changeNickname(@RequestBody ChangeNicknameRequest changeNicknameRequest){
         NicknameDto nicknameDto = userConverter.toDto(changeNicknameRequest);
         userService.changeNickname(nicknameDto);
