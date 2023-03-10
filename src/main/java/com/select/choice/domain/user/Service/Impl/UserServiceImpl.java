@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService {
         return userConverter.toDto(user, postList);
     }
 
-    @Transactional
     @Override
     public void changeNickname(NicknameDto nicknameDto) {
         User user = userUtil.currentUser();

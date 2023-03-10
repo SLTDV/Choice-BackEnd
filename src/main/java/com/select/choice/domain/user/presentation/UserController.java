@@ -39,6 +39,10 @@ public class UserController {
         return new ResponseEntity<>(myPageResponse, HttpStatus.OK);
     }
 
+    /*
+    기능: 닉네임 변경
+    담당자: 노혁
+     */
     @PatchMapping
     public ResponseEntity<Void> changeNickname(@RequestBody ChangeNicknameRequest changeNicknameRequest){
         NicknameDto nicknameDto = userConverter.toDto(changeNicknameRequest);

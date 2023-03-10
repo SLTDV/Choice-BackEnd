@@ -7,6 +7,5 @@ import com.select.choice.domain.user.presentation.data.response.GetMyPageRespons
 public interface UserService {
     void delete();
     MyPageDto getMyPage();
-
     void changeNickname(NicknameDto nicknameDto);
 }
