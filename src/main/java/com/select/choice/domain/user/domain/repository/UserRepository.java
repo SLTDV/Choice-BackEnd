@@ -1,6 +1,6 @@
-package com.select.choice.domain.user.repository;
+package com.select.choice.domain.user.domain.repository;
 
-import com.select.choice.domain.user.data.entity.User;
+import com.select.choice.domain.user.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

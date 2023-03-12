@@ -8,24 +8,21 @@ import com.select.choice.domain.auth.domain.repository.RefreshTokenRepository;
 import com.select.choice.domain.auth.service.AuthService;
 import com.select.choice.domain.auth.util.AuthConverter;
 import com.select.choice.domain.auth.exception.*;
-import com.select.choice.domain.user.data.entity.User;
-import com.select.choice.domain.user.facade.UserFacade;
+import com.select.choice.domain.user.domain.entity.User;
+import com.select.choice.domain.user.util.UserUtil;
 import com.select.choice.global.error.type.ErrorCode;
 import com.select.choice.global.redis.RedisUtil;
 import com.select.choice.global.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final UserFacade userFacade;
+    private final UserUtil userUtil;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthConverter authConverter;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -34,8 +31,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public TokenDto signIn(SignInDto signInDto) {
-        User user = userFacade.findUserByEmail(signInDto.getEmail());
-        userFacade.checkPassword(user, signInDto.getPassword());
+        User user = userUtil.findUserByEmail(signInDto.getEmail());
+        userUtil.checkPassword(user, signInDto.getPassword());
 
         String accessToken = jwtTokenProvider.generateAccessToken(user.getEmail());
         String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
@@ -55,20 +52,20 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void signUp(SignUpDto signUpDto) {
-        if(userFacade.existsByEmail(signUpDto.getEmail())) {
+        if(userUtil.existsByEmail(signUpDto.getEmail())) {
             throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
         }
-        else if (userFacade.existsByNickname(signUpDto.getNickname())) {
+        else if (userUtil.existsByNickname(signUpDto.getNickname())) {
             throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);
         }
         User user = authConverter.toEntity(signUpDto);
-        userFacade.save(user);
+        userUtil.save(user);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void logout(String token) {
-        User user = userFacade.currentUser();
+        User user = userUtil.currentUser();
         String accessToken = token.substring(7);
 
         refreshTokenRepository.deleteById(user.getIdx());
@@ -90,7 +87,7 @@ public class AuthServiceImpl implements AuthService {
         LocalDateTime newAccessExpiredTime = jwtTokenProvider.getAccessTokenExpiredTime();
         LocalDateTime newRefreshExpiredTime = jwtTokenProvider.getRefreshTokenExpiredTime();
 
-        RefreshToken newRefreshTokenEntity =  authConverter.toEntity(existingRefreshToken.getUserId(), newRefreshToken);
+        RefreshToken newRefreshTokenEntity = authConverter.toEntity(existingRefreshToken.getUserId(), newRefreshToken);
 
         refreshTokenRepository.save(newRefreshTokenEntity);
 

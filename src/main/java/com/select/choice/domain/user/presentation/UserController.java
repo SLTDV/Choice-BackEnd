@@ -1,9 +1,10 @@
-package com.select.choice.domain.user.controller;
+package com.select.choice.domain.user.presentation;
 
 import com.select.choice.domain.user.Service.UserService;
-import com.select.choice.domain.user.data.dto.NicknameDto;
-import com.select.choice.domain.user.data.request.ChangeNicknameRequest;
-import com.select.choice.domain.user.data.response.GetMyPageResponse;
+import com.select.choice.domain.user.presentation.data.dto.MyPageDto;
+import com.select.choice.domain.user.presentation.data.dto.NicknameDto;
+import com.select.choice.domain.user.presentation.data.request.ChangeNicknameRequest;
+import com.select.choice.domain.user.presentation.data.response.GetMyPageResponse;
 import com.select.choice.domain.user.util.UserConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,19 +18,32 @@ public class UserController {
     private final UserService userService;
     private final UserConverter userConverter;
 
-    @DeleteMapping()
+    /*
+    기능: 회원탈퇴
+    담당자: 노혁
+     */
+    @DeleteMapping
     public ResponseEntity<Void> delete(){
         userService.delete();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping()
+    /*
+    기능: 마이페이지
+    담당자: 노혁
+     */
+    @GetMapping
     public ResponseEntity<GetMyPageResponse> getMyPage(){
-        GetMyPageResponse response = userService.getMyPage();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        MyPageDto myPageDto = userService.getMyPage();
+        GetMyPageResponse myPageResponse = userConverter.toResponse(myPageDto);
+        return new ResponseEntity<>(myPageResponse, HttpStatus.OK);
     }
 
-    @PatchMapping()
+    /*
+    기능: 닉네임 변경
+    담당자: 노혁
+     */
+    @PatchMapping
     public ResponseEntity<Void> changeNickname(@RequestBody ChangeNicknameRequest changeNicknameRequest){
         NicknameDto nicknameDto = userConverter.toDto(changeNicknameRequest);
         userService.changeNickname(nicknameDto);

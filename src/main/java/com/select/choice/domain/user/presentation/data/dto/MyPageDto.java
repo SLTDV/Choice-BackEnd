@@ -1,4 +1,4 @@
-package com.select.choice.domain.user.data.dto;
+package com.select.choice.domain.user.presentation.data.dto;
 
 import com.select.choice.domain.post.presentation.data.dto.PostDto;
 import lombok.Builder;
@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
-@Builder
 @Getter
+@Builder
+@RequiredArgsConstructor
 public class MyPageDto {
     private final String nickname;
     private final List<PostDto> postList;
