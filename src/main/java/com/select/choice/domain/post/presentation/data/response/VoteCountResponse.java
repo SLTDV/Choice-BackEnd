@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class AddCountResponse {
+public class VoteCountResponse {
     private final Integer firstVotingCount;
     private final Integer secondVotingCount;
 }
