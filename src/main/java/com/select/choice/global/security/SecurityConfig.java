@@ -47,8 +47,8 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.PATCH,"/user").authenticated()
 
                 // post
-                .antMatchers(HttpMethod.GET,"/post").permitAll()
-                .antMatchers(HttpMethod.GET,"/post/list").permitAll()
+                .antMatchers(HttpMethod.GET,"/post").authenticated()
+                .antMatchers(HttpMethod.GET,"/post/list").authenticated()
                 .antMatchers(HttpMethod.POST,"/post").authenticated()
                 .antMatchers(HttpMethod.POST,"/post/vote/**").authenticated()
                 .antMatchers(HttpMethod.GET,"/post/**").authenticated()
