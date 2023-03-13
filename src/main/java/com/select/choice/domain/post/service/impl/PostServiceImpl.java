@@ -77,16 +77,17 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public VoteCountDto addCount(AddCountDto addCountDto, Long postIdx) {
+    public VoteCountDto voteCount(AddCountDto addCountDto, Long postIdx) {
         Post post = postUtil.findById(postIdx);
+        int choiceOption = addCountDto.getChoice();
 
-        Integer choice = addCountDto.getChoice();
-        if(choice == 0){
-            post.updateFirstVotingCount();
+        if(choiceOption == 0){
+            post.updateFirstVotingCount(post.isVoting(), choiceOption);
         } else
-            post.updateSecondVotingCount();
-        post.updateIsVoting();
+            post.updateSecondVotingCount(post.isVoting(), choiceOption);
 
+
+        post.updateIsVoting();
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
 }
