@@ -8,5 +8,5 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 public class AddCountDto {
-    private final Integer choice;
+    private final int choice;
 }

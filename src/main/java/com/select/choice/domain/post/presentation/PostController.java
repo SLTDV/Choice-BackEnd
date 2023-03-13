@@ -1,7 +1,7 @@
 package com.select.choice.domain.post.presentation;
 
 import com.select.choice.domain.post.presentation.data.dto.*;
-import com.select.choice.domain.post.presentation.data.response.AddCountResponse;
+import com.select.choice.domain.post.presentation.data.response.VoteCountResponse;
 import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 
@@ -81,11 +81,11 @@ public class PostController {
     기능: 투표 수 더하기
     담당자: 노혁
      */
-    @PostMapping("/add/{postIdx}")
-    public ResponseEntity<AddCountResponse> addCount(@PathVariable("postIdx") Long postIdx, @RequestBody AddCountRequest addCountRequest){
+    @PostMapping("/vote/{postIdx}")
+    public ResponseEntity<VoteCountResponse> voteCount(@PathVariable("postIdx") Long postIdx, @RequestBody AddCountRequest addCountRequest){
         AddCountDto addCountDto = postConverter.toDto(addCountRequest);
-        VoteCountDto voteCountDto = postService.addCount(addCountDto, postIdx);
-        AddCountResponse addCountResponse = postConverter.toResponse(voteCountDto);
+        VoteCountDto voteCountDto = postService.voteCount(addCountDto, postIdx);
+        VoteCountResponse addCountResponse = postConverter.toResponse(voteCountDto);
         return new ResponseEntity<>(addCountResponse, HttpStatus.OK);
     }
 }
