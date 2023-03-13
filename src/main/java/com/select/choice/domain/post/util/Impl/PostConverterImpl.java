@@ -33,7 +33,9 @@ public class PostConverterImpl implements PostConverter {
                             post.getSecondVotingOption(),
                             post.getFirstVotingCount(),
                             post.getSecondVotingCount(),
-                            post.isIsVoting()
+                            post.isVoting(),
+                            post.getParticipants(),
+                            post.getCommentCount()
                     )
         ).collect(Collectors.toList());
     }
@@ -51,7 +53,9 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.isVoting()
+                        post.isVoting(),
+                        post.getFirstVotingCount() + post.getSecondVotingCount(),
+                        post.getCommentCount()
                 )
         ).collect(Collectors.toList());
     }
@@ -70,7 +74,10 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.isVoting()
+                        post.isVoting(),
+                        post.getFirstVotingCount() + post.getSecondVotingCount(),
+                        post.getCommentCount()
+
                 )
         ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
     }
@@ -89,7 +96,9 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.isIsVoting()
+                        post.isVoting(),
+                        post.getParticipants(),
+                        post.getCommentCount()
                 )
         ).collect(Collectors.toList());
     }
@@ -105,7 +114,8 @@ public class PostConverterImpl implements PostConverter {
                 dto.getSecondImageUrl(),
                 0,
                 0,
-                user
+                user,
+                0
         );
     }
 
