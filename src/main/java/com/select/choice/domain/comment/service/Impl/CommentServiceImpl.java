@@ -31,7 +31,9 @@ public class CommentServiceImpl implements CommentService {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
         Comment comment = commentConverter.toEntity(commentDto, user, post);
+
         commentRepository.save(comment);
+        post.updateCount();
     }
 
     @Override
@@ -48,8 +50,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Long commentIdx) {
+    public void delete(Long postIdx, Long commentIdx) {
         Comment comment = commentUtil.findById(commentIdx);
+        Post post = postUtil.findById(postIdx);
+
+        post.minusCount();
         commentRepository.delete(comment);
     }
 }

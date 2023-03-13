@@ -7,5 +7,5 @@ public interface CommentService {
 
     void edit(Long commentIdx, CommentDto commentDto);
 
-    void delete(Long commentIdx);
+    void delete(Long postIdx, Long commentIdx);
 }

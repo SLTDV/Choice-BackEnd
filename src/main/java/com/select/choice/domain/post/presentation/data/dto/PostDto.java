@@ -17,5 +17,7 @@ public class PostDto {
     private final String secondVotingOption;
     private final Integer firstVotingCount;
     private final Integer secondVotingCount;
-    private final boolean IsVoting;
+    private final boolean voting;
+    private final int participants;
+    private final int commentCount;
 }
