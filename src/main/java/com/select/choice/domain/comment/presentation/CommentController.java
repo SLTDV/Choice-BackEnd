@@ -43,9 +43,9 @@ public class CommentController {
     기능: 댓글 삭제
     담당자: 노혁
      */
-    @DeleteMapping("/{commentIdx}")
-    public ResponseEntity<Void> delete(@PathVariable("commentIdx") Long commentIdx){
-        commentService.delete(commentIdx);
+    @DeleteMapping("/{postIdx}/{commentIdx}")
+    public ResponseEntity<Void> delete(@PathVariable("postIdx") Long postIdx, @PathVariable("commentIdx") Long commentIdx){
+        commentService.delete(postIdx, commentIdx);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
