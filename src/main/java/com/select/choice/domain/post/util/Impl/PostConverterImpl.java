@@ -3,7 +3,7 @@ package com.select.choice.domain.post.util.Impl;
 import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
-import com.select.choice.domain.post.presentation.data.response.AddCountResponse;
+import com.select.choice.domain.post.presentation.data.response.VoteCountResponse;
 import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
@@ -51,7 +51,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.isIsVoting()
+                        post.isVoting()
                 )
         ).collect(Collectors.toList());
     }
@@ -70,7 +70,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.isIsVoting()
+                        post.isVoting()
                 )
         ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
     }
@@ -136,8 +136,8 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public AddCountResponse toResponse(VoteCountDto voteCountDto) {
-        return AddCountResponse.builder()
+    public VoteCountResponse toResponse(VoteCountDto voteCountDto) {
+        return VoteCountResponse.builder()
                 .firstVotingCount(voteCountDto.getFirstVotingCount())
                 .secondVotingCount(voteCountDto.getSecondVotingCount())
                 .build();
