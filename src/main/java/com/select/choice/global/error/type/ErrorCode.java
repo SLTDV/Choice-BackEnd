@@ -8,6 +8,8 @@ import lombok.Getter;
 public enum ErrorCode {
     PASSWORD_NOT_MATCH("비밀번호가 옳지 않습니다.", 400),
     CONVERT_MULTIPART_FILE("file 로 타입 변환 실패", 400),
+    INVALID_CHOICE("유효하지 않는 choice 입니다.", 400),
+    INVALID_VOTE_COUNT("유효하지 않는 투표 값입니다.", 400),
     UNAUTHORIZED("UNAUTHORIZED", 401),
     INVALID_JWT_SIGNATURE("올바르지 않는 서명입니다.", 401),
     UNSUPPORTED_JWT("지원되지 않는 JWT 토큰입니다.", 401),
