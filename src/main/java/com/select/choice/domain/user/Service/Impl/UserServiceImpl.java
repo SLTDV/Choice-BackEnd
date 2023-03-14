@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void changeNickname(NicknameDto nicknameDto) {
         User user = userUtil.currentUser();
         user.updateNickname(nicknameDto.getNickname());

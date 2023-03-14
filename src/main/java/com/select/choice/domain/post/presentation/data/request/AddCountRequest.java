@@ -6,5 +6,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddCountRequest {
-    private Integer choice;
+    private int choice;
 }

@@ -163,7 +163,7 @@ public class PostConverterImpl implements PostConverter {
 
     @Override
     public AddCountDto toDto(AddCountRequest addCountRequest) {
-        Integer choice = addCountRequest.getChoice();
+        int choice = addCountRequest.getChoice();
         return AddCountDto.builder()
                 .choice(choice)
                 .build();
