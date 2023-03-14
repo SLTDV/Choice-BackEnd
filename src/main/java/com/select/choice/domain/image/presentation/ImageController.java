@@ -3,6 +3,7 @@ package com.select.choice.domain.image.presentation;
 
 import com.select.choice.domain.image.presentation.data.dto.ImageUploadDto;
 import com.select.choice.domain.image.presentation.data.response.ImageResponse;
+import com.select.choice.domain.image.presentation.data.response.ProfileImageResponse;
 import com.select.choice.domain.image.service.ImageService;
 import com.select.choice.domain.image.util.ImageConverter;
 import lombok.RequiredArgsConstructor;
@@ -30,11 +31,24 @@ public class ImageController {
      */
     @PostMapping
     public ResponseEntity<ImageResponse> imageUpload(
-            @RequestPart(value = "firstFile")MultipartFile firstImage,
-            @RequestPart(value = "secondFile")MultipartFile secondImage) throws IOException {
+            @RequestPart(value = "firstImage")MultipartFile firstImage,
+            @RequestPart(value = "secondImage")MultipartFile secondImage) throws IOException {
         ImageUploadDto dto = imageService.uploadImage(firstImage);
         ImageUploadDto uploadDto = imageService.uploadImage(secondImage);
         ImageResponse imageResponse = imageConverter.toResponse(dto, uploadDto);
         return new ResponseEntity<>(imageResponse, HttpStatus.OK);
     }
+
+    /*
+    기능: 프로필 이미지 업로드
+    담당자: 노혁
+     */
+    @PostMapping("/profile")
+    public ResponseEntity<ProfileImageResponse> profileImageUpload(
+            @RequestPart(value = "profileImage")MultipartFile profileImage) throws IOException {
+        ImageUploadDto dto = imageService.uploadImage(profileImage);
+        ProfileImageResponse profileImageResponse = imageConverter.toResponse(dto);
+        return new ResponseEntity<>(profileImageResponse, HttpStatus.OK);
+    }
+
 }

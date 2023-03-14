@@ -16,12 +16,15 @@ public class User extends BaseIdEntity {
     private String password;
     @Column(nullable = false)
     private String nickname;
+    @Column(nullable = false)
+    private String profileImageUrl;
 
     @Builder
-    public User(String email, String password, String nickname) {
+    public User(String email, String password, String nickname, String profileImageUrl) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public void updateNickname(String nickname) {

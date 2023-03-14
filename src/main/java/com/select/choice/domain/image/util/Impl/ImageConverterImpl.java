@@ -2,6 +2,7 @@ package com.select.choice.domain.image.util.Impl;
 
 import com.select.choice.domain.image.presentation.data.dto.ImageUploadDto;
 import com.select.choice.domain.image.presentation.data.response.ImageResponse;
+import com.select.choice.domain.image.presentation.data.response.ProfileImageResponse;
 import com.select.choice.domain.image.util.ImageConverter;
 import org.springframework.stereotype.Component;
 
@@ -23,4 +24,10 @@ public class ImageConverterImpl implements ImageConverter {
                 .build();
     }
 
+    @Override
+    public ProfileImageResponse toResponse(ImageUploadDto dto) {
+        return ProfileImageResponse.builder()
+                .profileImageUrl(dto.getUploadImageUrl())
+                .build();
+    }
 }
