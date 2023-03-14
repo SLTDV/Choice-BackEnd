@@ -5,6 +5,8 @@ import com.select.choice.domain.comment.domain.entity.Comment;
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
 import com.select.choice.domain.comment.util.CommentConverter;
 import com.select.choice.domain.post.domain.repository.PostRepository;
+import com.select.choice.domain.post.exception.InvalidChoiceException;
+import com.select.choice.domain.post.exception.InvalidVoteCount;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.exception.IsNotMyPostException;
@@ -81,11 +83,15 @@ public class PostServiceImpl implements PostService {
         Post post = postUtil.findById(postIdx);
         int choiceOption = addCountDto.getChoice();
 
-        if(choiceOption == 0){
-            post.updateFirstVotingCount(post.isVoting(), choiceOption);
-        } else
-            post.updateSecondVotingCount(post.isVoting(), choiceOption);
+        if(!(choiceOption == 0 | choiceOption == 1)) {
+            throw new InvalidChoiceException(ErrorCode.INVALID_CHOICE);
+        }
 
+        post.updateVotingCount(post.isVoting(), choiceOption);
+
+        if (post.getFirstVotingCount() <= -1 | post.getSecondVotingCount() <= -1) {
+            throw new InvalidVoteCount(ErrorCode.INVALID_VOTE_COUNT);
+        }
 
         post.updateIsVoting();
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
