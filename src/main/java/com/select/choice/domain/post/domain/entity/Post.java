@@ -48,23 +48,18 @@ public class Post extends BaseIdEntity {
         this.commentCount = commentCount;
     }
 
-    public void updateFirstVotingCount(boolean voting, int choiceOption) {
-        if (voting) {
-            if (choiceOption == 0) {
+    public void updateVotingCount(boolean voting, int choiceOption) {
+        if(voting){
+            if(choiceOption == 0){
                 ++this.firstVotingCount;
                 --this.secondVotingCount;
-            } else
-                ++this.firstVotingCount;
-        }
-    }
-
-    public void updateSecondVotingCount(boolean voting, int choiceOption){
-        if(voting) {
-            if (choiceOption == 1) {
+            } else {
                 ++this.secondVotingCount;
                 --this.firstVotingCount;
-            } else
-                ++this.secondVotingCount;
+            }
+        } else{
+            if(choiceOption == 0) ++this.firstVotingCount;
+            else ++this.secondVotingCount;
         }
     }
 
