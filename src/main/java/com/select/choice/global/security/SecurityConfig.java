@@ -61,6 +61,7 @@ public class SecurityConfig {
 
                 // upload
                 .antMatchers(HttpMethod.POST,"/image").authenticated()
+                .antMatchers(HttpMethod.POST, "/image/profile").authenticated()
 
 
                 .anyRequest().denyAll();
