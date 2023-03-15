@@ -1,6 +1,7 @@
 package com.select.choice.domain.post.util;
 
 import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
+import com.select.choice.domain.post.domain.entity.VotingPost;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
 import com.select.choice.domain.post.presentation.data.response.VoteCountResponse;
@@ -15,7 +16,7 @@ import java.util.List;
 public interface PostConverter {
     List<PostResponse> toResponse(List<PostDto> dto);
     List<PostResponse> toBesetPostResponse(List<PostDto> dto);
-    List<PostDto> toBestPostDto(List<Post> post);
+    List<PostDto> toBestPostDto(List<Post> post, List<VotingPost> votingPosts);
     List<PostDto> toDto(List<Post> postList);
     Post toEntity(CreatePostDto dto, User user);
     PostDetailResponse toResponse(PostDetailDto postDetailDto);
@@ -24,4 +25,5 @@ public interface PostConverter {
     PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList , User user);
     VoteCountResponse toResponse(VoteCountDto voteCountDto);
     VoteCountDto toDto(Integer firstVotingCount, Integer secondVotingCount);
+    VotingPost toEntity(int choiceOption, User user, Post post);
 }

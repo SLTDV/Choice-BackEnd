@@ -29,7 +29,6 @@ public class Post extends BaseIdEntity {
     private Integer secondVotingCount;
     private int commentCount;
 
-    private boolean voting;
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
@@ -61,10 +60,6 @@ public class Post extends BaseIdEntity {
             if(choiceOption == 0) ++this.firstVotingCount;
             else ++this.secondVotingCount;
         }
-    }
-
-    public void updateIsVoting(){
-        this.voting = true;
     }
 
     public void updateCount() {

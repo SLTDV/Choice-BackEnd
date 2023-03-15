@@ -1,6 +1,7 @@
 package com.select.choice.domain.post.util.Impl;
 
 import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
+import com.select.choice.domain.post.domain.entity.VotingPost;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
 import com.select.choice.domain.post.presentation.data.response.VoteCountResponse;
@@ -33,7 +34,7 @@ public class PostConverterImpl implements PostConverter {
                             post.getSecondVotingOption(),
                             post.getFirstVotingCount(),
                             post.getSecondVotingCount(),
-                            post.isVoting(),
+                            post.getVo(),
                             post.getParticipants(),
                             post.getCommentCount()
                     )
@@ -53,7 +54,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.isVoting(),
+
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         post.getCommentCount()
                 )
@@ -74,7 +75,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.isVoting(),
+                        post.getVoting(),
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         post.getCommentCount()
 
@@ -96,7 +97,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.isVoting(),
+                        post.getVoting(),
                         post.getParticipants(),
                         post.getCommentCount()
                 )
@@ -158,6 +159,15 @@ public class PostConverterImpl implements PostConverter {
         return VoteCountDto.builder()
                 .firstVotingCount(firstVotingCount)
                 .secondVotingCount(secondVotingCount)
+                .build();
+    }
+
+    @Override
+    public VotingPost toEntity(int choiceOption, User user, Post post) {
+        return VotingPost.builder()
+                .vote(choiceOption)
+                .user(user)
+                .post(post)
                 .build();
     }
 
