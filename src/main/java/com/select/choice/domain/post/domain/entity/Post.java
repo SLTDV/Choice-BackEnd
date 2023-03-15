@@ -1,6 +1,7 @@
 package com.select.choice.domain.post.domain.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.global.common.entity.BaseIdEntity;
 import lombok.*;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,9 +31,15 @@ public class Post extends BaseIdEntity {
     private Integer secondVotingCount;
     private int commentCount;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "post")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<VotingPost> votingPost;
 
     @Builder
     public Post(String title, String content, String firstVotingOption, String secondVotingOption, String firstImageUrl, String secondImageUrl, Integer firstVotingCount, Integer secondVotingCount, User user, int commentCount) {
