@@ -23,7 +23,7 @@ public class VotingPost extends BaseIdEntity{
 
     @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "post__id", nullable = false)
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
     @Builder
@@ -31,5 +31,9 @@ public class VotingPost extends BaseIdEntity{
         this.vote = vote;
         this.user = user;
         this.post = post;
+    }
+
+    public void updateVote(int vote) {
+        this.vote = vote;
     }
 }
