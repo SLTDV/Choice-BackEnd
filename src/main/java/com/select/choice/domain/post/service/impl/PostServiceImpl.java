@@ -45,7 +45,6 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostDto> getBestPostList() {
         List<Post> list = postRepository.getBestPostList();
-        List<VotingPost> votingPosts = votingPostRepository.findAll();
         return postConverter.toBestPostDto(list);
     }
 
@@ -92,14 +91,19 @@ public class PostServiceImpl implements PostService {
             throw new InvalidChoiceException(ErrorCode.INVALID_CHOICE);
         }
 
-        post.updateVotingCount(votingPostRepository.existsByUserAndPost(), choiceOption);
+        post.updateVotingCount(votingPostRepository.existsByUserAndPost(user, post), choiceOption);
 
         if (post.getFirstVotingCount() < 0 | post.getSecondVotingCount() < 0) {
             throw new InvalidVoteCount(ErrorCode.INVALID_VOTE_COUNT);
         }
 
-        VotingPost votingPost = postConverter.toEntity(choiceOption ,user, post);
-        votingPostRepository.save(votingPost);
+        if(!votingPostRepository.existsByUserAndPost(user, post)){
+            VotingPost votingPost = postConverter.toEntity(choiceOption ,user, post);
+            votingPostRepository.save(votingPost);
+        } else {
+            VotingPost voting = votingPostRepository.findByUserAndPost(user, post);
+            voting.updateVote(choiceOption);
+        }
 
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
