@@ -1,6 +1,7 @@
 package com.select.choice.domain.post.util;
 
 import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
+import com.select.choice.domain.post.domain.entity.VotingPost;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
 import com.select.choice.domain.post.presentation.data.response.VoteCountResponse;
@@ -24,4 +25,5 @@ public interface PostConverter {
     PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList , User user);
     VoteCountResponse toResponse(VoteCountDto voteCountDto);
     VoteCountDto toDto(Integer firstVotingCount, Integer secondVotingCount);
+    VotingPost toEntity(int choiceOption, User user, Post post);
 }

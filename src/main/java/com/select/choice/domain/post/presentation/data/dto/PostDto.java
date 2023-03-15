@@ -1,8 +1,11 @@
 package com.select.choice.domain.post.presentation.data.dto;
 
+import com.select.choice.domain.post.domain.entity.VotingPost;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.stream.Stream;
 
 @Getter
 @Builder
@@ -17,7 +20,7 @@ public class PostDto {
     private final String secondVotingOption;
     private final Integer firstVotingCount;
     private final Integer secondVotingCount;
-    private final boolean voting;
+    private final Stream<VotingPost> votingPost;
     private final int participants;
     private final int commentCount;
 }
