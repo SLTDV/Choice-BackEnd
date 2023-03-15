@@ -2,6 +2,7 @@ package com.select.choice.domain.post.util.Impl;
 
 import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.post.domain.entity.VotingPost;
+import com.select.choice.domain.post.domain.repository.VotingPostRepository;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
 import com.select.choice.domain.post.presentation.data.response.VoteCountResponse;
@@ -11,6 +12,7 @@ import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.domain.entity.User;
+import com.select.choice.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class PostConverterImpl implements PostConverter {
+    private final UserUtil userUtil;
     @Override
     public List<PostResponse> toBesetPostResponse(List<PostDto> dto){
         return dto.stream().map(post ->
@@ -34,7 +37,7 @@ public class PostConverterImpl implements PostConverter {
                             post.getSecondVotingOption(),
                             post.getFirstVotingCount(),
                             post.getSecondVotingCount(),
-                            post.getVo(),
+                            post.getVotingPost().collect(Collectors.toList()),
                             post.getParticipants(),
                             post.getCommentCount()
                     )
@@ -43,6 +46,7 @@ public class PostConverterImpl implements PostConverter {
 
     @Override
     public List<PostDto> toBestPostDto(List<Post> entity) {
+        User user = userUtil.currentUser();
         return entity.stream().map(post ->
                 new PostDto(
                         post.getIdx(),
@@ -54,7 +58,9 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-
+                        post.getVotingPost().stream().filter(
+                                votingPost -> votingPost.getUser().equals(user)
+                        ),
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         post.getCommentCount()
                 )
@@ -64,6 +70,7 @@ public class PostConverterImpl implements PostConverter {
 
     @Override
     public List<PostDto> toDto(List<Post> entity) {
+        User user = userUtil.currentUser();
         return entity.stream().map(post ->
                 new PostDto(
                         post.getIdx(),
@@ -75,7 +82,9 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.getVoting(),
+                        post.getVotingPost().stream().filter(
+                                votingPost -> votingPost.getUser().getEmail() == user.getEmail()
+                        ),
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         post.getCommentCount()
 
@@ -97,7 +106,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.getVoting(),
+                        post.getVotingPost().collect(Collectors.toList()),
                         post.getParticipants(),
                         post.getCommentCount()
                 )

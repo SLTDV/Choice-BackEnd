@@ -16,7 +16,7 @@ import java.util.List;
 public interface PostConverter {
     List<PostResponse> toResponse(List<PostDto> dto);
     List<PostResponse> toBesetPostResponse(List<PostDto> dto);
-    List<PostDto> toBestPostDto(List<Post> post, List<VotingPost> votingPosts);
+    List<PostDto> toBestPostDto(List<Post> post);
     List<PostDto> toDto(List<Post> postList);
     Post toEntity(CreatePostDto dto, User user);
     PostDetailResponse toResponse(PostDetailDto postDetailDto);
