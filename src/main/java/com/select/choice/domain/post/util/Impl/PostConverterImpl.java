@@ -59,7 +59,8 @@ public class PostConverterImpl implements PostConverter {
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
                         post.getVotingPost().stream().filter(
-                                votingPost -> votingPost.getUser().equals(user)
+                                votingPost -> votingPost.getUser().getEmail() == user.getEmail()
+                                        & votingPost.getPost().getIdx() == post.getIdx()
                         ).collect(Collectors.toList()),
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         post.getCommentCount()
