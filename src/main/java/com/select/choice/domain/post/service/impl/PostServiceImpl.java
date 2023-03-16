@@ -16,6 +16,7 @@ import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.post.util.PostUtil;
 import com.select.choice.domain.user.domain.entity.User;
+import com.select.choice.domain.user.domain.repository.UserRepository;
 import com.select.choice.domain.user.util.UserUtil;
 import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,7 @@ public class PostServiceImpl implements PostService {
     private final CommentConverter commentConverter;
     private final PostUtil postUtil;
     private final VotingPostRepository votingPostRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<PostDto> getAllPostList() {
@@ -51,12 +53,15 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createPost(CreatePostDto postDto) {
-        User user = userUtil.currentUser();
-        Post post = postConverter.toEntity(postDto, user);
+        User currentUser = userUtil.currentUser();
+        Post post = postConverter.toEntity(postDto, currentUser);
         postRepository.save(post);
 
-        VotingPost votingPost = postConverter.toEntity(0, user, post);
-        votingPostRepository.save(votingPost);
+        List<User> userList = userRepository.findAll();
+        for(User user: userList){
+            VotingPost votingPost = postConverter.toEntity(0, user, post);
+            votingPostRepository.save(votingPost);
+        }
     }
 
     @Override
