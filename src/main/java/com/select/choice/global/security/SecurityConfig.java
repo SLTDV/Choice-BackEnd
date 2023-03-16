@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.DELETE,"/user").authenticated()
                 .antMatchers(HttpMethod.GET,"/user").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/user").authenticated()
+                .antMatchers(HttpMethod.PATCH,"/user/image").authenticated()
 
                 // post
                 .antMatchers(HttpMethod.GET,"/post").authenticated()

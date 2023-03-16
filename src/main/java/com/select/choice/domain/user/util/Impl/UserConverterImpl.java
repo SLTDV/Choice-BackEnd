@@ -4,10 +4,12 @@ import com.select.choice.domain.post.presentation.data.dto.PostDto;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import com.select.choice.domain.post.util.PostConverter;
+import com.select.choice.domain.user.presentation.data.dto.ChangeProfileImageDto;
 import com.select.choice.domain.user.presentation.data.dto.MyPageDto;
 import com.select.choice.domain.user.presentation.data.dto.NicknameDto;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.presentation.data.request.ChangeNicknameRequest;
+import com.select.choice.domain.user.presentation.data.request.ChangeProfileImageRequest;
 import com.select.choice.domain.user.presentation.data.response.GetMyPageResponse;
 import com.select.choice.domain.user.util.UserConverter;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,14 @@ public class UserConverterImpl implements UserConverter {
         String nickname = changeNicknameRequest.getNickname();
         return NicknameDto.builder()
                 .nickname(nickname)
+                .build();
+    }
+
+    @Override
+    public ChangeProfileImageDto toDto(ChangeProfileImageRequest changeProfileImageRequest) {
+        String image = changeProfileImageRequest.getImage();
+        return ChangeProfileImageDto.builder()
+                .image(image)
                 .build();
     }
 }
