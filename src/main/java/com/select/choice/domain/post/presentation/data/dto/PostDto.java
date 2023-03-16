@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.stream.Stream;
+import java.util.List;
 
 @Getter
 @Builder
@@ -18,9 +18,9 @@ public class PostDto {
     private final String content;
     private final String firstVotingOption;
     private final String secondVotingOption;
-    private final Integer firstVotingCount;
-    private final Integer secondVotingCount;
-    private final Stream<VotingPost> votingPost;
+    private final int firstVotingCount;
+    private final int secondVotingCount;
+    private final List<VotingPost> votingPost;
     private final int participants;
     private final int commentCount;
 }

@@ -19,9 +19,9 @@ public class PostResponse {
     private final String content;
     private final String firstVotingOption;
     private final String secondVotingOption;
-    private final Integer firstVotingCount;
-    private final Integer secondVotingCount;
-    private final List<VotingPost> voting;
+    private final int firstVotingCount;
+    private final int secondVotingCount;
+    private final int voting;
     private final int participants;
     private final int commentCount;
 }

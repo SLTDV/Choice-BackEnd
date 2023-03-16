@@ -37,7 +37,7 @@ public class PostConverterImpl implements PostConverter {
                             post.getSecondVotingOption(),
                             post.getFirstVotingCount(),
                             post.getSecondVotingCount(),
-                            post.getVotingPost().collect(Collectors.toList()),
+                            post.getVotingPost().get(0).getVote(),
                             post.getParticipants(),
                             post.getCommentCount()
                     )
@@ -59,8 +59,9 @@ public class PostConverterImpl implements PostConverter {
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
                         post.getVotingPost().stream().filter(
-                                votingPost -> votingPost.getUser().equals(user)
-                        ),
+                                votingPost -> votingPost.getUser().getEmail() == user.getEmail()
+                                        & votingPost.getPost().getIdx() == post.getIdx()
+                        ).collect(Collectors.toList()),
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         post.getCommentCount()
                 )
@@ -84,7 +85,8 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingCount(),
                         post.getVotingPost().stream().filter(
                                 votingPost -> votingPost.getUser().getEmail() == user.getEmail()
-                        ),
+                                        & votingPost.getPost().getIdx() == post.getIdx()
+                        ).collect(Collectors.toList()),
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         post.getCommentCount()
 
@@ -106,7 +108,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.getVotingPost().collect(Collectors.toList()),
+                        post.getVotingPost().get(0).getVote(),
                         post.getParticipants(),
                         post.getCommentCount()
                 )

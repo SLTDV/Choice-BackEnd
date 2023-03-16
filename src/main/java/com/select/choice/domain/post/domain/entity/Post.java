@@ -27,8 +27,8 @@ public class Post extends BaseIdEntity {
     private String firstVotingOption;
     @Column(nullable = false)
     private String secondVotingOption;
-    private Integer firstVotingCount;
-    private Integer secondVotingCount;
+    private int firstVotingCount;
+    private int secondVotingCount;
     private int commentCount;
 
     @JsonIgnore
@@ -42,7 +42,7 @@ public class Post extends BaseIdEntity {
     private List<VotingPost> votingPost;
 
     @Builder
-    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String firstImageUrl, String secondImageUrl, Integer firstVotingCount, Integer secondVotingCount, User user, int commentCount) {
+    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String firstImageUrl, String secondImageUrl, int firstVotingCount, int secondVotingCount, User user, int commentCount) {
         this.title = title;
         this.content = content;
         this.firstVotingOption = firstVotingOption;
@@ -55,9 +55,9 @@ public class Post extends BaseIdEntity {
         this.commentCount = commentCount;
     }
 
-    public void updateVotingCount(boolean voting, int choiceOption) {
-        if(voting){
-            if(choiceOption == 0){
+    public void updateVotingCount(int voting, int choiceOption) {
+        if(voting != 0){
+            if(choiceOption == 1){
                 ++this.firstVotingCount;
                 --this.secondVotingCount;
             } else {
@@ -65,7 +65,7 @@ public class Post extends BaseIdEntity {
                 --this.firstVotingCount;
             }
         } else{
-            if(choiceOption == 0) ++this.firstVotingCount;
+            if(choiceOption == 1) ++this.firstVotingCount;
             else ++this.secondVotingCount;
         }
     }
