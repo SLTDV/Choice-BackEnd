@@ -54,6 +54,9 @@ public class PostServiceImpl implements PostService {
         User user = userUtil.currentUser();
         Post post = postConverter.toEntity(postDto, user);
         postRepository.save(post);
+
+        VotingPost votingPost = postConverter.toEntity(0, user, post);
+        votingPostRepository.save(votingPost);
     }
 
     @Override
@@ -85,25 +88,19 @@ public class PostServiceImpl implements PostService {
     public VoteCountDto voteCount(AddCountDto addCountDto, Long postIdx) {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
+        VotingPost voting = votingPostRepository.findByUserAndPost(user, post);
         int choiceOption = addCountDto.getChoice();
 
-        if(!(choiceOption == 0 | choiceOption == 1)) {
+        if(!(choiceOption == 1 | choiceOption == 2)) {
             throw new InvalidChoiceException(ErrorCode.INVALID_CHOICE);
         }
+        post.updateVotingCount(voting.getVote(), choiceOption);
 
-        post.updateVotingCount(votingPostRepository.existsByUserAndPost(user, post), choiceOption);
 
         if (post.getFirstVotingCount() < 0 | post.getSecondVotingCount() < 0) {
             throw new InvalidVoteCount(ErrorCode.INVALID_VOTE_COUNT);
         }
-
-        if(!votingPostRepository.existsByUserAndPost(user, post)){
-            VotingPost votingPost = postConverter.toEntity(choiceOption ,user, post);
-            votingPostRepository.save(votingPost);
-        } else {
-            VotingPost voting = votingPostRepository.findByUserAndPost(user, post);
-            voting.updateVote(choiceOption);
-        }
+        voting.updateVote(choiceOption);
 
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
