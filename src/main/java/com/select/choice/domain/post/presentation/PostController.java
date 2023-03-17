@@ -86,6 +86,6 @@ public class PostController {
         AddCountDto addCountDto = postConverter.toDto(addCountRequest);
         VoteCountDto voteCountDto = postService.voteCount(addCountDto, postIdx);
         VoteCountResponse addCountResponse = postConverter.toResponse(voteCountDto);
-        return new ResponseEntity<>(addCountResponse, HttpStatus.OK);
+        return new ResponseEntity<>(addCountResponse, HttpStatus.CREATED);
     }
 }

@@ -49,6 +49,5 @@ public class UserServiceImpl implements UserService {
     public void changeProfileImage(ChangeProfileImageDto changeProfileImageDto) {
         User user = userUtil.currentUser();
         user.updateProfileImage(changeProfileImageDto.getImage());
-        System.out.println(user.getProfileImageUrl());
     }
 }
