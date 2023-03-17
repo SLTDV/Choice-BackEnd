@@ -36,7 +36,7 @@ public class ImageController {
         ImageUploadDto dto = imageService.uploadImage(firstImage);
         ImageUploadDto uploadDto = imageService.uploadImage(secondImage);
         ImageResponse imageResponse = imageConverter.toResponse(dto, uploadDto);
-        return new ResponseEntity<>(imageResponse, HttpStatus.OK);
+        return new ResponseEntity<>(imageResponse, HttpStatus.CREATED);
     }
 
     /*
@@ -48,7 +48,7 @@ public class ImageController {
             @RequestPart(value = "profileImage")MultipartFile profileImage) throws IOException {
         ImageUploadDto dto = imageService.uploadImage(profileImage);
         ProfileImageResponse profileImageResponse = imageConverter.toResponse(dto);
-        return new ResponseEntity<>(profileImageResponse, HttpStatus.OK);
+        return new ResponseEntity<>(profileImageResponse, HttpStatus.CREATED);
     }
 
 }
