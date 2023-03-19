@@ -25,9 +25,11 @@ public class UserConverterImpl implements UserConverter {
     @Override
     public MyPageDto toDto(User user, List<Post> postList) {
         String nickname = user.getNickname();
+        String image = user.getProfileImageUrl();
         List<PostDto> postDtoList = postConverter.toDto(postList);
         return MyPageDto.builder()
                 .nickname(nickname)
+                .image(image)
                 .postList(postDtoList)
                 .build();
     }
@@ -35,9 +37,11 @@ public class UserConverterImpl implements UserConverter {
     @Override
     public GetMyPageResponse toResponse(MyPageDto myPageDto) {
         String nickname = myPageDto.getNickname();
+        String image = myPageDto.getImage();
         List<PostResponse> postResponseList = postConverter.toResponse(myPageDto.getPostList());
         return GetMyPageResponse.builder()
                 .nickname(nickname)
+                .image(image)
                 .postList(postResponseList)
                 .build();
     }
