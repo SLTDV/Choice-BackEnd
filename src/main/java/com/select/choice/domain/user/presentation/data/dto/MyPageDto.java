@@ -12,5 +12,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MyPageDto {
     private final String nickname;
+    private final String image;
     private final List<PostDto> postList;
 }
