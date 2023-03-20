@@ -1,11 +1,13 @@
 package com.select.choice.domain.user.Service;
 
-import com.select.choice.domain.user.data.dto.NicknameDto;
-import com.select.choice.domain.user.data.response.GetMyPageResponse;
+import com.select.choice.domain.user.presentation.data.dto.ChangeProfileImageDto;
+import com.select.choice.domain.user.presentation.data.dto.MyPageDto;
+import com.select.choice.domain.user.presentation.data.dto.NicknameDto;
+import com.select.choice.domain.user.presentation.data.response.GetMyPageResponse;
 
 public interface UserService {
     void delete();
-    GetMyPageResponse getMyPage();
-
+    MyPageDto getMyPage();
     void changeNickname(NicknameDto nicknameDto);
+    void changeProfileImage(ChangeProfileImageDto changeProfileImageDto);
 }

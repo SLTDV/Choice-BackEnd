@@ -1,17 +1,16 @@
 package com.select.choice.domain.comment.service.Impl;
 
-import com.select.choice.domain.comment.data.dto.CommentDto;
-import com.select.choice.domain.comment.data.entity.Comment;
-import com.select.choice.domain.comment.exception.CommentNotFoundException;
+import com.select.choice.domain.comment.presentation.data.dto.CommentDto;
+import com.select.choice.domain.comment.domain.entity.Comment;
 import com.select.choice.domain.comment.exception.IsNotMyCommentException;
-import com.select.choice.domain.comment.repository.CommentRepository;
+import com.select.choice.domain.comment.domain.repository.CommentRepository;
 import com.select.choice.domain.comment.service.CommentService;
 import com.select.choice.domain.comment.util.CommentConverter;
-import com.select.choice.domain.post.data.entity.Post;
-import com.select.choice.domain.post.exception.PostNotFoundException;
-import com.select.choice.domain.post.repository.PostRepository;
-import com.select.choice.domain.user.data.entity.User;
-import com.select.choice.domain.user.facade.UserFacade;
+import com.select.choice.domain.comment.util.CommentUtil;
+import com.select.choice.domain.post.domain.entity.Post;
+import com.select.choice.domain.post.util.PostUtil;
+import com.select.choice.domain.user.domain.entity.User;
+import com.select.choice.domain.user.util.UserUtil;
 import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,24 +19,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
-    private final UserFacade userFacade;
+    private final UserUtil userUtil;
     private final CommentRepository commentRepository;
     private final CommentConverter commentConverter;
-    private final PostRepository postRepository;
+    private final CommentUtil commentUtil;
+    private final PostUtil postUtil;
 
-    @Transactional
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void write(Long postIdx,CommentDto commentDto) {
-        User user = userFacade.currentUser();
-        Post post = postRepository.findById(postIdx).orElseThrow(() -> new PostNotFoundException(ErrorCode.POST_NOT_FOUND));
+        User user = userUtil.currentUser();
+        Post post = postUtil.findById(postIdx);
         Comment comment = commentConverter.toEntity(commentDto, user, post);
+
         commentRepository.save(comment);
+        post.updateCount();
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void edit(Long commentIdx, CommentDto commentDto) {
-        User user = userFacade.currentUser();
-        Comment comment = commentRepository.findById(commentIdx).orElseThrow(() -> new CommentNotFoundException(ErrorCode.Comment_NOT_FOUND));
+        User user = userUtil.currentUser();
+        Comment comment = commentUtil.findById(commentIdx);
         if(!comment.getUser().equals(user)){
             throw new IsNotMyCommentException(ErrorCode.IS_NOT_MY_COMMENT);
         }
@@ -46,8 +49,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(Long commentIdx) {
-        Comment comment = commentRepository.findById(commentIdx).orElseThrow(() -> new CommentNotFoundException(ErrorCode.Comment_NOT_FOUND));
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(Long postIdx, Long commentIdx) {
+        Comment comment = commentUtil.findById(commentIdx);
+        Post post = postUtil.findById(postIdx);
+
+        post.minusCount();
         commentRepository.delete(comment);
     }
 }

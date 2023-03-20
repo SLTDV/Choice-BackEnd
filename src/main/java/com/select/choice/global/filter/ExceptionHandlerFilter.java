@@ -37,7 +37,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
     public void setErrorResponse(ErrorCode errorCode, HttpServletResponse response) throws IOException {
         response.setStatus(errorCode.getStatus());
         response.setContentType("application/json");
-        ErrorResponse errorResponse = new ErrorResponse(errorCode);
+        ErrorResponse errorResponse = new ErrorResponse(errorCode.getStatus(), errorCode.getMessage());
         String errorResponseEntityToJson = objectMapper.writeValueAsString(errorResponse);
         response.getWriter().write(errorResponseEntityToJson);
     }

@@ -1,7 +1,8 @@
 package com.select.choice.domain.image.util.Impl;
 
-import com.select.choice.domain.image.data.dto.ImageUploadDto;
-import com.select.choice.domain.image.data.response.ImageResponse;
+import com.select.choice.domain.image.presentation.data.dto.ImageUploadDto;
+import com.select.choice.domain.image.presentation.data.response.ImageResponse;
+import com.select.choice.domain.image.presentation.data.response.ProfileImageResponse;
 import com.select.choice.domain.image.util.ImageConverter;
 import org.springframework.stereotype.Component;
 
@@ -9,18 +10,24 @@ import org.springframework.stereotype.Component;
 public class ImageConverterImpl implements ImageConverter {
 
     @Override
-    public ImageResponse toResponse(ImageUploadDto imageUploadDto) {
-        String dtoImageUrl = imageUploadDto.getImageUrl();
-
+    public ImageResponse toResponse(ImageUploadDto dto, ImageUploadDto uploadDto) {
         return ImageResponse.builder()
-                .imageUrl(dtoImageUrl)
+                .firstUploadImageUrl(dto.getUploadImageUrl())
+                .secondUploadImageUrl(uploadDto.getUploadImageUrl())
                 .build();
     }
 
     @Override
-    public ImageUploadDto toDto(String uploadImageUrl) {
+    public ImageUploadDto toDto(String firstUploadImageUrl) {
         return ImageUploadDto.builder()
-                .imageUrl(uploadImageUrl)
+                .uploadImageUrl(firstUploadImageUrl)
+                .build();
+    }
+
+    @Override
+    public ProfileImageResponse toResponse(ImageUploadDto dto) {
+        return ProfileImageResponse.builder()
+                .profileImageUrl(dto.getUploadImageUrl())
                 .build();
     }
 }

@@ -35,6 +35,8 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
                 .authorizeRequests()
+                .mvcMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+
                 // auth
                 .antMatchers(HttpMethod.POST,"/auth/signin").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth/signup").permitAll()
@@ -45,25 +47,27 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.DELETE,"/user").authenticated()
                 .antMatchers(HttpMethod.GET,"/user").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/user").authenticated()
+                .antMatchers(HttpMethod.PATCH,"/user/image").authenticated()
 
                 // post
                 .antMatchers(HttpMethod.GET,"/post").authenticated()
                 .antMatchers(HttpMethod.GET,"/post/list").authenticated()
                 .antMatchers(HttpMethod.POST,"/post").authenticated()
-                .antMatchers(HttpMethod.POST,"/post/add/**").authenticated()
+                .antMatchers(HttpMethod.POST,"/post/vote/**").authenticated()
                 .antMatchers(HttpMethod.GET,"/post/**").authenticated()
                 .antMatchers(HttpMethod.DELETE,"/post/**").authenticated()
 
                 // comment
-                .antMatchers(HttpMethod.DELETE,"/comment/**").authenticated()
+                .antMatchers(HttpMethod.DELETE,"/comment/**/**").authenticated()
                 .antMatchers(HttpMethod.POST,"/comment/**").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/comment/**").authenticated()
 
                 // upload
                 .antMatchers(HttpMethod.POST,"/image").authenticated()
+                .antMatchers(HttpMethod.POST, "/image/profile").permitAll()
 
 
-                .anyRequest().permitAll();
+                .anyRequest().denyAll();
         http
                 .exceptionHandling()
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint(objectMapper));
