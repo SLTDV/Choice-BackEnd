@@ -28,6 +28,11 @@ jobs:
     # Task의 sequence를 명시한다.
     steps:
       # 작업에서 액세스할 수 있도록 $GITHUB_WORKSPACE에서 저장소를 체크아웃합니다.
+      - name: Create application.yml
+        run: |
+          touch ./src/main/resources/application.yml
+          echo "${{ secrets.APPLICATION_YML }}" >> ./src/main/resources/application.yml
+      
       - name: Checkout
         uses: actions/checkout@v3
 
