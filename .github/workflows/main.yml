@@ -62,10 +62,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-
+      
+      - name: Copy script
+        run: cp ./scripts/*.sh ./deploy
+        
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://team-s3/$GITHUB_SHA.zip
-
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
+        
       - name: Code Deploy
         run: aws deploy create-deployment --application-name choic-application --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name choice-application-group --s3-location bucket=team-s3,bundleType=zip,key=$GITHUB_SHA.zip
         
