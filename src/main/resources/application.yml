@@ -3,6 +3,7 @@ spring:
     driver-class-name: ${DB_DRIVER}
     url: ${DB_URL}
     password: ${DB_PW}
+    username: ${DB_USERNAME}
 
   main:
     allow-bean-definition-overriding: ${MAIN_OVERRIDING}
