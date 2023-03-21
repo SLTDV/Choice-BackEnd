@@ -5,6 +5,7 @@ files:
     destination: /home/ec2-user/action
     overwrite: yes
 
+
 permissions:
   - object: /
     pattern: "**"
