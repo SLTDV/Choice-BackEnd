@@ -50,7 +50,8 @@ public class CommentConverterImpl implements CommentConverter {
                 new CommentDetailDto(
                         list.getIdx(),
                         list.getContent(),
-                        list.getUser().getNickname()
+                        list.getUser().getNickname(),
+                        list.getUser().getProfileImageUrl()
                 )
         ).sorted(Comparator.comparing(CommentDetailDto::getIdx).reversed()).collect(Collectors.toList());
     }

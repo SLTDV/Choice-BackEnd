@@ -147,12 +147,14 @@ public class PostConverterImpl implements PostConverter {
         return PostDetailResponse.builder()
                 .writer(postDetailDto.getWriter())
                 .comment(postDetailDto.getComment())
+                .image(postDetailDto.getImage())
                 .build();
     }
     @Override
     public PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList, User user) {
-            return PostDetailDto.builder()
+        return PostDetailDto.builder()
                 .writer(user.getNickname())
+                .image(user.getProfileImageUrl())
                 .comment(commentDetailDtoList)
                 .build();
     }
