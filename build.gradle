@@ -25,8 +25,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	//mysql
-	implementation 'mysql:mysql-connector-java'
+	//mariadb
+	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.1'
+
 	//jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	//security
