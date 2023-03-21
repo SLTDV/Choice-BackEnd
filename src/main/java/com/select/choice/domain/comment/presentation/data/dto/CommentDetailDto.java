@@ -11,4 +11,5 @@ public class CommentDetailDto {
     private final Long idx;
     private final String content;
     private final String nickname;
+    private final String image;
 }
