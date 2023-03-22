@@ -6,6 +6,5 @@ import com.select.choice.domain.user.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PostVotingStatusRepository extends JpaRepository<PostVotingStatus, Long> {
-    boolean existsByUserAndPost(User user, Post post);
-    com.select.choice.domain.post.domain.entity.PostVotingStatus findByUserAndPost(User user, Post post);
+    PostVotingStatus findByUserAndPost(User user, Post post);
 }
