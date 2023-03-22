@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Optional;
 
 @Getter
 @RequiredArgsConstructor
@@ -14,5 +15,5 @@ public class SignUpRequest {
     private final String password;
     @Size(min = 2, max = 6, message = "닉네임은 2글자 이상 6글자 이하입니다.")
     private final String nickname;
-    private final String profileImageUrl;
+    private final Optional<String> profileImageUrl;
 }

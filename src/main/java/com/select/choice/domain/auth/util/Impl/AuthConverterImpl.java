@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -58,7 +59,7 @@ public class AuthConverterImpl implements AuthConverter {
         String reqEmail = signUpRequest.getEmail();
         String reqNickname = signUpRequest.getNickname();
         String reqPassword = signUpRequest.getPassword();
-        String reqImgUrl = signUpRequest.getProfileImageUrl();
+        Optional<String> reqImgUrl = signUpRequest.getProfileImageUrl();
 
         return SignUpDto.builder()
                 .email(reqEmail)
@@ -73,7 +74,7 @@ public class AuthConverterImpl implements AuthConverter {
         String dtoEmail = signUpDto.getEmail();
         String dtoNickname = signUpDto.getNickname();
         String dtoPassword = passwordEncoder.encode(signUpDto.getPassword());
-        String dtoProfileImageUrl = signUpDto.getProfileImageUrl();;
+        String dtoProfileImageUrl = signUpDto.getProfileImageUrl().get();
 
         return User.builder()
                 .email(dtoEmail)
