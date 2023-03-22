@@ -39,7 +39,7 @@ public class Post extends BaseIdEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "post")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<VotingPost> votingPost;
+    private List<PostVotingStatus> postVotingStatuses;
 
     @Builder
     public Post(String title, String content, String firstVotingOption, String secondVotingOption, String firstImageUrl, String secondImageUrl, int firstVotingCount, int secondVotingCount, User user, int commentCount) {
