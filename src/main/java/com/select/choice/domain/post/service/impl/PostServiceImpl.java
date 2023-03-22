@@ -4,9 +4,9 @@ import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.comment.domain.entity.Comment;
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
 import com.select.choice.domain.comment.util.CommentConverter;
-import com.select.choice.domain.post.domain.entity.VotingPost;
+import com.select.choice.domain.post.domain.entity.PostVotingStatus;
 import com.select.choice.domain.post.domain.repository.PostRepository;
-import com.select.choice.domain.post.domain.repository.VotingPostRepository;
+import com.select.choice.domain.post.domain.repository.PostVotingStatusRepository;
 import com.select.choice.domain.post.exception.InvalidChoiceException;
 import com.select.choice.domain.post.exception.InvalidVoteCount;
 import com.select.choice.domain.post.presentation.data.dto.*;
@@ -35,7 +35,7 @@ public class PostServiceImpl implements PostService {
     private final CommentRepository commentRepository;
     private final CommentConverter commentConverter;
     private final PostUtil postUtil;
-    private final VotingPostRepository votingPostRepository;
+    private final PostVotingStatusRepository postVotingStatusRepository;
     private final UserRepository userRepository;
 
     @Override
@@ -58,9 +58,9 @@ public class PostServiceImpl implements PostService {
         postRepository.save(post);
 
         List<User> userList = userRepository.findAll();
-        for(User user: userList){
-            VotingPost votingPost = postConverter.toEntity(0, user, post);
-            votingPostRepository.save(votingPost);
+        for(User user: userList) {
+            PostVotingStatus postVotingStatus = postConverter.toEntity(user, post);
+            postVotingStatusRepository.save(postVotingStatus);
         }
     }
 
@@ -93,7 +93,7 @@ public class PostServiceImpl implements PostService {
     public VoteCountDto voteCount(AddCountDto addCountDto, Long postIdx) {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
-        VotingPost voting = votingPostRepository.findByUserAndPost(user, post);
+        PostVotingStatus voting = postVotingStatusRepository.findByUserAndPost(user, post);
         int choiceOption = addCountDto.getChoice();
 
         if(!(choiceOption == 1 | choiceOption == 2)) {
