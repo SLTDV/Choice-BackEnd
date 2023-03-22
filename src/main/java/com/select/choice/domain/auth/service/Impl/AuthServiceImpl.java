@@ -76,7 +76,6 @@ public class AuthServiceImpl implements AuthService {
             PostVotingStatus postVotingStatus = postConverter.toEntity(user, post);
             postVotingStatusRepository.save(postVotingStatus);
         }
-
     }
 
     @Override
@@ -89,7 +88,6 @@ public class AuthServiceImpl implements AuthService {
 
         Long expiration = jwtTokenProvider.getExpiration(accessToken);
         redisUtil.setBlackList(accessToken, "access_token", expiration);
-
     }
 
     @Override
