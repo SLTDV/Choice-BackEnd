@@ -1,8 +1,7 @@
 package com.select.choice.domain.post.util.Impl;
 
 import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
-import com.select.choice.domain.post.domain.entity.VotingPost;
-import com.select.choice.domain.post.domain.repository.VotingPostRepository;
+import com.select.choice.domain.post.domain.entity.PostVotingStatus;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
 import com.select.choice.domain.post.presentation.data.response.VoteCountResponse;
@@ -58,9 +57,9 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.getVotingPost().stream().filter(
-                                votingPost -> votingPost.getUser().getEmail() == user.getEmail()
-                                        & votingPost.getPost().getIdx() == post.getIdx()
+                        post.getPostVotingStatuses().stream().filter(
+                                votingPost -> votingPost.getUser().getEmail().equals(user.getEmail())
+                                        & votingPost.getPost().getIdx().equals(post.getIdx())
                         ).collect(Collectors.toList()),
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         post.getCommentCount()
@@ -83,9 +82,9 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.getVotingPost().stream().filter(
-                                votingPost -> votingPost.getUser().getEmail() == user.getEmail()
-                                        & votingPost.getPost().getIdx() == post.getIdx()
+                        post.getPostVotingStatuses().stream().filter(
+                                votingPost -> votingPost.getUser().getEmail().equals(user.getEmail())
+                                        & votingPost.getPost().getIdx().equals(post.getIdx())
                         ).collect(Collectors.toList()),
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         post.getCommentCount()
@@ -176,9 +175,9 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public VotingPost toEntity(int choiceOption, User user, Post post) {
-        return VotingPost.builder()
-                .vote(choiceOption)
+    public PostVotingStatus toEntity(User user, Post post) {
+        return PostVotingStatus.builder()
+                .vote(0)
                 .user(user)
                 .post(post)
                 .build();
