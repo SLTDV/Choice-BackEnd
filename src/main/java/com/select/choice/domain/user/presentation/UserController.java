@@ -2,11 +2,13 @@ package com.select.choice.domain.user.presentation;
 
 import com.select.choice.domain.user.Service.UserService;
 import com.select.choice.domain.user.presentation.data.dto.ChangeProfileImageDto;
+import com.select.choice.domain.user.presentation.data.dto.HeaderDto;
 import com.select.choice.domain.user.presentation.data.dto.MyPageDto;
 import com.select.choice.domain.user.presentation.data.dto.NicknameDto;
 import com.select.choice.domain.user.presentation.data.request.ChangeNicknameRequest;
 import com.select.choice.domain.user.presentation.data.request.ChangeProfileImageRequest;
 import com.select.choice.domain.user.presentation.data.response.GetMyPageResponse;
+import com.select.choice.domain.user.presentation.data.response.HeaderResponse;
 import com.select.choice.domain.user.util.UserConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -61,5 +63,16 @@ public class UserController {
         ChangeProfileImageDto changeProfileImageDto = userConverter.toDto(changeProfileImageRequest);
         userService.changeProfileImage(changeProfileImageDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    /*
+    기능: header
+    담당자: 노혁
+     */
+    @GetMapping("/header")
+    public ResponseEntity<HeaderResponse> getHeader(){
+        HeaderDto headerDto = userService.getHeader();
+        HeaderResponse headerResponse = userConverter.toResponse(headerDto);
+        return new ResponseEntity<>(headerResponse, HttpStatus.OK);
     }
 }
