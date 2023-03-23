@@ -67,13 +67,11 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public PostDetailDto aggregateDetail(Long postIdx) {
-        User user = userUtil.currentUser();
-
+        Post post = postUtil.findById(postIdx);
         List<Comment> comment = commentRepository.findAllByPostIdx(postIdx);
-
         List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment);
 
-        return postConverter.toDto(commentDetailDtoList,user);
+        return postConverter.toDto(commentDetailDtoList, post);
     }
 
     @Override

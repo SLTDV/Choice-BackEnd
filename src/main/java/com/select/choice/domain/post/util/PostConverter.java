@@ -22,7 +22,7 @@ public interface PostConverter {
     PostDetailResponse toResponse(PostDetailDto postDetailDto);
     CreatePostDto toDto(CreatePostRequest createPostRequestDto);
     AddCountDto toDto(AddCountRequest addCountRequest);
-    PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList , User user);
+    PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList , Post post);
     VoteCountResponse toResponse(VoteCountDto voteCountDto);
     VoteCountDto toDto(Integer firstVotingCount, Integer secondVotingCount);
     PostVotingStatus toEntity(User user, Post post);
