@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -50,7 +51,7 @@ public class PostController {
     담당자: 진시윤
      */
     @PostMapping
-    public ResponseEntity<Void> createPost(@RequestBody CreatePostRequest createPostRequestDto) {
+    public ResponseEntity<Void> createPost(@RequestBody @Valid CreatePostRequest createPostRequestDto) {
         CreatePostDto dto = postConverter.toDto(createPostRequestDto);
         postService.createPost(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
