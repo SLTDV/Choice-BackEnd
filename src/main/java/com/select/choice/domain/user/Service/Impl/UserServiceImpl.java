@@ -4,10 +4,10 @@ import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.user.Service.UserService;
 import com.select.choice.domain.user.presentation.data.dto.ChangeProfileImageDto;
+import com.select.choice.domain.user.presentation.data.dto.HeaderDto;
 import com.select.choice.domain.user.presentation.data.dto.MyPageDto;
 import com.select.choice.domain.user.presentation.data.dto.NicknameDto;
 import com.select.choice.domain.user.domain.entity.User;
-import com.select.choice.domain.user.presentation.data.response.GetMyPageResponse;
 import com.select.choice.domain.user.util.UserConverter;
 import com.select.choice.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
@@ -49,5 +49,11 @@ public class UserServiceImpl implements UserService {
     public void changeProfileImage(ChangeProfileImageDto changeProfileImageDto) {
         User user = userUtil.currentUser();
         user.updateProfileImage(changeProfileImageDto.getImage());
+    }
+
+    @Override
+    public HeaderDto getHeader() {
+        User user = userUtil.currentUser();
+        return userConverter.toDto(user);
     }
 }

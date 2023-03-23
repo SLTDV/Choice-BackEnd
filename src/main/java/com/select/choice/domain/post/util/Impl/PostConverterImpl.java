@@ -150,10 +150,10 @@ public class PostConverterImpl implements PostConverter {
                 .build();
     }
     @Override
-    public PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList, User user) {
+    public PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList, Post post) {
         return PostDetailDto.builder()
-                .writer(user.getNickname())
-                .image(user.getProfileImageUrl())
+                .writer(post.getUser().getNickname())
+                .image(post.getUser().getProfileImageUrl())
                 .comment(commentDetailDtoList)
                 .build();
     }

@@ -5,12 +5,14 @@ import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.presentation.data.dto.ChangeProfileImageDto;
+import com.select.choice.domain.user.presentation.data.dto.HeaderDto;
 import com.select.choice.domain.user.presentation.data.dto.MyPageDto;
 import com.select.choice.domain.user.presentation.data.dto.NicknameDto;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.presentation.data.request.ChangeNicknameRequest;
 import com.select.choice.domain.user.presentation.data.request.ChangeProfileImageRequest;
 import com.select.choice.domain.user.presentation.data.response.GetMyPageResponse;
+import com.select.choice.domain.user.presentation.data.response.HeaderResponse;
 import com.select.choice.domain.user.util.UserConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,6 +61,22 @@ public class UserConverterImpl implements UserConverter {
         String image = changeProfileImageRequest.getImage();
         return ChangeProfileImageDto.builder()
                 .image(image)
+                .build();
+    }
+
+    @Override
+    public HeaderDto toDto(User user) {
+        return HeaderDto.builder()
+                .nickname(user.getNickname())
+                .image(user.getProfileImageUrl())
+                .build();
+    }
+
+    @Override
+    public HeaderResponse toResponse(HeaderDto headerDto) {
+        return HeaderResponse.builder()
+                .nickname(headerDto.getNickname())
+                .image(headerDto.getImage())
                 .build();
     }
 }
