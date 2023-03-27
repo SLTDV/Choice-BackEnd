@@ -1,9 +1,11 @@
 package com.select.choice.domain.auth.util.Impl;
 
 import com.select.choice.domain.auth.domain.entity.RefreshToken;
+import com.select.choice.domain.auth.presentation.data.dto.SendPhoneNumberDto;
 import com.select.choice.domain.auth.presentation.data.dto.SignInDto;
 import com.select.choice.domain.auth.presentation.data.dto.SignUpDto;
 import com.select.choice.domain.auth.presentation.data.dto.TokenDto;
+import com.select.choice.domain.auth.presentation.data.request.SendPhoneNumberRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
 import com.select.choice.domain.auth.presentation.data.response.TokenResponse;
@@ -89,6 +91,13 @@ public class AuthConverterImpl implements AuthConverter {
         return RefreshToken.builder()
                 .userId(userIdx)
                 .refreshToken(refreshToken)
+                .build();
+    }
+
+    @Override
+    public SendPhoneNumberDto toDto(SendPhoneNumberRequest sendPhoneNumberRequest) {
+        return SendPhoneNumberDto.builder()
+                .phoneNumber(sendPhoneNumberRequest.getPhoneNumber())
                 .build();
     }
 }

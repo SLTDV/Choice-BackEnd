@@ -1,10 +1,12 @@
 package com.select.choice.domain.auth.service.Impl;
 
+import com.select.choice.domain.auth.presentation.data.dto.SendPhoneNumberDto;
 import com.select.choice.domain.auth.presentation.data.dto.SignInDto;
 import com.select.choice.domain.auth.presentation.data.dto.SignUpDto;
 import com.select.choice.domain.auth.presentation.data.dto.TokenDto;
 import com.select.choice.domain.auth.domain.entity.RefreshToken;
 import com.select.choice.domain.auth.domain.repository.RefreshTokenRepository;
+import com.select.choice.domain.auth.properties.CoolSMSProperties;
 import com.select.choice.domain.auth.service.AuthService;
 import com.select.choice.domain.auth.util.AuthConverter;
 import com.select.choice.domain.auth.exception.*;
@@ -19,11 +21,16 @@ import com.select.choice.global.error.type.ErrorCode;
 import com.select.choice.global.redis.RedisUtil;
 import com.select.choice.global.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +43,7 @@ public class AuthServiceImpl implements AuthService {
     private final PostVotingStatusRepository postVotingStatusRepository;
     private final PostRepository postRepository;
     private final PostConverter postConverter;
+    private final CoolSMSProperties coolSMSProperties;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -88,6 +96,26 @@ public class AuthServiceImpl implements AuthService {
 
         Long expiration = jwtTokenProvider.getExpiration(accessToken);
         redisUtil.setBlackList(accessToken, "access_token", expiration);
+    }
+
+    @Override
+    public void sendSMS(SendPhoneNumberDto dto) throws CoolsmsException {
+        Message coolsms = new Message(coolSMSProperties.getApiKey(), coolSMSProperties.getApiSecret());
+
+        Random rand  = new Random();
+        StringBuilder numStr = new StringBuilder();
+        for(int i = 0; i < 4; i++) {
+            String ran = Integer.toString(rand.nextInt(10));
+            numStr.append(ran);
+        }
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("to", dto.getPhoneNumber());    // 수신전화번호
+        params.put("from", "01065657236");    // 발신전화번호
+        params.put("type", "sms");
+        params.put("text", "인증번호는 [" + numStr + "] 입니다.");
+
+        coolsms.send(params);
     }
 
     @Override
