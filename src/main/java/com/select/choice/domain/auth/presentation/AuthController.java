@@ -1,14 +1,17 @@
 package com.select.choice.domain.auth.presentation;
 
+import com.select.choice.domain.auth.presentation.data.dto.SendPhoneNumberDto;
 import com.select.choice.domain.auth.presentation.data.dto.SignInDto;
 import com.select.choice.domain.auth.presentation.data.dto.SignUpDto;
 import com.select.choice.domain.auth.presentation.data.dto.TokenDto;
+import com.select.choice.domain.auth.presentation.data.request.SendPhoneNumberRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
 import com.select.choice.domain.auth.presentation.data.response.TokenResponse;
 import com.select.choice.domain.auth.service.AuthService;
 import com.select.choice.domain.auth.util.AuthConverter;
 import lombok.RequiredArgsConstructor;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -65,5 +68,12 @@ public class AuthController {
     public ResponseEntity<Void> logout(@RequestHeader("Authorization") String token){
         authService.logout(token);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/phone")
+    public ResponseEntity<Void> sendSMS(@RequestBody SendPhoneNumberRequest sendPhoneNumberRequest) throws CoolsmsException {
+        SendPhoneNumberDto dto = authConverter.toDto(sendPhoneNumberRequest);
+        authService.sendSMS(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
