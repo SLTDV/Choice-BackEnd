@@ -51,7 +51,7 @@ public class AuthController {
     기능: 회원가입 이메일 중복검사
     담당자: 노혁
      */
-    @PostMapping("/signup/duplication")
+    @PostMapping("/duplication")
     public ResponseEntity<Void> SignupDuplicationCheck(@RequestBody SignupDuplicationCheckRequest signupDuplicationCheckRequest) {
         SignupDuplicationCheckDto signupDuplicationCheckDto = authConverter.toDto(signupDuplicationCheckRequest);
         authService.signupDuplicationCheck(signupDuplicationCheckDto);
