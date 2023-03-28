@@ -1,13 +1,11 @@
 package com.select.choice.domain.auth.util.Impl;
 
 import com.select.choice.domain.auth.domain.entity.RefreshToken;
-import com.select.choice.domain.auth.presentation.data.dto.SendPhoneNumberDto;
-import com.select.choice.domain.auth.presentation.data.dto.SignInDto;
-import com.select.choice.domain.auth.presentation.data.dto.SignUpDto;
-import com.select.choice.domain.auth.presentation.data.dto.TokenDto;
+import com.select.choice.domain.auth.presentation.data.dto.*;
 import com.select.choice.domain.auth.presentation.data.request.SendPhoneNumberRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
+import com.select.choice.domain.auth.presentation.data.request.SignupDuplicationCheckRequest;
 import com.select.choice.domain.auth.presentation.data.response.TokenResponse;
 import com.select.choice.domain.auth.util.AuthConverter;
 import com.select.choice.domain.user.domain.entity.User;
@@ -98,6 +96,13 @@ public class AuthConverterImpl implements AuthConverter {
     public SendPhoneNumberDto toDto(SendPhoneNumberRequest sendPhoneNumberRequest) {
         return SendPhoneNumberDto.builder()
                 .phoneNumber(sendPhoneNumberRequest.getPhoneNumber())
+                .build();
+    }
+
+    @Override
+    public SignupDuplicationCheckDto toDto(SignupDuplicationCheckRequest signupDuplicationCheckRequest) {
+        return SignupDuplicationCheckDto.builder()
+                .email(signupDuplicationCheckRequest.getEmail())
                 .build();
     }
 }
