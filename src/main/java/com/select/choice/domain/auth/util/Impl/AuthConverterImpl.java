@@ -57,7 +57,7 @@ public class AuthConverterImpl implements AuthConverter {
     @Override
     public SignUpDto toDto(SignUpRequest signUpRequest) {
         String reqEmail = signUpRequest.getEmail();
-        String reqNickname = signUpRequest.getNickname();
+        String reqNickname = signUpRequest.getNickname().stripTrailing();
         String reqPassword = signUpRequest.getPassword();
         Optional<String> reqImgUrl = signUpRequest.getProfileImageUrl();
 
