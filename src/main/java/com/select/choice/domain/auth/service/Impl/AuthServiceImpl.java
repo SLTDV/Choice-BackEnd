@@ -68,6 +68,8 @@ public class AuthServiceImpl implements AuthService {
     public void signUp(SignUpDto signUpDto) {
         if (userUtil.existsByNickname(signUpDto.getNickname())) {
             throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);
+        } else if (signUpDto.getNickname().startsWith(" ")) {
+            throw new NicknameRegexpException(ErrorCode.NICKNAME_REGEXP);
         }
 
         User user = authConverter.toEntity(signUpDto);
