@@ -1,9 +1,6 @@
 package com.select.choice.domain.auth.service;
 
-import com.select.choice.domain.auth.presentation.data.dto.SendPhoneNumberDto;
-import com.select.choice.domain.auth.presentation.data.dto.SignInDto;
-import com.select.choice.domain.auth.presentation.data.dto.SignUpDto;
-import com.select.choice.domain.auth.presentation.data.dto.TokenDto;
+import com.select.choice.domain.auth.presentation.data.dto.*;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 public interface AuthService {
@@ -12,4 +9,5 @@ public interface AuthService {
     void signUp(SignUpDto signUpDto);
     void logout(String token);
     void sendSMS(SendPhoneNumberDto dto) throws CoolsmsException;
+    void signupDuplicationCheck(SignupDuplicationCheckDto signupDuplicationCheckDto);
 }
