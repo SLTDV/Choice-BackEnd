@@ -40,6 +40,7 @@ public class SecurityConfig {
                 // auth
                 .antMatchers(HttpMethod.POST,"/auth/signin").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth/signup").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/signup/duplication").permitAll()
                 .antMatchers(HttpMethod.PATCH,"/auth").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/auth").authenticated()
                 .antMatchers(HttpMethod.POST, "/auth/phone").permitAll()
