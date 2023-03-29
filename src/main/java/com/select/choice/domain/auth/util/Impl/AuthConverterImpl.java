@@ -59,13 +59,13 @@ public class AuthConverterImpl implements AuthConverter {
         String reqEmail = signUpRequest.getEmail();
         String reqNickname = signUpRequest.getNickname().stripTrailing();
         String reqPassword = signUpRequest.getPassword();
-        Optional<String> reqImgUrl = signUpRequest.getProfileImageUrl();
+        Optional<String> reqImgUrl = signUpRequest.getProfileImgUrl();
 
         return SignUpDto.builder()
                 .email(reqEmail)
                 .nickname(reqNickname)
                 .password(reqPassword)
-                .profileImageUrl(reqImgUrl)
+                .profileImgUrl(reqImgUrl)
                 .build();
     }
 
@@ -74,7 +74,7 @@ public class AuthConverterImpl implements AuthConverter {
         String dtoEmail = signUpDto.getEmail();
         String dtoNickname = signUpDto.getNickname();
         String dtoPassword = passwordEncoder.encode(signUpDto.getPassword());
-        String dtoProfileImageUrl = signUpDto.getProfileImageUrl().get();
+        String dtoProfileImageUrl = signUpDto.getProfileImgUrl().get();
 
         return User.builder()
                 .email(dtoEmail)
