@@ -74,7 +74,11 @@ public class AuthConverterImpl implements AuthConverter {
         String dtoEmail = signUpDto.getEmail();
         String dtoNickname = signUpDto.getNickname();
         String dtoPassword = passwordEncoder.encode(signUpDto.getPassword());
-        String dtoProfileImageUrl = signUpDto.getProfileImgUrl().get();
+        String dtoProfileImageUrl;
+        if(signUpDto.getProfileImgUrl().isPresent())
+            dtoProfileImageUrl = signUpDto.getProfileImgUrl().get();
+        else
+            dtoProfileImageUrl = null;
 
         return User.builder()
                 .email(dtoEmail)
