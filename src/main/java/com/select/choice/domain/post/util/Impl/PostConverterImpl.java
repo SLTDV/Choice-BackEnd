@@ -120,6 +120,32 @@ public class PostConverterImpl implements PostConverter {
         ).collect(Collectors.toList());
     }
 
+    @Override
+    public List<WebVerPostDto> toBestPostDtoList(List<Post> list) {
+        return list.stream().map(entity ->
+                new WebVerPostDto(
+                        entity.getIdx(),
+                        entity.getFirstImageUrl(),
+                        entity.getTitle(),
+                        entity.getFirstVotingCount() + entity.getSecondVotingCount(),
+                        entity.getCommentCount()
+                )
+        ).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<WebVerPostResponse> toBesetPostDtoResponse(List<WebVerPostDto> bestPostList) {
+        return bestPostList.stream().map(dto ->
+                new WebVerPostResponse(
+                        dto.getIdx(),
+                        dto.getImageUrl(),
+                        dto.getTitle(),
+                        dto.getParticipants(),
+                        dto.getCommentCount()
+                )
+        ).collect(Collectors.toList());
+    }
+
 
     @Override
     public List<PostResponse> toResponse(List<PostDto> dto) {

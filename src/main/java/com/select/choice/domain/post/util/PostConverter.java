@@ -29,4 +29,6 @@ public interface PostConverter {
     PostVotingStatus toEntity(User user, Post post);
     List<WebVerPostDto> toPostDto(List<Post> list);
     List<WebVerPostResponse> toPostResponse(List<WebVerPostDto> webVerPostDtoList);
+    List<WebVerPostDto> toBestPostDtoList(List<Post> list);
+    List<WebVerPostResponse> toBesetPostDtoResponse(List<WebVerPostDto> bestPostList);
 }
