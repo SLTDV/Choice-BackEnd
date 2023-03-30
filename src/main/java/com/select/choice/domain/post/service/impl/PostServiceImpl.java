@@ -51,6 +51,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<WebVerPostDto> getBestPost() {
+        List<Post> list = postRepository.getBestPostList();
+        return postConverter.toBestPostDtoList(list);
+    }
+
+    @Override
     public List<PostDto> getBestPostList() {
         List<Post> list = postRepository.getBestPostList();
         return postConverter.toBestPostDto(list);
