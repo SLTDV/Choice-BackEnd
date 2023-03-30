@@ -7,6 +7,7 @@ import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 
 import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
+import com.select.choice.domain.post.presentation.data.response.WebVerPostResponse;
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,17 @@ public class PostController {
         List<PostDto> postList = postService.getAllPostList();
         List<PostResponse> postResponses = postConverter.toResponse(postList);
         return new ResponseEntity<>(postResponses, HttpStatus.OK);
+    }
+
+    /*
+    기능: 게시물 조회 WEB .ver
+    담당자: 노혁
+     */
+    @GetMapping("/web")
+    public ResponseEntity<List<WebVerPostResponse>> getPost(){
+        List<WebVerPostDto> webVerPostDtoList = postService.getPost();
+        List<WebVerPostResponse> webVerPostResponseList = postConverter.toPostResponse(webVerPostDtoList);
+        return new ResponseEntity<>(webVerPostResponseList, HttpStatus.OK);
     }
 
     /*
