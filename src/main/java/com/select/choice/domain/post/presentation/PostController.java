@@ -59,6 +59,17 @@ public class PostController {
     }
 
     /*
+    기능: 인기 게시물 조회 WEB .ver
+    담당자: 노혁
+     */
+    @GetMapping("/list/web")
+    public ResponseEntity<List<WebVerPostResponse>> getBestPost() {
+        List<WebVerPostDto> bestPostList = postService.getBestPost();
+        List<WebVerPostResponse> bestPostResponseList = postConverter.toBesetPostDtoResponse(bestPostList);
+        return new ResponseEntity<>(bestPostResponseList, HttpStatus.OK);
+    }
+
+    /*
     기능: 게시물 생성
     담당자: 진시윤
      */
