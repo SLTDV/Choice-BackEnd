@@ -9,6 +9,7 @@ import com.select.choice.domain.post.presentation.data.response.PostDetailRespon
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 import com.select.choice.domain.post.presentation.data.response.PostResponse;
+import com.select.choice.domain.post.presentation.data.response.WebVerPostResponse;
 import com.select.choice.domain.user.domain.entity.User;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public interface PostConverter {
     VoteCountResponse toResponse(VoteCountDto voteCountDto);
     VoteCountDto toDto(Integer firstVotingCount, Integer secondVotingCount);
     PostVotingStatus toEntity(User user, Post post);
+    List<WebVerPostDto> toPostDto(List<Post> list);
+    List<WebVerPostResponse> toPostResponse(List<WebVerPostDto> webVerPostDtoList);
 }
