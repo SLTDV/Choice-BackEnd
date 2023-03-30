@@ -1,9 +1,6 @@
 package com.select.choice.domain.auth.service.Impl;
 
-import com.select.choice.domain.auth.presentation.data.dto.SendPhoneNumberDto;
-import com.select.choice.domain.auth.presentation.data.dto.SignInDto;
-import com.select.choice.domain.auth.presentation.data.dto.SignUpDto;
-import com.select.choice.domain.auth.presentation.data.dto.TokenDto;
+import com.select.choice.domain.auth.presentation.data.dto.*;
 import com.select.choice.domain.auth.domain.entity.RefreshToken;
 import com.select.choice.domain.auth.domain.repository.RefreshTokenRepository;
 import com.select.choice.domain.auth.properties.CoolSMSProperties;
@@ -69,11 +66,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void signUp(SignUpDto signUpDto) {
-        if(userUtil.existsByEmail(signUpDto.getEmail())) {
-            throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
-        }
-        else if (userUtil.existsByNickname(signUpDto.getNickname())) {
+        if (userUtil.existsByNickname(signUpDto.getNickname())) {
             throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);
+        } else if (signUpDto.getNickname().startsWith(" ")) {
+            throw new NicknameRegexpException(ErrorCode.NICKNAME_REGEXP);
         }
 
         User user = authConverter.toEntity(signUpDto);
@@ -116,6 +112,13 @@ public class AuthServiceImpl implements AuthService {
         params.put("text", "인증번호는 [" + numStr + "] 입니다.");
 
         coolsms.send(params);
+    }
+
+    @Override
+    public void signupDuplicationCheck(SignupDuplicationCheckDto signupDuplicationCheckDto) {
+        if (userUtil.existsByEmail(signupDuplicationCheckDto.getEmail())) {
+            throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
+        }
     }
 
     @Override

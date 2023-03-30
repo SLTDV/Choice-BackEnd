@@ -1,13 +1,11 @@
 package com.select.choice.domain.auth.util.Impl;
 
 import com.select.choice.domain.auth.domain.entity.RefreshToken;
-import com.select.choice.domain.auth.presentation.data.dto.SendPhoneNumberDto;
-import com.select.choice.domain.auth.presentation.data.dto.SignInDto;
-import com.select.choice.domain.auth.presentation.data.dto.SignUpDto;
-import com.select.choice.domain.auth.presentation.data.dto.TokenDto;
+import com.select.choice.domain.auth.presentation.data.dto.*;
 import com.select.choice.domain.auth.presentation.data.request.SendPhoneNumberRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
+import com.select.choice.domain.auth.presentation.data.request.SignupDuplicationCheckRequest;
 import com.select.choice.domain.auth.presentation.data.response.TokenResponse;
 import com.select.choice.domain.auth.util.AuthConverter;
 import com.select.choice.domain.user.domain.entity.User;
@@ -59,15 +57,15 @@ public class AuthConverterImpl implements AuthConverter {
     @Override
     public SignUpDto toDto(SignUpRequest signUpRequest) {
         String reqEmail = signUpRequest.getEmail();
-        String reqNickname = signUpRequest.getNickname();
+        String reqNickname = signUpRequest.getNickname().stripTrailing();
         String reqPassword = signUpRequest.getPassword();
-        Optional<String> reqImgUrl = signUpRequest.getProfileImageUrl();
+        Optional<String> reqImgUrl = signUpRequest.getProfileImgUrl();
 
         return SignUpDto.builder()
                 .email(reqEmail)
                 .nickname(reqNickname)
                 .password(reqPassword)
-                .profileImageUrl(reqImgUrl)
+                .profileImgUrl(reqImgUrl)
                 .build();
     }
 
@@ -76,7 +74,11 @@ public class AuthConverterImpl implements AuthConverter {
         String dtoEmail = signUpDto.getEmail();
         String dtoNickname = signUpDto.getNickname();
         String dtoPassword = passwordEncoder.encode(signUpDto.getPassword());
-        String dtoProfileImageUrl = signUpDto.getProfileImageUrl().get();
+        String dtoProfileImageUrl;
+        if(signUpDto.getProfileImgUrl().isPresent())
+            dtoProfileImageUrl = signUpDto.getProfileImgUrl().get();
+        else
+            dtoProfileImageUrl = null;
 
         return User.builder()
                 .email(dtoEmail)
@@ -98,6 +100,13 @@ public class AuthConverterImpl implements AuthConverter {
     public SendPhoneNumberDto toDto(SendPhoneNumberRequest sendPhoneNumberRequest) {
         return SendPhoneNumberDto.builder()
                 .phoneNumber(sendPhoneNumberRequest.getPhoneNumber())
+                .build();
+    }
+
+    @Override
+    public SignupDuplicationCheckDto toDto(SignupDuplicationCheckRequest signupDuplicationCheckRequest) {
+        return SignupDuplicationCheckDto.builder()
+                .email(signupDuplicationCheckRequest.getEmail())
                 .build();
     }
 }
