@@ -101,6 +101,8 @@ public class PostConverterImpl implements PostConverter {
                         post.getIdx(),
                         post.getFirstImageUrl(),
                         post.getTitle(),
+                        post.getFirstVotingOption(),
+                        post.getSecondVotingOption(),
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         post.getCommentCount()
                 )
@@ -114,6 +116,8 @@ public class PostConverterImpl implements PostConverter {
                         dto.getIdx(),
                         dto.getImageUrl(),
                         dto.getTitle(),
+                        dto.getFirstVotingOption(),
+                        dto.getSecondVotingOption(),
                         dto.getParticipants(),
                         dto.getCommentCount()
                 )
@@ -127,6 +131,8 @@ public class PostConverterImpl implements PostConverter {
                         entity.getIdx(),
                         entity.getFirstImageUrl(),
                         entity.getTitle(),
+                        entity.getFirstVotingOption(),
+                        entity.getSecondVotingOption(),
                         entity.getFirstVotingCount() + entity.getSecondVotingCount(),
                         entity.getCommentCount()
                 )
@@ -140,6 +146,8 @@ public class PostConverterImpl implements PostConverter {
                         dto.getIdx(),
                         dto.getImageUrl(),
                         dto.getTitle(),
+                        dto.getFirstVotingOption(),
+                        dto.getSecondVotingOption(),
                         dto.getParticipants(),
                         dto.getCommentCount()
                 )
