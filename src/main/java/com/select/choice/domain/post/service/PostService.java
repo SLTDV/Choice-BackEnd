@@ -13,4 +13,5 @@ public interface PostService {
     PostDetailDto aggregateDetail(Long postIdx);
     void deletePost(Long postIdx);
     VoteCountDto voteCount(AddCountDto addCountDto, Long postIdx);
+    List<WebVerPostDto> getPost();
 }
