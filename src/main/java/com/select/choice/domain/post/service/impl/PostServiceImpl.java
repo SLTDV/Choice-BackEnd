@@ -45,6 +45,18 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<WebVerPostDto> getPost() {
+        List<Post> list = postRepository.findAll();
+        return postConverter.toPostDto(list);
+    }
+
+    @Override
+    public List<WebVerPostDto> getBestPost() {
+        List<Post> list = postRepository.getBestPostList();
+        return postConverter.toBestPostDtoList(list);
+    }
+
+    @Override
     public List<PostDto> getBestPostList() {
         List<Post> list = postRepository.getBestPostList();
         return postConverter.toBestPostDto(list);
@@ -107,4 +119,5 @@ public class PostServiceImpl implements PostService {
 
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
+
 }

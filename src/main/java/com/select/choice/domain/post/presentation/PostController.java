@@ -7,6 +7,7 @@ import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 
 import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
+import com.select.choice.domain.post.presentation.data.response.WebVerPostResponse;
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,17 @@ public class PostController {
     }
 
     /*
+    기능: 게시물 조회 WEB .ver
+    담당자: 노혁
+     */
+    @GetMapping("/web")
+    public ResponseEntity<List<WebVerPostResponse>> getPost(){
+        List<WebVerPostDto> webVerPostDtoList = postService.getPost();
+        List<WebVerPostResponse> webVerPostResponseList = postConverter.toPostResponse(webVerPostDtoList);
+        return new ResponseEntity<>(webVerPostResponseList, HttpStatus.OK);
+    }
+
+    /*
     기능: 인기 게시물 조회
     담당자: 진시윤
      */
@@ -43,6 +55,17 @@ public class PostController {
     public ResponseEntity<List<PostResponse>> getBestPostList(){
         List<PostDto> bestPostList = postService.getBestPostList();
         List<PostResponse> bestPostResponseList = postConverter.toBesetPostResponse(bestPostList);
+        return new ResponseEntity<>(bestPostResponseList, HttpStatus.OK);
+    }
+
+    /*
+    기능: 인기 게시물 조회 WEB .ver
+    담당자: 노혁
+     */
+    @GetMapping("/list/web")
+    public ResponseEntity<List<WebVerPostResponse>> getBestPost() {
+        List<WebVerPostDto> bestPostList = postService.getBestPost();
+        List<WebVerPostResponse> bestPostResponseList = postConverter.toBesetPostDtoResponse(bestPostList);
         return new ResponseEntity<>(bestPostResponseList, HttpStatus.OK);
     }
 
