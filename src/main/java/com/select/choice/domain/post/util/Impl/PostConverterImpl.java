@@ -16,6 +16,7 @@ import com.select.choice.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -187,7 +188,8 @@ public class PostConverterImpl implements PostConverter {
                 0,
                 0,
                 user,
-                0
+                0,
+                LocalDate.now()
         );
     }
 
