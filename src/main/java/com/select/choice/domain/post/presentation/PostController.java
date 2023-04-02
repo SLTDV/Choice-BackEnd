@@ -7,6 +7,7 @@ import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 
 import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
+import com.select.choice.domain.post.presentation.data.response.WebVerPostResponse;
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -35,6 +37,17 @@ public class PostController {
     }
 
     /*
+    기능: 게시물 조회 WEB .ver
+    담당자: 노혁
+     */
+    @GetMapping("/web")
+    public ResponseEntity<List<WebVerPostResponse>> getPost(){
+        List<WebVerPostDto> webVerPostDtoList = postService.getPost();
+        List<WebVerPostResponse> webVerPostResponseList = postConverter.toPostResponse(webVerPostDtoList);
+        return new ResponseEntity<>(webVerPostResponseList, HttpStatus.OK);
+    }
+
+    /*
     기능: 인기 게시물 조회
     담당자: 진시윤
      */
@@ -46,11 +59,22 @@ public class PostController {
     }
 
     /*
+    기능: 인기 게시물 조회 WEB .ver
+    담당자: 노혁
+     */
+    @GetMapping("/list/web")
+    public ResponseEntity<List<WebVerPostResponse>> getBestPost() {
+        List<WebVerPostDto> bestPostList = postService.getBestPost();
+        List<WebVerPostResponse> bestPostResponseList = postConverter.toBesetPostDtoResponse(bestPostList);
+        return new ResponseEntity<>(bestPostResponseList, HttpStatus.OK);
+    }
+
+    /*
     기능: 게시물 생성
     담당자: 진시윤
      */
     @PostMapping
-    public ResponseEntity<Void> createPost(@RequestBody CreatePostRequest createPostRequestDto) {
+    public ResponseEntity<Void> createPost(@RequestBody @Valid CreatePostRequest createPostRequestDto) {
         CreatePostDto dto = postConverter.toDto(createPostRequestDto);
         postService.createPost(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);

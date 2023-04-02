@@ -9,6 +9,7 @@ import com.select.choice.domain.post.presentation.data.response.PostDetailRespon
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 import com.select.choice.domain.post.presentation.data.response.PostResponse;
+import com.select.choice.domain.post.presentation.data.response.WebVerPostResponse;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
@@ -93,6 +94,66 @@ public class PostConverterImpl implements PostConverter {
         ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
     }
 
+    @Override
+    public List<WebVerPostDto> toPostDto(List<Post> list) {
+        return list.stream().map(post ->
+                new WebVerPostDto(
+                        post.getIdx(),
+                        post.getFirstImageUrl(),
+                        post.getTitle(),
+                        post.getFirstVotingOption(),
+                        post.getSecondVotingOption(),
+                        post.getFirstVotingCount() + post.getSecondVotingCount(),
+                        post.getCommentCount()
+                )
+        ).sorted(Comparator.comparing(WebVerPostDto::getIdx).reversed()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<WebVerPostResponse> toPostResponse(List<WebVerPostDto> webVerPostDtoList) {
+        return webVerPostDtoList.stream().map(dto ->
+                new WebVerPostResponse(
+                        dto.getIdx(),
+                        dto.getImageUrl(),
+                        dto.getTitle(),
+                        dto.getFirstVotingOption(),
+                        dto.getSecondVotingOption(),
+                        dto.getParticipants(),
+                        dto.getCommentCount()
+                )
+        ).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<WebVerPostDto> toBestPostDtoList(List<Post> list) {
+        return list.stream().map(entity ->
+                new WebVerPostDto(
+                        entity.getIdx(),
+                        entity.getFirstImageUrl(),
+                        entity.getTitle(),
+                        entity.getFirstVotingOption(),
+                        entity.getSecondVotingOption(),
+                        entity.getFirstVotingCount() + entity.getSecondVotingCount(),
+                        entity.getCommentCount()
+                )
+        ).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<WebVerPostResponse> toBesetPostDtoResponse(List<WebVerPostDto> bestPostList) {
+        return bestPostList.stream().map(dto ->
+                new WebVerPostResponse(
+                        dto.getIdx(),
+                        dto.getImageUrl(),
+                        dto.getTitle(),
+                        dto.getFirstVotingOption(),
+                        dto.getSecondVotingOption(),
+                        dto.getParticipants(),
+                        dto.getCommentCount()
+                )
+        ).collect(Collectors.toList());
+    }
+
 
     @Override
     public List<PostResponse> toResponse(List<PostDto> dto) {
@@ -150,10 +211,10 @@ public class PostConverterImpl implements PostConverter {
                 .build();
     }
     @Override
-    public PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList, User user) {
+    public PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList, Post post) {
         return PostDetailDto.builder()
-                .writer(user.getNickname())
-                .image(user.getProfileImageUrl())
+                .writer(post.getUser().getNickname())
+                .image(post.getUser().getProfileImageUrl())
                 .comment(commentDetailDtoList)
                 .build();
     }
