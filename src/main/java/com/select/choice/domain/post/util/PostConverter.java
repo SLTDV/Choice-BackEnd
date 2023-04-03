@@ -4,12 +4,9 @@ import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.post.domain.entity.PostVotingStatus;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
-import com.select.choice.domain.post.presentation.data.response.VoteCountResponse;
-import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
+import com.select.choice.domain.post.presentation.data.response.*;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
-import com.select.choice.domain.post.presentation.data.response.PostResponse;
-import com.select.choice.domain.post.presentation.data.response.WebVerPostResponse;
 import com.select.choice.domain.user.domain.entity.User;
 
 import java.util.List;
@@ -31,4 +28,8 @@ public interface PostConverter {
     List<WebVerPostResponse> toPostResponse(List<WebVerPostDto> webVerPostDtoList);
     List<WebVerPostDto> toBestPostDtoList(List<Post> list);
     List<WebVerPostResponse> toBesetPostDtoResponse(List<WebVerPostDto> bestPostList);
+    TodayPostDto toTodayPostDto(Post post);
+    TodayPostListDto toTodayPostListDto(List<TodayPostDto> todayPosts);
+    TodayPostResponse toTodayPostResponse(TodayPostDto todayPostDto);
+    TodayPostListResponse toTodayPostListResponse(List<TodayPostResponse> todayPostListResponses);
 }

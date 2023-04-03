@@ -5,12 +5,9 @@ import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.post.domain.entity.PostVotingStatus;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
-import com.select.choice.domain.post.presentation.data.response.VoteCountResponse;
-import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
+import com.select.choice.domain.post.presentation.data.response.*;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
-import com.select.choice.domain.post.presentation.data.response.PostResponse;
-import com.select.choice.domain.post.presentation.data.response.WebVerPostResponse;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
@@ -156,6 +153,46 @@ public class PostConverterImpl implements PostConverter {
         ).collect(Collectors.toList());
     }
 
+    @Override
+    public TodayPostDto toTodayPostDto(Post post) {
+        return TodayPostDto.builder()
+                .idx(post.getIdx())
+                .title(post.getTitle())
+                .firstVotingOption(post.getFirstVotingOption())
+                .secondVotingOption(post.getSecondVotingOption())
+                .imageUrl(post.getFirstImageUrl())
+                .participants(post.getFirstVotingCount() + post.getSecondVotingCount())
+                .commentCount(commentRepository.countByPost(post))
+                .build();
+    }
+
+    @Override
+    public TodayPostListDto toTodayPostListDto(List<TodayPostDto> todayPosts) {
+        return TodayPostListDto.builder()
+                .todayPosts(todayPosts)
+                .build();
+    }
+
+    @Override
+    public TodayPostResponse toTodayPostResponse(TodayPostDto todayPostDto) {
+        return TodayPostResponse.builder()
+                .idx(todayPostDto.getIdx())
+                .title(todayPostDto.getTitle())
+                .firstVotingOption(todayPostDto.getFirstVotingOption())
+                .secondVotingOption(todayPostDto.getSecondVotingOption())
+                .commentCount(todayPostDto.getCommentCount())
+                .participants(todayPostDto.getParticipants())
+                .imageUrl(todayPostDto.getImageUrl())
+                .build();
+    }
+
+    @Override
+    public TodayPostListResponse toTodayPostListResponse(List<TodayPostResponse> todayPostListResponses) {
+        return TodayPostListResponse.builder()
+                .todayPosts(todayPostListResponses)
+                .build();
+    }
+
 
     @Override
     public List<PostResponse> toResponse(List<PostDto> dto) {
@@ -189,7 +226,7 @@ public class PostConverterImpl implements PostConverter {
                 0,
                 0,
                 user,
-                LocalDate.now()
+                LocalDate.now().toString()
         );
     }
 
