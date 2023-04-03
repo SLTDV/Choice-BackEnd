@@ -12,6 +12,7 @@ import com.select.choice.domain.post.exception.InvalidVoteCount;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.exception.IsNotMyPostException;
+import com.select.choice.domain.post.presentation.data.dto.TodayPostListDto;
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.post.util.PostUtil;
@@ -23,8 +24,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,6 +58,16 @@ public class PostServiceImpl implements PostService {
     public List<WebVerPostDto> getBestPost() {
         List<Post> list = postRepository.getBestPostList();
         return postConverter.toBestPostDtoList(list);
+    }
+
+    @Override
+    public TodayPostListDto getTodayPostList() {
+        String today = LocalDate.now().toString();
+        List<TodayPostDto> todayPosts = postRepository.findAllByCreatedAtContaining(today).stream()
+                .map(postConverter::toTodayPostDto)
+                .sorted(Comparator.comparing(TodayPostDto::getParticipants).reversed()).collect(Collectors.toList());
+
+        return postConverter.toTodayPostListDto(todayPosts);
     }
 
     @Override
