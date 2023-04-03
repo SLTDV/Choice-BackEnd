@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -29,6 +30,8 @@ public class Post extends BaseIdEntity {
     private String secondVotingOption;
     private int firstVotingCount;
     private int secondVotingCount;
+    private String createdAt;
+
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,7 +44,7 @@ public class Post extends BaseIdEntity {
     private List<PostVotingStatus> postVotingStatuses;
 
     @Builder
-    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String firstImageUrl, String secondImageUrl, int firstVotingCount, int secondVotingCount, User user) {
+    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String firstImageUrl, String secondImageUrl, int firstVotingCount, int secondVotingCount, User user, String createdAt) {
         this.title = title;
         this.content = content;
         this.firstVotingOption = firstVotingOption;
@@ -51,7 +54,9 @@ public class Post extends BaseIdEntity {
         this.firstVotingCount = firstVotingCount;
         this.secondVotingCount = secondVotingCount;
         this.user = user;
+        this.createdAt = createdAt;
     }
+
 
     public void updateVotingCount(int voting, int choiceOption) {
         if(voting != 0){

@@ -1,13 +1,10 @@
 package com.select.choice.domain.post.presentation;
 
 import com.select.choice.domain.post.presentation.data.dto.*;
-import com.select.choice.domain.post.presentation.data.response.VoteCountResponse;
-import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
+import com.select.choice.domain.post.presentation.data.response.*;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 
-import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
-import com.select.choice.domain.post.presentation.data.response.WebVerPostResponse;
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/post")
@@ -112,5 +110,20 @@ public class PostController {
         VoteCountDto voteCountDto = postService.voteCount(addCountDto, postIdx);
         VoteCountResponse addCountResponse = postConverter.toResponse(voteCountDto);
         return new ResponseEntity<>(addCountResponse, HttpStatus.CREATED);
+    }
+
+    /*
+    기능: 오늘의 choice
+    담당자: 노혁
+     */
+    @GetMapping("/today")
+    public ResponseEntity<TodayPostListResponse> getTodayPostList() {
+        TodayPostListDto todayPostListDto = postService.getTodayPostList();
+        List<TodayPostResponse> todayPostListResponses = todayPostListDto.getTodayPosts().stream()
+                .map(postConverter::toTodayPostResponse)
+                .collect(Collectors.toList());
+
+        TodayPostListResponse todayPostListResponse = postConverter.toTodayPostListResponse(todayPostListResponses);
+        return new ResponseEntity<>(todayPostListResponse, HttpStatus.OK);
     }
 }
