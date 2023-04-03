@@ -30,7 +30,7 @@ public class Post extends BaseIdEntity {
     private String secondVotingOption;
     private int firstVotingCount;
     private int secondVotingCount;
-    private LocalDate createdAt;
+    private String createdAt;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,7 +43,7 @@ public class Post extends BaseIdEntity {
     private List<PostVotingStatus> postVotingStatuses;
 
     @Builder
-    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String firstImageUrl, String secondImageUrl, int firstVotingCount, int secondVotingCount, User user, LocalDate createdAt) {
+    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String firstImageUrl, String secondImageUrl, int firstVotingCount, int secondVotingCount, User user, String createdAt) {
         this.title = title;
         this.content = content;
         this.firstVotingOption = firstVotingOption;
