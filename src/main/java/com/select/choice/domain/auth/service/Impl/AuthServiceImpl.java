@@ -72,7 +72,7 @@ public class AuthServiceImpl implements AuthService {
             throw new NicknameRegexpException(ErrorCode.NICKNAME_REGEXP);
         }
 
-        User user = authConverter.toEntity(signUpDto);
+        User user = authConverter.toEntity(signUpDto, signUpDto.getProfileImgUrl().isPresent());
         userUtil.save(user);
 
         List<Post> postList = postRepository.findAll();
