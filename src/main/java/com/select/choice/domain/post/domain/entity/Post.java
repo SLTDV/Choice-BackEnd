@@ -30,7 +30,6 @@ public class Post extends BaseIdEntity {
     private String secondVotingOption;
     private int firstVotingCount;
     private int secondVotingCount;
-    private int commentCount;
     private LocalDate createdAt;
 
     @JsonIgnore
