@@ -55,6 +55,7 @@ public class CommentServiceImpl implements CommentService {
         if(!comment.getUser().equals(user)){
             throw new IsNotMyCommentException(ErrorCode.IS_NOT_MY_COMMENT);
         }
+        
         commentRepository.delete(comment);
     }
 }
