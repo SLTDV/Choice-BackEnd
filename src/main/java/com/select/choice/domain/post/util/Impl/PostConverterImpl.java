@@ -226,8 +226,8 @@ public class PostConverterImpl implements PostConverter {
                 0,
                 0,
                 user,
-                LocalDate.now().toString()
-        );
+                LocalDate.now().toString()     
+                );
     }
 
     @Override
