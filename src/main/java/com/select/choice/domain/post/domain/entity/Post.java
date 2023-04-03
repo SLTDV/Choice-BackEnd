@@ -73,12 +73,4 @@ public class Post extends BaseIdEntity {
             else ++this.secondVotingCount;
         }
     }
-
-    public void updateCount() {
-        ++this.commentCount;
-    }
-
-    public void minusCount() {
-        --this.commentCount;
-    }
 }
