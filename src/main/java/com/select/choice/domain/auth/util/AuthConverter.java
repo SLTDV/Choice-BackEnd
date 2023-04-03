@@ -16,7 +16,7 @@ public interface AuthConverter {
     TokenDto toDto(String accessToken, String refreshToken, LocalDateTime accessExp, LocalDateTime refreshExp);
     SignInDto toDto(SignInRequest signInRequest);
     SignUpDto toDto(SignUpRequest signUpRequest);
-    User toEntity(SignUpDto signUpDto);
+    User toEntity(SignUpDto signUpDto, boolean isProfileImage);
     RefreshToken toEntity(Long userIdx, String refreshToken);
     SendPhoneNumberDto toDto(SendPhoneNumberRequest sendPhoneNumberRequest);
     SignupDuplicationCheckDto toDto(SignupDuplicationCheckRequest signupDuplicationCheckRequest);
