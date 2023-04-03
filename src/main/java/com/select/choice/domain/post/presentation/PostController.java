@@ -1,6 +1,5 @@
 package com.select.choice.domain.post.presentation;
 
-import com.select.choice.domain.comment.domain.repository.CommentRepository;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.response.VoteCountResponse;
 import com.select.choice.domain.post.presentation.data.response.PostDetailResponse;
@@ -25,7 +24,6 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
     private final PostConverter postConverter;
-    private final CommentRepository commentRepository;
 
     /*
     기능: 게시물 조회
