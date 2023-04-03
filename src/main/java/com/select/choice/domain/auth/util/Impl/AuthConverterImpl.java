@@ -70,22 +70,25 @@ public class AuthConverterImpl implements AuthConverter {
     }
 
     @Override
-    public User toEntity(SignUpDto signUpDto) {
+    public User toEntity(SignUpDto signUpDto, boolean isProfileImage) {
         String dtoEmail = signUpDto.getEmail();
         String dtoNickname = signUpDto.getNickname();
         String dtoPassword = passwordEncoder.encode(signUpDto.getPassword());
-        String dtoProfileImageUrl;
-        if(signUpDto.getProfileImgUrl().isPresent())
-            dtoProfileImageUrl = signUpDto.getProfileImgUrl().get();
-        else
-            dtoProfileImageUrl = null;
 
-        return User.builder()
-                .email(dtoEmail)
-                .nickname(dtoNickname)
-                .password(dtoPassword)
-                .profileImageUrl(dtoProfileImageUrl)
-                .build();
+        if(isProfileImage){
+            return User.builder()
+                    .email(dtoEmail)
+                    .nickname(dtoNickname)
+                    .password(dtoPassword)
+                    .profileImageUrl(signUpDto.getProfileImgUrl().get())
+                    .build();
+        } else {
+            return User.builder()
+                    .email(dtoEmail)
+                    .nickname(dtoNickname)
+                    .password(dtoPassword)
+                    .build();
+        }
     }
 
     @Override

@@ -29,7 +29,6 @@ public class Post extends BaseIdEntity {
     private String secondVotingOption;
     private int firstVotingCount;
     private int secondVotingCount;
-    private int commentCount;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,7 +41,7 @@ public class Post extends BaseIdEntity {
     private List<PostVotingStatus> postVotingStatuses;
 
     @Builder
-    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String firstImageUrl, String secondImageUrl, int firstVotingCount, int secondVotingCount, User user, int commentCount) {
+    public Post(String title, String content, String firstVotingOption, String secondVotingOption, String firstImageUrl, String secondImageUrl, int firstVotingCount, int secondVotingCount, User user) {
         this.title = title;
         this.content = content;
         this.firstVotingOption = firstVotingOption;
@@ -52,7 +51,6 @@ public class Post extends BaseIdEntity {
         this.firstVotingCount = firstVotingCount;
         this.secondVotingCount = secondVotingCount;
         this.user = user;
-        this.commentCount = commentCount;
     }
 
     public void updateVotingCount(int voting, int choiceOption) {
@@ -68,13 +66,5 @@ public class Post extends BaseIdEntity {
             if(choiceOption == 1) ++this.firstVotingCount;
             else ++this.secondVotingCount;
         }
-    }
-
-    public void updateCount() {
-        ++this.commentCount;
-    }
-
-    public void minusCount() {
-        --this.commentCount;
     }
 }

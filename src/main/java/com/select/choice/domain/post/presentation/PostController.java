@@ -54,6 +54,7 @@ public class PostController {
     @GetMapping("/list")
     public ResponseEntity<List<PostResponse>> getBestPostList(){
         List<PostDto> bestPostList = postService.getBestPostList();
+
         List<PostResponse> bestPostResponseList = postConverter.toBesetPostResponse(bestPostList);
         return new ResponseEntity<>(bestPostResponseList, HttpStatus.OK);
     }
