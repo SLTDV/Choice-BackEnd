@@ -120,6 +120,7 @@ public class PostController {
     public ResponseEntity<TodayPostListResponse> getTodayPostList() {
         TodayPostListDto todayPostListDto = postService.getTodayPostList();
         List<TodayPostResponse> todayPostListResponses = todayPostListDto.getTodayPosts().stream()
+                .limit(5)
                 .map(postConverter::toTodayPostResponse)
                 .collect(Collectors.toList());
 
