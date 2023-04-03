@@ -11,9 +11,9 @@ public class CreatePostRequest {
     private final String title;
     @Size(min = 2, max = 100)
     private final String content;
-    @Size(min = 2, max = 8)
+    @Size(min = 1, max = 8)
     private final String firstVotingOption;
-    @Size(min = 2, max = 8)
+    @Size(min = 1, max = 8)
     private final String secondVotingOption;
     private final String firstImageUrl;
     private final String secondImageUrl;
