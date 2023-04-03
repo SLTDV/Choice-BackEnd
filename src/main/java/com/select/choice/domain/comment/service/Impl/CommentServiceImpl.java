@@ -49,7 +49,12 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long postIdx, Long commentIdx) {
+        User user = userUtil.currentUser();
         Comment comment = commentUtil.findById(commentIdx);
+
+        if(!comment.getUser().equals(user)){
+            throw new IsNotMyCommentException(ErrorCode.IS_NOT_MY_COMMENT);
+        }
         commentRepository.delete(comment);
     }
 }
