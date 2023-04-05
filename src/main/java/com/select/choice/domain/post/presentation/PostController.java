@@ -25,7 +25,7 @@ public class PostController {
 
     /*
     기능: 게시물 조회
-    담당자: 진시윤
+    담당자: 진시윤, 노혁
      */
     @GetMapping
     public ResponseEntity<List<PostResponse>> getAllPostList(){
@@ -47,12 +47,11 @@ public class PostController {
 
     /*
     기능: 인기 게시물 조회
-    담당자: 진시윤
+    담당자: 진시윤, 노혁
      */
     @GetMapping("/list")
     public ResponseEntity<List<PostResponse>> getBestPostList(){
         List<PostDto> bestPostList = postService.getBestPostList();
-
         List<PostResponse> bestPostResponseList = postConverter.toBesetPostResponse(bestPostList);
         return new ResponseEntity<>(bestPostResponseList, HttpStatus.OK);
     }
@@ -70,7 +69,7 @@ public class PostController {
 
     /*
     기능: 게시물 생성
-    담당자: 진시윤
+    담당자: 진시윤, 노혁
      */
     @PostMapping
     public ResponseEntity<Void> createPost(@RequestBody @Valid CreatePostRequest createPostRequestDto) {
@@ -91,7 +90,7 @@ public class PostController {
 
     /*
     기능: 게시물 상세페이지 조회
-    담당자: 진시윤
+    담당자: 노혁, 진시윤
      */
     @GetMapping({"/{postIdx}"})
     public ResponseEntity<PostDetailResponse> postDetail(@PathVariable("postIdx") Long postIdx) {
