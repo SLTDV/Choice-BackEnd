@@ -1,4 +1,4 @@
-package com.select.choice.domain.comment.presentation.data.dto;
+package com.select.choice.domain.post.presentation.data.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -12,4 +12,5 @@ public class CommentDetailDto {
     private final String content;
     private final String nickname;
     private final String image;
+    private final Boolean isMine;
 }

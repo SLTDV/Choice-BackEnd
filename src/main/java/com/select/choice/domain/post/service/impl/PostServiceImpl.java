@@ -1,6 +1,6 @@
 package com.select.choice.domain.post.service.impl;
 
-import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
+import com.select.choice.domain.post.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.comment.domain.entity.Comment;
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
 import com.select.choice.domain.comment.util.CommentConverter;
@@ -93,9 +93,10 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public PostDetailDto aggregateDetail(Long postIdx) {
+        User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
         List<Comment> comment = commentRepository.findAllByPostIdx(postIdx);
-        List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment);
+        List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment, user);
 
         return postConverter.toDto(commentDetailDtoList, post);
     }
