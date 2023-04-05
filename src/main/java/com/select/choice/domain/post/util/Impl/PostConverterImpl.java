@@ -1,7 +1,7 @@
 package com.select.choice.domain.post.util.Impl;
 
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
-import com.select.choice.domain.comment.presentation.data.dto.CommentDetailDto;
+import com.select.choice.domain.post.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.post.domain.entity.PostVotingStatus;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
@@ -245,8 +245,8 @@ public class PostConverterImpl implements PostConverter {
     public PostDetailResponse toResponse(PostDetailDto postDetailDto) {
         return PostDetailResponse.builder()
                 .writer(postDetailDto.getWriter())
-                .comment(postDetailDto.getComment())
                 .image(postDetailDto.getImage())
+                .comment(postDetailDto.getComment())
                 .build();
     }
     @Override
