@@ -18,3 +18,49 @@ hooks: # CodeDeploy배포 단계에서 실행할 명령어를 지정합니다.
     - location: scripts/deploy.sh
       timeout: 60 # 스크립트 실행 60초 이상 수행되면 실패가 됩니다.
       runas: ec2-user
+     
+env: 
+    - name: DB_DRIVER
+      value: ${{ secrets.DB_DRIVER }
+    - name: DB_URL
+      value: ${{ secrets.DB_URL }
+    - name: DB_USERNAME
+      value: ${{ secrets.DB_USERNAME }}
+    - name: DB_PW
+      value: ${{ secrets.DB_PW }}
+    - name: MAIN_OVERRIDING
+      value: ${{ secrets.MAIN_OVERRIDING }}
+    - name: JPA_DDL
+      value: ${{ secrets.JPA_DDL }}
+    - name: JPA_INITIAL
+      value: ${{ secrets.JPA_INITIAL }}
+    - name: REDIS
+      value: ${{ secrets.REDIS }}
+    - name: REDIS_HOST
+      value: ${{ secrets.REDIS_HOST }}
+    - name: REDIS_PORT
+      value: ${{ secrets.REDIS_PORT }}
+    - name: MAX_REQ_SIZE
+      value: ${{ secrets.MAX_REQ_SIZE }}
+    - name: MAX_FILE_SIZE
+      value: ${{ secrets.MAX_FILE_SIZE }}
+    - name: JWT_ACCESS
+      value: ${{ secrets.JWT_ACCESS }}
+    - name: JWt_REFRESH
+      value: ${{ secrets.JWT_REFRESH }}
+    - name: SERVER_PORT
+      value: ${{ secrets.SERVER_PORT }}
+    - name: AWS_REGION
+      value: ${{ secrets.AWS_REGION }}
+    - name: AWS_STACK
+      value: ${{ secrets.AWS_STACK }}
+    - name: AWS_PROFILE
+      value: ${{ secrets.AWS_PROFILE }}
+    - name: AWS_ACCESS_KEY
+      value: ${{ secrets.AWS_ACCESS_KEY }}
+    - name: AWS_SECRET_KEY
+      value: ${{ secrets.AWS_SECRET_KEY }}
+    - name: S3_BUCKET
+      value: ${{ secrets.S3_BUCKET }}
+    - name: S3_URL
+      value: ${{ secrets.S3_URL }}
