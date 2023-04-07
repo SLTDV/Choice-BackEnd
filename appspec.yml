@@ -28,8 +28,8 @@ env:
       value: ${{ secrets.DB_USERNAME }}
     - name: DB_PW
       value: ${{ secrets.DB_PW }}
-    - name: MAIN_OVERRIDING
-      value: ${{ secrets.MAIN_OVERRIDING }}
+#     - name: MAIN_OVERRIDING
+#       value: ${{ secrets.MAIN_OVERRIDING }}
     - name: JPA_DDL
       value: ${{ secrets.JPA_DDL }}
     - name: JPA_INITIAL
