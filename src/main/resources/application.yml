@@ -7,6 +7,7 @@ spring:
 
   main:
     allow-bean-definition-overriding: ${MAIN_OVERRIDING}
+
   jpa:
     hibernate:
       ddl-auto: ${JPA_DDL}
