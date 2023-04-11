@@ -102,6 +102,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public WebVerPostDetailDto getPostDetail(Long postIdx) {
+        User user = userUtil.currentUser();
+        Post post = postUtil.findById(postIdx);
+        List<Comment> comment = commentRepository.findAllByPostIdx(postIdx);
+        List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment, user);
+
+        return postConverter.toPostDetailDto(commentDetailDtoList, post, user);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void deletePost(Long postIdx) {
         User user = userUtil.currentUser();
