@@ -15,6 +15,8 @@ public class WebVerPostDetailResponse {
     private final String content;
     private final String firstImageUrl;
     private final String secondImageUrl;
+    private final String firstVotingOption;
+    private final String secondVotingOption;
     private final String writer;
     private final String profileImageUrl;
     private final List<CommentDetailDto> comment;

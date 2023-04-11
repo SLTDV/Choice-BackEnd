@@ -201,6 +201,8 @@ public class PostConverterImpl implements PostConverter {
                 .firstImageUrl(post.getFirstImageUrl())
                 .secondImageUrl(post.getSecondImageUrl())
                 .profileImageUrl(user.getProfileImageUrl())
+                .firstVotingOption(post.getFirstVotingOption())
+                .secondVotingOption(post.getSecondVotingOption())
                 .writer(post.getUser().getNickname())
                 .comment(commentDetailDtoList)
                 .build();
@@ -215,6 +217,8 @@ public class PostConverterImpl implements PostConverter {
                 .firstImageUrl(dto.getFirstImageUrl())
                 .secondImageUrl(dto.getSecondImageUrl())
                 .profileImageUrl(dto.getProfileImageUrl())
+                .firstVotingOption(dto.getFirstVotingOption())
+                .secondVotingOption(dto.getSecondVotingOption())
                 .writer(dto.getWriter())
                 .comment(dto.getComment())
                 .build();
