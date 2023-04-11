@@ -193,6 +193,33 @@ public class PostConverterImpl implements PostConverter {
                 .build();
     }
 
+    @Override
+    public WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, User user) {
+        return WebVerPostDetailDto.builder()
+                .title(post.getTitle())
+                .content(post.getContent())
+                .firstImageUrl(post.getFirstImageUrl())
+                .secondImageUrl(post.getSecondImageUrl())
+                .profileImageUrl(user.getProfileImageUrl())
+                .writer(post.getUser().getNickname())
+                .comment(commentDetailDtoList)
+                .build();
+
+    }
+
+    @Override
+    public WebVerPostDetailResponse toResponse(WebVerPostDetailDto dto) {
+        return WebVerPostDetailResponse.builder()
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .firstImageUrl(dto.getFirstImageUrl())
+                .secondImageUrl(dto.getSecondImageUrl())
+                .profileImageUrl(dto.getProfileImageUrl())
+                .writer(dto.getWriter())
+                .comment(dto.getComment())
+                .build();
+    }
+
 
     @Override
     public List<PostResponse> toResponse(List<PostDto> dto) {

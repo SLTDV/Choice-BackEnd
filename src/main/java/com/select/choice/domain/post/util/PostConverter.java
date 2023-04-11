@@ -32,4 +32,6 @@ public interface PostConverter {
     TodayPostListDto toTodayPostListDto(List<TodayPostDto> todayPosts);
     TodayPostResponse toTodayPostResponse(TodayPostDto todayPostDto);
     TodayPostListResponse toTodayPostListResponse(List<TodayPostResponse> todayPostListResponses);
+    WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, User user);
+    WebVerPostDetailResponse toResponse(WebVerPostDetailDto dto);
 }
