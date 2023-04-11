@@ -35,7 +35,7 @@ public class PostController {
     }
 
     /*
-    기능: 게시물 조회 WEB .ver
+    기능: 게시물 조회 WEB.ver
     담당자: 노혁
      */
     @GetMapping("/web")
@@ -57,7 +57,7 @@ public class PostController {
     }
 
     /*
-    기능: 인기 게시물 조회 WEB .ver
+    기능: 인기 게시물 조회 WEB.ver
     담당자: 노혁
      */
     @GetMapping("/list/web")
@@ -96,6 +96,17 @@ public class PostController {
     public ResponseEntity<PostDetailResponse> postDetail(@PathVariable("postIdx") Long postIdx) {
         PostDetailDto dto = postService.aggregateDetail(postIdx);
         PostDetailResponse response = postConverter.toResponse(dto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /*
+    기능: 게시물 상세페이지 조회 WEb.ver
+    담당자: 노혁
+     */
+    @GetMapping("/web/{postIdx}")
+    public ResponseEntity<WebVerPostDetailResponse> getPostDetail(@PathVariable("postIdx") Long postIdx) {
+        WebVerPostDetailDto dto = postService.getPostDetail(postIdx);
+        WebVerPostDetailResponse response = postConverter.toResponse(dto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
