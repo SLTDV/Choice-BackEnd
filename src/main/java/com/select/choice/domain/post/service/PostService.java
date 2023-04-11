@@ -16,4 +16,5 @@ public interface PostService {
     List<WebVerPostDto> getPost();
     List<WebVerPostDto> getBestPost();
     TodayPostListDto getTodayPostList();
+    WebVerPostDetailDto getPostDetail(Long postIdx);
 }
