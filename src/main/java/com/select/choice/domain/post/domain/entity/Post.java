@@ -9,7 +9,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -41,7 +40,7 @@ public class Post extends BaseIdEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "post")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<PostVotingStatus> postVotingStatuses;
+    private List<PostVotingState> postVotingStates;
 
     @Builder
     public Post(String title, String content, String firstVotingOption, String secondVotingOption, String firstImageUrl, String secondImageUrl, int firstVotingCount, int secondVotingCount, User user, String createdAt) {

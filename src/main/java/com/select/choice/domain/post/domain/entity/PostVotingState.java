@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostVotingStatus extends BaseIdEntity{
+public class PostVotingState extends BaseIdEntity{
     private int vote;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,7 +30,7 @@ public class PostVotingStatus extends BaseIdEntity{
     private Post post;
 
     @Builder
-    public PostVotingStatus(int vote, User user, Post post){
+    public PostVotingState(int vote, User user, Post post){
         this.vote = vote;
         this.user = user;
         this.post = post;
