@@ -4,9 +4,9 @@ import com.select.choice.domain.post.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.comment.domain.entity.Comment;
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
 import com.select.choice.domain.comment.util.CommentConverter;
-import com.select.choice.domain.post.domain.entity.PostVotingStatus;
+import com.select.choice.domain.post.domain.entity.PostVotingState;
 import com.select.choice.domain.post.domain.repository.PostRepository;
-import com.select.choice.domain.post.domain.repository.PostVotingStatusRepository;
+import com.select.choice.domain.post.domain.repository.PostVotingStateRepository;
 import com.select.choice.domain.post.exception.InvalidChoiceException;
 import com.select.choice.domain.post.exception.InvalidVoteCount;
 import com.select.choice.domain.post.presentation.data.dto.*;
@@ -17,7 +17,6 @@ import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.post.util.PostUtil;
 import com.select.choice.domain.user.domain.entity.User;
-import com.select.choice.domain.user.domain.repository.UserRepository;
 import com.select.choice.domain.user.util.UserUtil;
 import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +38,7 @@ public class PostServiceImpl implements PostService {
     private final CommentRepository commentRepository;
     private final CommentConverter commentConverter;
     private final PostUtil postUtil;
-    private final PostVotingStatusRepository postVotingStatusRepository;
-    private final UserRepository userRepository;
+    private final PostVotingStateRepository postVotingStateRepository;
 
     @Override
     public List<PostDto> getAllPostList() {
@@ -83,11 +81,6 @@ public class PostServiceImpl implements PostService {
         Post post = postConverter.toEntity(postDto, currentUser);
         postRepository.save(post);
 
-        List<User> userList = userRepository.findAll();
-        for(User user: userList) {
-            PostVotingStatus postVotingStatus = postConverter.toEntity(user, post);
-            postVotingStatusRepository.save(postVotingStatus);
-        }
     }
 
     @Override
@@ -128,19 +121,26 @@ public class PostServiceImpl implements PostService {
     public VoteCountDto voteCount(AddCountDto addCountDto, Long postIdx) {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
-        PostVotingStatus voting = postVotingStatusRepository.findByUserAndPost(user, post);
+
+        PostVotingState voting;
+        if(postVotingStateRepository.existsByUserAndPost(user, post)) {
+            voting = postVotingStateRepository.findPostVotingStatusByUserAndPost(user, post);
+        } else {
+            voting = postConverter.toEntity(user, post);
+        }
+
         int choiceOption = addCountDto.getChoice();
 
         if(!(choiceOption == 1 | choiceOption == 2)) {
             throw new InvalidChoiceException(ErrorCode.INVALID_CHOICE);
-        }
-        post.updateVotingCount(voting.getVote(), choiceOption);
-
-
-        if (post.getFirstVotingCount() < 0 | post.getSecondVotingCount() < 0) {
+        } else if (post.getFirstVotingCount() < 0 | post.getSecondVotingCount() < 0) {
             throw new InvalidVoteCount(ErrorCode.INVALID_VOTE_COUNT);
         }
+        post.updateVotingCount(voting.getVote(), choiceOption);
         voting.updateVote(choiceOption);
+
+        postRepository.save(post);
+        postVotingStateRepository.save(voting);
 
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
