@@ -52,7 +52,7 @@ public class PostController {
     @GetMapping("/list")
     public ResponseEntity<List<PostResponse>> getBestPostList(){
         List<PostDto> bestPostList = postService.getBestPostList();
-        List<PostResponse> bestPostResponseList = postConverter.toBesetPostResponse(bestPostList);
+        List<PostResponse> bestPostResponseList = postConverter.toResponse(bestPostList);
         return new ResponseEntity<>(bestPostResponseList, HttpStatus.OK);
     }
 
@@ -63,7 +63,7 @@ public class PostController {
     @GetMapping("/list/web")
     public ResponseEntity<List<WebVerPostResponse>> getBestPost() {
         List<WebVerPostDto> bestPostList = postService.getBestPost();
-        List<WebVerPostResponse> bestPostResponseList = postConverter.toBesetPostDtoResponse(bestPostList);
+        List<WebVerPostResponse> bestPostResponseList = postConverter.toPostResponse(bestPostList);
         return new ResponseEntity<>(bestPostResponseList, HttpStatus.OK);
     }
 
