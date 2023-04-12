@@ -7,11 +7,6 @@ import com.select.choice.domain.auth.properties.CoolSMSProperties;
 import com.select.choice.domain.auth.service.AuthService;
 import com.select.choice.domain.auth.util.AuthConverter;
 import com.select.choice.domain.auth.exception.*;
-import com.select.choice.domain.post.domain.entity.Post;
-import com.select.choice.domain.post.domain.entity.PostVotingStatus;
-import com.select.choice.domain.post.domain.repository.PostRepository;
-import com.select.choice.domain.post.domain.repository.PostVotingStatusRepository;
-import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
 import com.select.choice.global.error.type.ErrorCode;
@@ -20,13 +15,11 @@ import com.select.choice.global.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
-import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
 @Service
@@ -37,9 +30,6 @@ public class AuthServiceImpl implements AuthService {
     private final AuthConverter authConverter;
     private final RefreshTokenRepository refreshTokenRepository;
     private final RedisUtil redisUtil;
-    private final PostVotingStatusRepository postVotingStatusRepository;
-    private final PostRepository postRepository;
-    private final PostConverter postConverter;
     private final CoolSMSProperties coolSMSProperties;
 
     @Override
@@ -74,12 +64,6 @@ public class AuthServiceImpl implements AuthService {
 
         User user = authConverter.toEntity(signUpDto, signUpDto.getProfileImgUrl().isPresent());
         userUtil.save(user);
-
-        List<Post> postList = postRepository.findAll();
-        for(Post post: postList) {
-            PostVotingStatus postVotingStatus = postConverter.toEntity(user, post);
-            postVotingStatusRepository.save(postVotingStatus);
-        }
     }
 
     @Override
