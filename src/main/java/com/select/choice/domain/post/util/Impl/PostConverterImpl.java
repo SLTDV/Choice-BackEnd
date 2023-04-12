@@ -1,8 +1,9 @@
 package com.select.choice.domain.post.util.Impl;
 
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
+import com.select.choice.domain.post.domain.repository.PostVotingStateRepository;
 import com.select.choice.domain.post.presentation.data.dto.CommentDetailDto;
-import com.select.choice.domain.post.domain.entity.PostVotingStatus;
+import com.select.choice.domain.post.domain.entity.PostVotingState;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
 import com.select.choice.domain.post.presentation.data.response.*;
@@ -24,25 +25,7 @@ import java.util.stream.Collectors;
 public class PostConverterImpl implements PostConverter {
     private final UserUtil userUtil;
     private final CommentRepository commentRepository;
-    @Override
-    public List<PostResponse> toBesetPostResponse(List<PostDto> dto){
-        return dto.stream().map(post ->
-                    new PostResponse(
-                            post.getIdx(),
-                            post.getFirstImageUrl(),
-                            post.getSecondImageUrl(),
-                            post.getTitle(),
-                            post.getContent(),
-                            post.getFirstVotingOption(),
-                            post.getSecondVotingOption(),
-                            post.getFirstVotingCount(),
-                            post.getSecondVotingCount(),
-                            post.getVotingPost().get(0).getVote(),
-                            post.getParticipants(),
-                            post.getCommentCount()
-                    )
-        ).collect(Collectors.toList());
-    }
+    private final PostVotingStateRepository postVotingStateRepository;
 
     @Override
     public List<PostDto> toBestPostDto(List<Post> entity) {
@@ -58,10 +41,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.getPostVotingStatuses().stream().filter(
-                                votingPost -> votingPost.getUser().getEmail().equals(user.getEmail())
-                                        & votingPost.getPost().getIdx().equals(post.getIdx())
-                        ).collect(Collectors.toList()),
+                        postVotingStateRepository.findByUserAndPost(user, post),
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         commentRepository.countByPost(post)
                 )
@@ -83,10 +63,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.getPostVotingStatuses().stream().filter(
-                                votingPost -> votingPost.getUser().getEmail().equals(user.getEmail())
-                                        & votingPost.getPost().getIdx().equals(post.getIdx())
-                        ).collect(Collectors.toList()),
+                        postVotingStateRepository.findByUserAndPost(user, post),
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         commentRepository.countByPost(post)
                 )
@@ -134,21 +111,6 @@ public class PostConverterImpl implements PostConverter {
                         entity.getSecondVotingOption(),
                         entity.getFirstVotingCount() + entity.getSecondVotingCount(),
                         commentRepository.countByPost(entity)
-                )
-        ).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<WebVerPostResponse> toBesetPostDtoResponse(List<WebVerPostDto> bestPostList) {
-        return bestPostList.stream().map(dto ->
-                new WebVerPostResponse(
-                        dto.getIdx(),
-                        dto.getImageUrl(),
-                        dto.getTitle(),
-                        dto.getFirstVotingOption(),
-                        dto.getSecondVotingOption(),
-                        dto.getParticipants(),
-                        dto.getCommentCount()
                 )
         ).collect(Collectors.toList());
     }
@@ -227,8 +189,9 @@ public class PostConverterImpl implements PostConverter {
 
     @Override
     public List<PostResponse> toResponse(List<PostDto> dto) {
-        return dto.stream().map(post ->
-                new PostResponse(
+        return dto.stream().map(post -> {
+            if(post.getVotingState().isPresent()){
+                return new PostResponse(
                         post.getIdx(),
                         post.getFirstImageUrl(),
                         post.getSecondImageUrl(),
@@ -238,11 +201,27 @@ public class PostConverterImpl implements PostConverter {
                         post.getSecondVotingOption(),
                         post.getFirstVotingCount(),
                         post.getSecondVotingCount(),
-                        post.getVotingPost().get(0).getVote(),
+                        post.getVotingState().get().getVote(),
                         post.getParticipants(),
                         post.getCommentCount()
-                )
-        ).collect(Collectors.toList());
+                );
+            } else {
+                return new PostResponse(
+                        post.getIdx(),
+                        post.getFirstImageUrl(),
+                        post.getSecondImageUrl(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getFirstVotingOption(),
+                        post.getSecondVotingOption(),
+                        post.getFirstVotingCount(),
+                        post.getSecondVotingCount(),
+                        0,
+                        post.getParticipants(),
+                        post.getCommentCount()
+                );
+            }
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -306,8 +285,8 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public PostVotingStatus toEntity(User user, Post post) {
-        return PostVotingStatus.builder()
+    public PostVotingState toEntity(User user, Post post) {
+        return PostVotingState.builder()
                 .vote(0)
                 .user(user)
                 .post(post)
