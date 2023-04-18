@@ -86,23 +86,23 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public PostDetailDto aggregateDetail(Long postIdx) {
+    public PostDetailDto aggregateDetail(Long postIdx, Pageable pageable) {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
-        List<Comment> comment = commentRepository.findAllByPostIdx(postIdx);
+        List<Comment> comment = commentRepository.findAllByPostIdx(postIdx, pageable);
         List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment, user);
 
-        return postConverter.toDto(commentDetailDtoList, post);
+        return postConverter.toDto(commentDetailDtoList, post, pageable);
     }
 
     @Override
-    public WebVerPostDetailDto getPostDetail(Long postIdx) {
+    public WebVerPostDetailDto getPostDetail(Long postIdx, Pageable pageable) {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
-        List<Comment> comment = commentRepository.findAllByPostIdx(postIdx);
+        List<Comment> comment = commentRepository.findAllByPostIdx(postIdx, pageable);
         List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment, user);
 
-        return postConverter.toPostDetailDto(commentDetailDtoList, post);
+        return postConverter.toPostDetailDto(commentDetailDtoList, post, pageable);
     }
 
     @Override
