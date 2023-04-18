@@ -94,8 +94,8 @@ public class PostController {
     담당자: 노혁, 진시윤
      */
     @GetMapping({"/{postIdx}"})
-    public ResponseEntity<PostDetailResponse> postDetail(@PathVariable("postIdx") Long postIdx) {
-        PostDetailDto dto = postService.aggregateDetail(postIdx);
+    public ResponseEntity<PostDetailResponse> postDetail(@PathVariable("postIdx") Long postIdx, Pageable pageable) {
+        PostDetailDto dto = postService.aggregateDetail(postIdx, pageable);
         PostDetailResponse response = postConverter.toResponse(dto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -105,8 +105,8 @@ public class PostController {
     담당자: 노혁
      */
     @GetMapping("/web/{postIdx}")
-    public ResponseEntity<WebVerPostDetailResponse> getPostDetail(@PathVariable("postIdx") Long postIdx) {
-        WebVerPostDetailDto dto = postService.getPostDetail(postIdx);
+    public ResponseEntity<WebVerPostDetailResponse> getPostDetail(@PathVariable("postIdx") Long postIdx, Pageable pageable) {
+        WebVerPostDetailDto dto = postService.getPostDetail(postIdx, pageable);
         WebVerPostDetailResponse response = postConverter.toResponse(dto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
