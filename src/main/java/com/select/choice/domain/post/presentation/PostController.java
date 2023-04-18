@@ -8,6 +8,7 @@ import com.select.choice.domain.post.presentation.data.request.CreatePostRequest
 import com.select.choice.domain.post.service.PostService;
 import com.select.choice.domain.post.util.PostConverter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +29,10 @@ public class PostController {
     담당자: 진시윤, 노혁
      */
     @GetMapping
-    public ResponseEntity<List<PostResponse>> getAllPostList(){
-        List<PostDto> postList = postService.getAllPostList();
+    public ResponseEntity<PostListResponse> getAllPostList(Pageable pageable){
+        List<PostDto> postList = postService.getAllPostList(pageable);
         List<PostResponse> postResponses = postConverter.toResponse(postList);
-        return new ResponseEntity<>(postResponses, HttpStatus.OK);
+        return new ResponseEntity<>(postConverter.toResponse(postResponses, pageable.getPageNumber()), HttpStatus.OK);
     }
 
     /*
