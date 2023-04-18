@@ -13,6 +13,7 @@ import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -26,6 +27,43 @@ public class PostConverterImpl implements PostConverter {
     private final UserUtil userUtil;
     private final CommentRepository commentRepository;
     private final PostVotingStateRepository postVotingStateRepository;
+
+    @Override
+    public List<PostResponse> toResponse(List<PostDto> dto) {
+        return dto.stream().map(post -> {
+            if(post.getVotingState().isPresent()){
+                return new PostResponse(
+                        post.getIdx(),
+                        post.getFirstImageUrl(),
+                        post.getSecondImageUrl(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getFirstVotingOption(),
+                        post.getSecondVotingOption(),
+                        post.getFirstVotingCount(),
+                        post.getSecondVotingCount(),
+                        post.getVotingState().get().getVote(),
+                        post.getParticipants(),
+                        post.getCommentCount()
+                );
+            } else {
+                return new PostResponse(
+                        post.getIdx(),
+                        post.getFirstImageUrl(),
+                        post.getSecondImageUrl(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getFirstVotingOption(),
+                        post.getSecondVotingOption(),
+                        post.getFirstVotingCount(),
+                        post.getSecondVotingCount(),
+                        0,
+                        post.getParticipants(),
+                        post.getCommentCount()
+                );
+            }
+        }).collect(Collectors.toList());
+    }
 
     @Override
     public List<PostDto> toBestPostDto(List<Post> entity) {
@@ -186,42 +224,21 @@ public class PostConverterImpl implements PostConverter {
                 .build();
     }
 
+    @Override
+    public PostListDto toDto(List<Post> list, Pageable pageable) {
+        return PostListDto.builder()
+                .posts(list)
+                .pageable(pageable)
+                .build();
+    }
 
     @Override
-    public List<PostResponse> toResponse(List<PostDto> dto) {
-        return dto.stream().map(post -> {
-            if(post.getVotingState().isPresent()){
-                return new PostResponse(
-                        post.getIdx(),
-                        post.getFirstImageUrl(),
-                        post.getSecondImageUrl(),
-                        post.getTitle(),
-                        post.getContent(),
-                        post.getFirstVotingOption(),
-                        post.getSecondVotingOption(),
-                        post.getFirstVotingCount(),
-                        post.getSecondVotingCount(),
-                        post.getVotingState().get().getVote(),
-                        post.getParticipants(),
-                        post.getCommentCount()
-                );
-            } else {
-                return new PostResponse(
-                        post.getIdx(),
-                        post.getFirstImageUrl(),
-                        post.getSecondImageUrl(),
-                        post.getTitle(),
-                        post.getContent(),
-                        post.getFirstVotingOption(),
-                        post.getSecondVotingOption(),
-                        post.getFirstVotingCount(),
-                        post.getSecondVotingCount(),
-                        0,
-                        post.getParticipants(),
-                        post.getCommentCount()
-                );
-            }
-        }).collect(Collectors.toList());
+    public PostListResponse toResponse(List<PostResponse> postResponses, int pageNumber) {
+        return PostListResponse.builder()
+                .page(pageNumber)
+                .size(postResponses.size())
+                .posts(postResponses)
+                .build();
     }
 
     @Override
