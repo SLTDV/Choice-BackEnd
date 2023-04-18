@@ -194,7 +194,7 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post) {
+    public WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable) {
         return WebVerPostDetailDto.builder()
                 .title(post.getTitle())
                 .content(post.getContent())
@@ -204,6 +204,8 @@ public class PostConverterImpl implements PostConverter {
                 .firstVotingOption(post.getFirstVotingOption())
                 .secondVotingOption(post.getSecondVotingOption())
                 .writer(post.getUser().getNickname())
+                .page(pageable.getPageNumber())
+                .size(commentDetailDtoList.size())
                 .comment(commentDetailDtoList)
                 .build();
 
@@ -282,15 +284,18 @@ public class PostConverterImpl implements PostConverter {
         return PostDetailResponse.builder()
                 .writer(postDetailDto.getWriter())
                 .image(postDetailDto.getImage())
+                .page(postDetailDto.getPageable().getPageNumber())
+                .size(postDetailDto.getComment().size())
                 .comment(postDetailDto.getComment())
                 .build();
     }
     @Override
-    public PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList, Post post) {
+    public PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable) {
         return PostDetailDto.builder()
                 .writer(post.getUser().getNickname())
                 .image(post.getUser().getProfileImageUrl())
                 .comment(commentDetailDtoList)
+                .pageable(pageable)
                 .build();
     }
 
