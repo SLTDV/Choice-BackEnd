@@ -13,6 +13,7 @@ import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -26,6 +27,43 @@ public class PostConverterImpl implements PostConverter {
     private final UserUtil userUtil;
     private final CommentRepository commentRepository;
     private final PostVotingStateRepository postVotingStateRepository;
+
+    @Override
+    public List<PostResponse> toResponse(List<PostDto> dto) {
+        return dto.stream().map(post -> {
+            if(post.getVotingState().isPresent()){
+                return new PostResponse(
+                        post.getIdx(),
+                        post.getFirstImageUrl(),
+                        post.getSecondImageUrl(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getFirstVotingOption(),
+                        post.getSecondVotingOption(),
+                        post.getFirstVotingCount(),
+                        post.getSecondVotingCount(),
+                        post.getVotingState().get().getVote(),
+                        post.getParticipants(),
+                        post.getCommentCount()
+                );
+            } else {
+                return new PostResponse(
+                        post.getIdx(),
+                        post.getFirstImageUrl(),
+                        post.getSecondImageUrl(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getFirstVotingOption(),
+                        post.getSecondVotingOption(),
+                        post.getFirstVotingCount(),
+                        post.getSecondVotingCount(),
+                        0,
+                        post.getParticipants(),
+                        post.getCommentCount()
+                );
+            }
+        }).collect(Collectors.toList());
+    }
 
     @Override
     public List<PostDto> toBestPostDto(List<Post> entity) {
@@ -156,16 +194,18 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, User user) {
+    public WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable) {
         return WebVerPostDetailDto.builder()
                 .title(post.getTitle())
                 .content(post.getContent())
                 .firstImageUrl(post.getFirstImageUrl())
                 .secondImageUrl(post.getSecondImageUrl())
-                .profileImageUrl(user.getProfileImageUrl())
+                .profileImageUrl(post.getUser().getProfileImageUrl())
                 .firstVotingOption(post.getFirstVotingOption())
                 .secondVotingOption(post.getSecondVotingOption())
                 .writer(post.getUser().getNickname())
+                .page(pageable.getPageNumber())
+                .size(commentDetailDtoList.size())
                 .comment(commentDetailDtoList)
                 .build();
 
@@ -186,42 +226,30 @@ public class PostConverterImpl implements PostConverter {
                 .build();
     }
 
+    @Override
+    public PostListDto toDto(List<Post> list, Pageable pageable) {
+        return PostListDto.builder()
+                .posts(list)
+                .pageable(pageable)
+                .build();
+    }
 
     @Override
-    public List<PostResponse> toResponse(List<PostDto> dto) {
-        return dto.stream().map(post -> {
-            if(post.getVotingState().isPresent()){
-                return new PostResponse(
-                        post.getIdx(),
-                        post.getFirstImageUrl(),
-                        post.getSecondImageUrl(),
-                        post.getTitle(),
-                        post.getContent(),
-                        post.getFirstVotingOption(),
-                        post.getSecondVotingOption(),
-                        post.getFirstVotingCount(),
-                        post.getSecondVotingCount(),
-                        post.getVotingState().get().getVote(),
-                        post.getParticipants(),
-                        post.getCommentCount()
-                );
-            } else {
-                return new PostResponse(
-                        post.getIdx(),
-                        post.getFirstImageUrl(),
-                        post.getSecondImageUrl(),
-                        post.getTitle(),
-                        post.getContent(),
-                        post.getFirstVotingOption(),
-                        post.getSecondVotingOption(),
-                        post.getFirstVotingCount(),
-                        post.getSecondVotingCount(),
-                        0,
-                        post.getParticipants(),
-                        post.getCommentCount()
-                );
-            }
-        }).collect(Collectors.toList());
+    public PostListResponse toResponse(List<PostResponse> postResponses, int pageNumber) {
+        return PostListResponse.builder()
+                .page(pageNumber)
+                .size(postResponses.size())
+                .posts(postResponses)
+                .build();
+    }
+
+    @Override
+    public WebVerPostListResponse toWebResponse(List<WebVerPostResponse> webVerPostResponseList, int pageNumber) {
+        return WebVerPostListResponse.builder()
+                .page(pageNumber)
+                .size(webVerPostResponseList.size())
+                .posts(webVerPostResponseList)
+                .build();
     }
 
     @Override
@@ -256,15 +284,18 @@ public class PostConverterImpl implements PostConverter {
         return PostDetailResponse.builder()
                 .writer(postDetailDto.getWriter())
                 .image(postDetailDto.getImage())
+                .page(postDetailDto.getPageable().getPageNumber())
+                .size(postDetailDto.getComment().size())
                 .comment(postDetailDto.getComment())
                 .build();
     }
     @Override
-    public PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList, Post post) {
+    public PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable) {
         return PostDetailDto.builder()
                 .writer(post.getUser().getNickname())
                 .image(post.getUser().getProfileImageUrl())
                 .comment(commentDetailDtoList)
+                .pageable(pageable)
                 .build();
     }
 

@@ -20,6 +20,7 @@ import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
 import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,20 +42,20 @@ public class PostServiceImpl implements PostService {
     private final PostVotingStateRepository postVotingStateRepository;
 
     @Override
-    public List<PostDto> getAllPostList() {
-        List<Post> list = postRepository.findAll();
+    public List<PostDto>getAllPostList(Pageable pageable) {
+        List<Post> list = postRepository.findAll(pageable).toList();
         return postConverter.toDto(list);
     }
 
     @Override
-    public List<WebVerPostDto> getPost() {
-        List<Post> list = postRepository.findAll();
+    public List<WebVerPostDto> getPost(Pageable pageable) {
+        List<Post> list = postRepository.findAll(pageable).toList();
         return postConverter.toPostDto(list);
     }
 
     @Override
-    public List<WebVerPostDto> getBestPost() {
-        List<Post> list = postRepository.getBestPostList();
+    public List<WebVerPostDto> getBestPost(Pageable pageable) {
+        List<Post> list = postRepository.getBestPostList(pageable);
         return postConverter.toBestPostDtoList(list);
     }
 
@@ -69,8 +70,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getBestPostList() {
-        List<Post> list = postRepository.getBestPostList();
+    public List<PostDto> getBestPostList(Pageable pageable) {
+        List<Post> list = postRepository.getBestPostList(pageable);
         return postConverter.toBestPostDto(list);
     }
 
@@ -85,23 +86,23 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public PostDetailDto aggregateDetail(Long postIdx) {
+    public PostDetailDto aggregateDetail(Long postIdx, Pageable pageable) {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
-        List<Comment> comment = commentRepository.findAllByPostIdx(postIdx);
+        List<Comment> comment = commentRepository.findAllByPostIdx(postIdx, pageable);
         List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment, user);
 
-        return postConverter.toDto(commentDetailDtoList, post);
+        return postConverter.toDto(commentDetailDtoList, post, pageable);
     }
 
     @Override
-    public WebVerPostDetailDto getPostDetail(Long postIdx) {
+    public WebVerPostDetailDto getPostDetail(Long postIdx, Pageable pageable) {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
-        List<Comment> comment = commentRepository.findAllByPostIdx(postIdx);
+        List<Comment> comment = commentRepository.findAllByPostIdx(postIdx, pageable);
         List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment, user);
 
-        return postConverter.toPostDetailDto(commentDetailDtoList, post, user);
+        return postConverter.toPostDetailDto(commentDetailDtoList, post, pageable);
     }
 
     @Override
