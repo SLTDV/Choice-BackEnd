@@ -48,14 +48,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<WebVerPostDto> getPost() {
-        List<Post> list = postRepository.findAll();
+    public List<WebVerPostDto> getPost(Pageable pageable) {
+        List<Post> list = postRepository.findAll(pageable).toList();
         return postConverter.toPostDto(list);
     }
 
     @Override
-    public List<WebVerPostDto> getBestPost() {
-        List<Post> list = postRepository.getBestPostList();
+    public List<WebVerPostDto> getBestPost(Pageable pageable) {
+        List<Post> list = postRepository.getBestPostList(pageable);
         return postConverter.toBestPostDtoList(list);
     }
 
@@ -70,8 +70,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getBestPostList() {
-        List<Post> list = postRepository.getBestPostList();
+    public List<PostDto> getBestPostList(Pageable pageable) {
+        List<Post> list = postRepository.getBestPostList(pageable);
         return postConverter.toBestPostDto(list);
     }
 
