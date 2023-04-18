@@ -13,5 +13,7 @@ import java.util.List;
 public class PostDetailResponse {
     private final String writer;
     private final String image;
+    private final Integer page;
+    private final Integer size;
     private final List<CommentDetailDto> comment;
 }

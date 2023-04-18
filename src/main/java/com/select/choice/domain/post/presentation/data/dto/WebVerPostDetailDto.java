@@ -17,6 +17,8 @@ public class WebVerPostDetailDto {
     private final String firstVotingOption;
     private final String secondVotingOption;
     private final String writer;
+    private final Integer page;
+    private final Integer size;
     private final String profileImageUrl;
     private final List<CommentDetailDto> comment;
 }
