@@ -35,4 +35,5 @@ public interface PostConverter {
     WebVerPostDetailResponse toResponse(WebVerPostDetailDto dto);
     PostListDto toDto(List<Post> list, Pageable pageable);
     PostListResponse toResponse(List<PostResponse> postResponses, int pageNumber);
+    WebVerPostListResponse toWebResponse(List<WebVerPostResponse> webVerPostResponseList, int pageNumber);
 }

@@ -242,6 +242,15 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
+    public WebVerPostListResponse toWebResponse(List<WebVerPostResponse> webVerPostResponseList, int pageNumber) {
+        return WebVerPostListResponse.builder()
+                .page(pageNumber)
+                .size(webVerPostResponseList.size())
+                .posts(webVerPostResponseList)
+                .build();
+    }
+
+    @Override
     public Post toEntity(CreatePostDto dto, User user) {
         return new Post(
                 dto.getTitle(),
