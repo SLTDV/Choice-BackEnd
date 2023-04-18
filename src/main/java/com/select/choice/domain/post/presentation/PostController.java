@@ -40,10 +40,10 @@ public class PostController {
     담당자: 노혁
      */
     @GetMapping("/web")
-    public ResponseEntity<List<WebVerPostResponse>> getPost(){
-        List<WebVerPostDto> webVerPostDtoList = postService.getPost();
+    public ResponseEntity<WebVerPostListResponse> getPost(Pageable pageable){
+        List<WebVerPostDto> webVerPostDtoList = postService.getPost(pageable);
         List<WebVerPostResponse> webVerPostResponseList = postConverter.toPostResponse(webVerPostDtoList);
-        return new ResponseEntity<>(webVerPostResponseList, HttpStatus.OK);
+        return new ResponseEntity<>(postConverter.toWebResponse(webVerPostResponseList, pageable.getPageNumber()), HttpStatus.OK);
     }
 
     /*
@@ -51,10 +51,10 @@ public class PostController {
     담당자: 진시윤, 노혁
      */
     @GetMapping("/list")
-    public ResponseEntity<List<PostResponse>> getBestPostList(){
-        List<PostDto> bestPostList = postService.getBestPostList();
+    public ResponseEntity<PostListResponse> getBestPostList(Pageable pageable){
+        List<PostDto> bestPostList = postService.getBestPostList(pageable);
         List<PostResponse> bestPostResponseList = postConverter.toResponse(bestPostList);
-        return new ResponseEntity<>(bestPostResponseList, HttpStatus.OK);
+        return new ResponseEntity<>(postConverter.toResponse(bestPostResponseList, pageable.getPageNumber()), HttpStatus.OK);
     }
 
     /*
@@ -62,10 +62,10 @@ public class PostController {
     담당자: 노혁
      */
     @GetMapping("/list/web")
-    public ResponseEntity<List<WebVerPostResponse>> getBestPost() {
-        List<WebVerPostDto> bestPostList = postService.getBestPost();
+    public ResponseEntity<WebVerPostListResponse> getBestPost(Pageable pageable) {
+        List<WebVerPostDto> bestPostList = postService.getBestPost(pageable);
         List<WebVerPostResponse> bestPostResponseList = postConverter.toPostResponse(bestPostList);
-        return new ResponseEntity<>(bestPostResponseList, HttpStatus.OK);
+        return new ResponseEntity<>(postConverter.toWebResponse(bestPostResponseList, pageable.getPageNumber()), HttpStatus.OK);
     }
 
     /*
