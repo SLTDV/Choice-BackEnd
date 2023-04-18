@@ -156,13 +156,13 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, User user) {
+    public WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post) {
         return WebVerPostDetailDto.builder()
                 .title(post.getTitle())
                 .content(post.getContent())
                 .firstImageUrl(post.getFirstImageUrl())
                 .secondImageUrl(post.getSecondImageUrl())
-                .profileImageUrl(user.getProfileImageUrl())
+                .profileImageUrl(post.getUser().getProfileImageUrl())
                 .firstVotingOption(post.getFirstVotingOption())
                 .secondVotingOption(post.getSecondVotingOption())
                 .writer(post.getUser().getNickname())
