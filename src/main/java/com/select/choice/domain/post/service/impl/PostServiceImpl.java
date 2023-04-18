@@ -20,6 +20,7 @@ import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
 import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,8 +42,8 @@ public class PostServiceImpl implements PostService {
     private final PostVotingStateRepository postVotingStateRepository;
 
     @Override
-    public List<PostDto> getAllPostList() {
-        List<Post> list = postRepository.findAll();
+    public List<PostDto>getAllPostList(Pageable pageable) {
+        List<Post> list = postRepository.findAll(pageable).toList();
         return postConverter.toDto(list);
     }
 
