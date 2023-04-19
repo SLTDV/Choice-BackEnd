@@ -5,6 +5,6 @@ import lombok.*;
 @Getter
 @RequiredArgsConstructor
 public class SignInRequest {
-    private final String email;
+    private final String phoneNumber;
     private final String password;
 }

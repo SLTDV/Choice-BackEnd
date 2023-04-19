@@ -10,7 +10,7 @@ import java.util.Optional;
 @Builder
 @RequiredArgsConstructor
 public class SignUpDto {
-    private final String email;
+    private final String phoneNumber;
     private final String password;
     private final String nickname;
     private final Optional<String> profileImgUrl;

@@ -47,11 +47,11 @@ public class AuthConverterImpl implements AuthConverter {
 
     @Override
     public SignInDto toDto(SignInRequest signInRequest) {
-        String reqEmail = signInRequest.getEmail();
+        String reqPhoneNumber = signInRequest.getPhoneNumber();
         String reqPassword = signInRequest.getPassword();
 
         return SignInDto.builder()
-                .email(reqEmail)
+                .phoneNumber(reqPhoneNumber)
                 .password(reqPassword)
                 .build();
     }
@@ -77,14 +77,14 @@ public class AuthConverterImpl implements AuthConverter {
 
         if(isProfileImage){
             return User.builder()
-                    .(signUpDto.getPhoneNumber())
+                    .phoneNumber(signUpDto.getPhoneNumber())
                     .nickname(dtoNickname)
                     .password(dtoPassword)
                     .profileImageUrl(signUpDto.getProfileImgUrl().get())
                     .build();
         } else {
             return User.builder()
-                    .email(dtoEmail)
+                    .phoneNumber(signUpDto.getPhoneNumber())
                     .nickname(dtoNickname)
                     .password(dtoPassword)
                     .build();

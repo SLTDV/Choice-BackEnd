@@ -14,10 +14,10 @@ import org.springframework.data.redis.core.index.Indexed;
 public class Authentication {
     @Id
     @Indexed
-    private String email;
+    private String phoneNumber;
 
     @Builder
-    public Authentication(String email){
-        this.email = email;
+    public Authentication(String phoneNumber){
+        this.phoneNumber = phoneNumber;
     }
 }
