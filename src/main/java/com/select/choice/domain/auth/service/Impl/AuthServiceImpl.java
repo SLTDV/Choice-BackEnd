@@ -1,5 +1,9 @@
 package com.select.choice.domain.auth.service.Impl;
 
+import com.select.choice.domain.auth.domain.entity.AuthCode;
+import com.select.choice.domain.auth.domain.entity.Authentication;
+import com.select.choice.domain.auth.domain.repository.AuthCodeRepository;
+import com.select.choice.domain.auth.domain.repository.AuthenticationRepository;
 import com.select.choice.domain.auth.presentation.data.dto.*;
 import com.select.choice.domain.auth.domain.entity.RefreshToken;
 import com.select.choice.domain.auth.domain.repository.RefreshTokenRepository;
@@ -31,15 +35,17 @@ public class AuthServiceImpl implements AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final RedisUtil redisUtil;
     private final CoolSMSProperties coolSMSProperties;
+    private final AuthCodeRepository authCodeRepository;
+    private final AuthenticationRepository authenticationRepository;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public TokenDto signIn(SignInDto signInDto) {
-        User user = userUtil.findUserByEmail(signInDto.getEmail());
+        User user = userUtil.findUserByPhoneNumber(signInDto.getPhoneNumber());
         userUtil.checkPassword(user, signInDto.getPassword());
 
-        String accessToken = jwtTokenProvider.generateAccessToken(user.getEmail());
-        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
+        String accessToken = jwtTokenProvider.generateAccessToken(user.getPhoneNumber());
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getPhoneNumber());
         LocalDateTime accessExpiredTime = jwtTokenProvider.getAccessTokenExpiredTime();
         LocalDateTime refreshExpiredTime = jwtTokenProvider.getRefreshTokenExpiredTime();
 
@@ -79,7 +85,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void sendSMS(SendPhoneNumberDto dto) throws CoolsmsException {
+    public void sendSMS(String phoneNumber) throws CoolsmsException {
+        if(userUtil.existsByPhoneNumber(phoneNumber)) {
+            throw new DuplicatePhoneNumberException(ErrorCode.DUPLICATE_PHONE_NUMBER);
+        }
+
         Message coolsms = new Message(coolSMSProperties.getApiKey(), coolSMSProperties.getApiSecret());
 
         Random rand  = new Random();
@@ -90,19 +100,27 @@ public class AuthServiceImpl implements AuthService {
         }
 
         HashMap<String, String> params = new HashMap<>();
-        params.put("to", dto.getPhoneNumber());    // 수신전화번호
+        params.put("to", phoneNumber);    // 수신전화번호
         params.put("from", "01065657236");    // 발신전화번호
         params.put("type", "sms");
         params.put("text", "인증번호는 [" + numStr + "] 입니다.");
 
         coolsms.send(params);
+
+        authCodeRepository.save(authConverter.toEntity(numStr.toString(), phoneNumber));
     }
 
     @Override
-    public void signupDuplicationCheck(SignupDuplicationCheckDto signupDuplicationCheckDto) {
-        if (userUtil.existsByEmail(signupDuplicationCheckDto.getEmail())) {
-            throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
+    public void checkAuthCode(String phoneNumber, String authCode) {
+        AuthCode entity = authCodeRepository.findById(phoneNumber)
+                .orElseThrow(() -> new AuthCodeNotFoundException(ErrorCode.AUTH_CODE_NOT_FOUND));
+
+        if(!authCode.equals(entity.getCode())) {
+            throw new InValidAuthCodeException(ErrorCode.INVALID_AUTH_CODE);
         }
+
+        Authentication authentication = authConverter.toEntity(phoneNumber);
+        authenticationRepository.save(authentication);
     }
 
     @Override

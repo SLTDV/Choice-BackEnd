@@ -8,6 +8,6 @@ public interface AuthService {
     TokenDto signIn(SignInDto signInDto);
     void signUp(SignUpDto signUpDto);
     void logout(String token);
-    void sendSMS(SendPhoneNumberDto dto) throws CoolsmsException;
-    void signupDuplicationCheck(SignupDuplicationCheckDto signupDuplicationCheckDto);
+    void sendSMS(String phoneNumber) throws CoolsmsException;
+    void checkAuthCode(String phoneNumber, String authCode);
 }
