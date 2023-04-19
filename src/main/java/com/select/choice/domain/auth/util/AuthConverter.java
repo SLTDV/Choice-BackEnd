@@ -1,5 +1,7 @@
 package com.select.choice.domain.auth.util;
 
+import com.select.choice.domain.auth.domain.entity.AuthCode;
+import com.select.choice.domain.auth.domain.entity.Authentication;
 import com.select.choice.domain.auth.domain.entity.RefreshToken;
 import com.select.choice.domain.auth.presentation.data.dto.*;
 import com.select.choice.domain.auth.presentation.data.request.SendPhoneNumberRequest;
@@ -20,4 +22,6 @@ public interface AuthConverter {
     RefreshToken toEntity(Long userIdx, String refreshToken);
     SendPhoneNumberDto toDto(SendPhoneNumberRequest sendPhoneNumberRequest);
     SignupDuplicationCheckDto toDto(SignupDuplicationCheckRequest signupDuplicationCheckRequest);
+    AuthCode toEntity(String numStr, String phoneNumber);
+    Authentication toEntity(String phoneNumber);
 }

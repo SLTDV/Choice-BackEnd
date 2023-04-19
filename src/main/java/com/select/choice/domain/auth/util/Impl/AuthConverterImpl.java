@@ -1,5 +1,7 @@
 package com.select.choice.domain.auth.util.Impl;
 
+import com.select.choice.domain.auth.domain.entity.AuthCode;
+import com.select.choice.domain.auth.domain.entity.Authentication;
 import com.select.choice.domain.auth.domain.entity.RefreshToken;
 import com.select.choice.domain.auth.presentation.data.dto.*;
 import com.select.choice.domain.auth.presentation.data.request.SendPhoneNumberRequest;
@@ -56,13 +58,12 @@ public class AuthConverterImpl implements AuthConverter {
 
     @Override
     public SignUpDto toDto(SignUpRequest signUpRequest) {
-        String reqEmail = signUpRequest.getEmail();
         String reqNickname = signUpRequest.getNickname().stripTrailing();
         String reqPassword = signUpRequest.getPassword();
         Optional<String> reqImgUrl = signUpRequest.getProfileImgUrl();
 
         return SignUpDto.builder()
-                .email(reqEmail)
+                .phoneNumber(signUpRequest.getPhoneNumber())
                 .nickname(reqNickname)
                 .password(reqPassword)
                 .profileImgUrl(reqImgUrl)
@@ -71,13 +72,12 @@ public class AuthConverterImpl implements AuthConverter {
 
     @Override
     public User toEntity(SignUpDto signUpDto, boolean isProfileImage) {
-        String dtoEmail = signUpDto.getEmail();
         String dtoNickname = signUpDto.getNickname();
         String dtoPassword = passwordEncoder.encode(signUpDto.getPassword());
 
         if(isProfileImage){
             return User.builder()
-                    .email(dtoEmail)
+                    .(signUpDto.getPhoneNumber())
                     .nickname(dtoNickname)
                     .password(dtoPassword)
                     .profileImageUrl(signUpDto.getProfileImgUrl().get())
@@ -110,6 +110,21 @@ public class AuthConverterImpl implements AuthConverter {
     public SignupDuplicationCheckDto toDto(SignupDuplicationCheckRequest signupDuplicationCheckRequest) {
         return SignupDuplicationCheckDto.builder()
                 .email(signupDuplicationCheckRequest.getEmail())
+                .build();
+    }
+
+    @Override
+    public AuthCode toEntity(String numStr, String phoneNumber) {
+        return AuthCode.builder()
+                .phoneNumber(phoneNumber)
+                .code(numStr)
+                .build();
+    }
+
+    @Override
+    public Authentication toEntity(String phoneNumber) {
+        return Authentication.builder()
+                .phoneNumber(phoneNumber)
                 .build();
     }
 }
