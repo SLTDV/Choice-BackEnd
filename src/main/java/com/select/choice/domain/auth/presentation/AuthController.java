@@ -79,10 +79,25 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    /*
+    기능: 휴대전화로 인증번호 전송
+    담당자: 노혁
+     */
     @PostMapping("/phone")
-    public ResponseEntity<Void> sendSMS(@RequestBody SendPhoneNumberRequest sendPhoneNumberRequest) throws CoolsmsException {
-        SendPhoneNumberDto dto = authConverter.toDto(sendPhoneNumberRequest);
-        authService.sendSMS(dto);
+    public ResponseEntity<Void> sendSMS(@RequestParam("phoneNumber") String phoneNumber) throws CoolsmsException {
+        authService.sendSMS(phoneNumber);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /*
+    기능: 인즌번호 확인
+    담당자: 노혁
+     */
+    @GetMapping("/phone")
+    public ResponseEntity<Void> checkAuthCode(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("authCode") String authCode) {
+        authService.checkAuthCode(phoneNumber, authCode);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }
