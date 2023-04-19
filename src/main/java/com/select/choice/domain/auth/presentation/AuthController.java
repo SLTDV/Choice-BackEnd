@@ -1,10 +1,8 @@
 package com.select.choice.domain.auth.presentation;
 
 import com.select.choice.domain.auth.presentation.data.dto.*;
-import com.select.choice.domain.auth.presentation.data.request.SendPhoneNumberRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
-import com.select.choice.domain.auth.presentation.data.request.SignupDuplicationCheckRequest;
 import com.select.choice.domain.auth.presentation.data.response.TokenResponse;
 import com.select.choice.domain.auth.service.AuthService;
 import com.select.choice.domain.auth.util.AuthConverter;
@@ -45,17 +43,6 @@ public class AuthController {
         SignUpDto signUpDto = authConverter.toDto(signUpRequest);
         authService.signUp(signUpDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    /*
-    기능: 회원가입 이메일 중복검사
-    담당자: 노혁
-     */
-    @PostMapping("/duplication")
-    public ResponseEntity<Void> SignupDuplicationCheck(@RequestBody SignupDuplicationCheckRequest signupDuplicationCheckRequest) {
-        SignupDuplicationCheckDto signupDuplicationCheckDto = authConverter.toDto(signupDuplicationCheckRequest);
-        authService.signupDuplicationCheck(signupDuplicationCheckDto);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /*
