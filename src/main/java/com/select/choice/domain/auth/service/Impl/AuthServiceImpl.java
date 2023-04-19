@@ -62,7 +62,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void signUp(SignUpDto signUpDto) {
-        if (userUtil.existsByNickname(signUpDto.getNickname())) {
+        if(!authenticationRepository.existsById(signUpDto.getPhoneNumber())) {
+            throw new NotRegisteredPhoneNumberException(ErrorCode.NOT_REGISTERED_PHONE_NUMBER);
+        } else if (userUtil.existsByNickname(signUpDto.getNickname())) {
             throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);
         } else if (signUpDto.getNickname().startsWith(" ")) {
             throw new NicknameRegexpException(ErrorCode.NICKNAME_REGEXP);
