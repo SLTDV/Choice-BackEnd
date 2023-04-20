@@ -48,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Long postIdx, Long commentIdx) {
+    public void delete(Long commentIdx) {
         User user = userUtil.currentUser();
         Comment comment = commentUtil.findById(commentIdx);
 
