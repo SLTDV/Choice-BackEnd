@@ -31,7 +31,7 @@ public interface PostConverter {
     TodayPostListDto toTodayPostListDto(List<TodayPostDto> todayPosts);
     TodayPostResponse toTodayPostResponse(TodayPostDto todayPostDto);
     TodayPostListResponse toTodayPostListResponse(List<TodayPostResponse> todayPostListResponses);
-    WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable);
+    WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable, User user);
     WebVerPostDetailResponse toResponse(WebVerPostDetailDto dto);
     PostListDto toDto(List<Post> list, Pageable pageable);
     PostListResponse toResponse(List<PostResponse> postResponses, int pageNumber);

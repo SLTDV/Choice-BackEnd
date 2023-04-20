@@ -102,7 +102,7 @@ public class PostServiceImpl implements PostService {
         List<Comment> comment = commentRepository.findAllByPostIdx(postIdx, pageable);
         List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment, user);
 
-        return postConverter.toPostDetailDto(commentDetailDtoList, post, pageable);
+        return postConverter.toPostDetailDto(commentDetailDtoList, post, pageable, user);
     }
 
     @Override

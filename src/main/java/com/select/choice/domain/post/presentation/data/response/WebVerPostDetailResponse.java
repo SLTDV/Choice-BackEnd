@@ -17,7 +17,12 @@ public class WebVerPostDetailResponse {
     private final String secondImageUrl;
     private final String firstVotingOption;
     private final String secondVotingOption;
+    private final Integer firstVotingCount;
+    private final Integer secondVotingCount;
     private final String writer;
     private final String profileImageUrl;
+    private final Integer page;
+    private final Integer size;
+    private final Integer votingState;
     private final List<CommentDetailDto> comment;
 }
