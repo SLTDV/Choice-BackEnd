@@ -32,7 +32,7 @@ public class CommentController {
     기능: 댓글 수정
     담당자: 노혁
      */
-    @PatchMapping("/{commentIdx}")
+    @PatchMapping("/{postIdx}/{commentIdx}")
     public ResponseEntity<Void> edit(@PathVariable("commentIdx") Long commentIdx, @RequestBody EditCommentRequest editCommentRequest){
         CommentDto commentDto = commentConverter.toDto(editCommentRequest);
         commentService.edit(commentIdx, commentDto);
