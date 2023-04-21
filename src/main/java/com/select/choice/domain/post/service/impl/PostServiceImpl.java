@@ -43,7 +43,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto>getAllPostList(Pageable pageable) {
-        List<Post> list = postRepository.findAll(pageable).toList();
+        List<Post> list = postRepository.getAllPostList(pageable);
         return postConverter.toDto(list);
     }
 

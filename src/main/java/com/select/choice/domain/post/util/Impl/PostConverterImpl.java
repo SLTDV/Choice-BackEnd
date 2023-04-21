@@ -62,7 +62,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getCommentCount()
                 );
             }
-        }).sorted(Comparator.comparing(PostResponse::getIdx).reversed()).collect(Collectors.toList());
+        }).collect(Collectors.toList());
     }
 
     @Override
