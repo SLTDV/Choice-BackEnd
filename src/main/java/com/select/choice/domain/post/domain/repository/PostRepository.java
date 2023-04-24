@@ -13,7 +13,5 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     @Query("select p from Post p order by (p.firstVotingCount + p.secondVotingCount) desc")
     List<Post> getBestPostList(Pageable pageable);
     List<Post> findAllByCreatedAtContaining(String today);
-    @Query("select p from Post p order by p.idx desc ")
-    List<Post> getAllPostList(Pageable pageable);
     List<Post> findAllByUserIdx(Long idx);
 }
