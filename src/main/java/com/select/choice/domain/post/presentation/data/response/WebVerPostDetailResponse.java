@@ -11,6 +11,8 @@ import java.util.List;
 @Builder
 @RequiredArgsConstructor
 public class WebVerPostDetailResponse {
+    private final Integer page;
+    private final Integer size;
     private final String title;
     private final String content;
     private final String firstImageUrl;
@@ -21,8 +23,6 @@ public class WebVerPostDetailResponse {
     private final Integer secondVotingCount;
     private final String writer;
     private final String profileImageUrl;
-    private final Integer page;
-    private final Integer size;
     private final Integer votingState;
     private final List<CommentDetailDto> comment;
 }
