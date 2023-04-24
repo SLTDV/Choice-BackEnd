@@ -105,7 +105,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         commentRepository.countByPost(post)
                 )
-        ).collect(Collectors.toList());
+        ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
     }
 
     @Override
