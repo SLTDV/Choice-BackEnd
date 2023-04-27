@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class VoteCountDto {
-    private final Integer firstVotingCount;
-    private final Integer secondVotingCount;
+public class VoteOptionDto {
+    private final int choice;
 }

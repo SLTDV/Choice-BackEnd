@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class AddCountDto {
-    private final int choice;
+public class VoteForPostDto {
+    private final Integer firstVotingCount;
+    private final Integer secondVotingCount;
 }

@@ -9,8 +9,8 @@ import java.util.List;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class WebVerPostListResponse {
+public class WebPostListResponse {
     private final Integer page;
     private final Integer size;
-    private final List<WebVerPostResponse> posts;
+    private final List<WebPostResponse> posts;
 }

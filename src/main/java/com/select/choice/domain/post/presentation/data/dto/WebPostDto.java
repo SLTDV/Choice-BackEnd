@@ -1,4 +1,4 @@
-package com.select.choice.domain.post.presentation.data.response;
+package com.select.choice.domain.post.presentation.data.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class WebVerPostResponse {
+public class WebPostDto {
     private final Long idx;
     private final String imageUrl;
     private final String title;

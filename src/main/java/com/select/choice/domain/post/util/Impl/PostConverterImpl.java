@@ -109,9 +109,9 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public List<WebVerPostDto> toPostDto(List<Post> list) {
+    public List<WebPostDto> toPostDto(List<Post> list) {
         return list.stream().map(post ->
-                new WebVerPostDto(
+                new WebPostDto(
                         post.getIdx(),
                         post.getFirstImageUrl(),
                         post.getTitle(),
@@ -120,13 +120,13 @@ public class PostConverterImpl implements PostConverter {
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         commentRepository.countByPost(post)
                 )
-        ).sorted(Comparator.comparing(WebVerPostDto::getIdx).reversed()).collect(Collectors.toList());
+        ).sorted(Comparator.comparing(WebPostDto::getIdx).reversed()).collect(Collectors.toList());
     }
 
     @Override
-    public List<WebVerPostResponse> toPostResponse(List<WebVerPostDto> webVerPostDtoList) {
+    public List<WebPostResponse> toPostResponse(List<WebPostDto> webVerPostDtoList) {
         return webVerPostDtoList.stream().map(dto ->
-                new WebVerPostResponse(
+                new WebPostResponse(
                         dto.getIdx(),
                         dto.getImageUrl(),
                         dto.getTitle(),
@@ -139,9 +139,9 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public List<WebVerPostDto> toBestPostDtoList(List<Post> list) {
+    public List<WebPostDto> toBestPostDtoList(List<Post> list) {
         return list.stream().map(entity ->
-                new WebVerPostDto(
+                new WebPostDto(
                         entity.getIdx(),
                         entity.getFirstImageUrl(),
                         entity.getTitle(),
@@ -194,8 +194,8 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable) {
-        return WebVerPostDetailDto.builder()
+    public WebPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable, User user) {
+        return WebPostDetailDto.builder()
                 .title(post.getTitle())
                 .content(post.getContent())
                 .firstImageUrl(post.getFirstImageUrl())
@@ -203,17 +203,19 @@ public class PostConverterImpl implements PostConverter {
                 .profileImageUrl(post.getUser().getProfileImageUrl())
                 .firstVotingOption(post.getFirstVotingOption())
                 .secondVotingOption(post.getSecondVotingOption())
+                .firstVotingCount(post.getFirstVotingCount())
+                .secondVotingCount(post.getSecondVotingCount())
                 .writer(post.getUser().getNickname())
                 .page(pageable.getPageNumber())
                 .size(commentDetailDtoList.size())
+                .votingState(postVotingStateRepository.findByUserAndPost(user, post))
                 .comment(commentDetailDtoList)
                 .build();
-
     }
 
     @Override
-    public WebVerPostDetailResponse toResponse(WebVerPostDetailDto dto) {
-        return WebVerPostDetailResponse.builder()
+    public WebPostDetailResponse toResponse(WebPostDetailDto dto) {
+        return WebPostDetailResponse.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .firstImageUrl(dto.getFirstImageUrl())
@@ -244,8 +246,8 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public WebVerPostListResponse toWebResponse(List<WebVerPostResponse> webVerPostResponseList, int pageNumber) {
-        return WebVerPostListResponse.builder()
+    public WebPostListResponse toWebResponse(List<WebPostResponse> webVerPostResponseList, int pageNumber) {
+        return WebPostListResponse.builder()
                 .page(pageNumber)
                 .size(webVerPostResponseList.size())
                 .posts(webVerPostResponseList)
@@ -300,16 +302,16 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public VoteCountResponse toResponse(VoteCountDto voteCountDto) {
-        return VoteCountResponse.builder()
+    public VoteForPostResponse toResponse(VoteForPostDto voteCountDto) {
+        return VoteForPostResponse.builder()
                 .firstVotingCount(voteCountDto.getFirstVotingCount())
                 .secondVotingCount(voteCountDto.getSecondVotingCount())
                 .build();
     }
 
     @Override
-    public VoteCountDto toDto(Integer firstVotingCount, Integer secondVotingCount) {
-        return VoteCountDto.builder()
+    public VoteForPostDto toDto(Integer firstVotingCount, Integer secondVotingCount) {
+        return VoteForPostDto.builder()
                 .firstVotingCount(firstVotingCount)
                 .secondVotingCount(secondVotingCount)
                 .build();
@@ -325,9 +327,9 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public AddCountDto toDto(AddCountRequest addCountRequest) {
+    public VoteOptionDto toDto(AddCountRequest addCountRequest) {
         int choice = addCountRequest.getChoice();
-        return AddCountDto.builder()
+        return VoteOptionDto.builder()
                 .choice(choice)
                 .build();
     }
