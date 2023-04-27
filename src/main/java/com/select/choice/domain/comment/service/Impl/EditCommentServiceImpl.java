@@ -4,7 +4,7 @@ import com.select.choice.domain.comment.domain.entity.Comment;
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
 import com.select.choice.domain.comment.exception.IsNotMyCommentException;
 import com.select.choice.domain.comment.presentation.data.dto.CommentDto;
-정import com.select.choice.domain.comment.service.EditCommentService;
+import com.select.choice.domain.comment.service.EditCommentService;
 import com.select.choice.domain.comment.util.CommentUtil;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
