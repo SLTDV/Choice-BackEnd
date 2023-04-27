@@ -3,7 +3,7 @@ package com.select.choice.domain.comment.service.Impl;
 import com.select.choice.domain.comment.domain.entity.Comment;
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
 import com.select.choice.domain.comment.exception.IsNotMyCommentException;
-import com.select.choice.domain.comment.service.DeleteService;
+import com.select.choice.domain.comment.service.DeleteCommentService;
 import com.select.choice.domain.comment.util.CommentUtil;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class DeleteServiceImpl implements DeleteService {
+public class DeleteCommentServiceImpl implements DeleteCommentService {
     private final UserUtil userUtil;
     private final CommentUtil commentUtil;
     private final CommentRepository commentRepository;
 
     @Override
-    public void delete(Long commentIdx) {
+    public void deleteComment(Long commentIdx) {
         User user = userUtil.currentUser();
         Comment comment = commentUtil.findById(commentIdx);
 
