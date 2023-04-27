@@ -8,7 +8,7 @@ import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
 import com.select.choice.domain.post.presentation.data.response.*;
 import com.select.choice.domain.post.domain.entity.Post;
-import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
+import com.select.choice.domain.post.presentation.data.request.VoteOptionRequest;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
@@ -327,7 +327,7 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public VoteOptionDto toDto(AddCountRequest addCountRequest) {
+    public VoteOptionDto toDto(VoteOptionRequest addCountRequest) {
         int choice = addCountRequest.getChoice();
         return VoteOptionDto.builder()
                 .choice(choice)

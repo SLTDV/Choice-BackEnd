@@ -8,5 +8,5 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 public class VoteOptionDto {
-    private final int choice;
+    private final Integer choice;
 }
