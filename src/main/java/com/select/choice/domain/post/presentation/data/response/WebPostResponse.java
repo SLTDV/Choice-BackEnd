@@ -13,6 +13,6 @@ public class WebPostResponse {
     private final String title;
     private final String firstVotingOption;
     private final String secondVotingOption;
-    private final int participants;
-    private final int commentCount;
+    private final Integer participants;
+    private final Integer commentCount;
 }

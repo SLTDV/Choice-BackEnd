@@ -6,7 +6,7 @@ import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
 import com.select.choice.domain.post.presentation.data.response.*;
 import com.select.choice.domain.post.domain.entity.Post;
-import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
+import com.select.choice.domain.post.presentation.data.request.VoteOptionRequest;
 import com.select.choice.domain.user.domain.entity.User;
 import org.springframework.data.domain.Pageable;
 
@@ -19,7 +19,7 @@ public interface PostConverter {
     Post toEntity(CreatePostDto dto, User user);
     PostDetailResponse toResponse(PostDetailDto postDetailDto);
     CreatePostDto toDto(CreatePostRequest createPostRequestDto);
-    VoteOptionDto toDto(AddCountRequest addCountRequest);
+    VoteOptionDto toDto(VoteOptionRequest addCountRequest);
     PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList , Post post, Pageable pageable);
     VoteForPostResponse toResponse(VoteForPostDto voteCountDto);
     VoteForPostDto toDto(Integer firstVotingCount, Integer secondVotingCount);

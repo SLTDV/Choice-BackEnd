@@ -5,6 +5,6 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddCountRequest {
-    private int choice;
+public class VoteOptionRequest {
+    private Integer choice;
 }
