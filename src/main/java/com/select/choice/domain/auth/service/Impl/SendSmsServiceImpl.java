@@ -40,12 +40,13 @@ public class SendSmsServiceImpl implements SendSmsService {
 
         HashMap<String, String> params = new HashMap<>();
         params.put("to", phoneNumber);    // 수신전화번호
-        params.put("from", "01065657236");    // 발신전화번호
+        params.put("from", "01055762163");    // 발신전화번호
         params.put("type", "sms");
         params.put("text", "인증번호는 [" + numStr + "] 입니다.");
 
         coolsms.send(params);
 
         authCodeRepository.save(authConverter.toEntity(numStr.toString(), phoneNumber));
+
     }
 }
