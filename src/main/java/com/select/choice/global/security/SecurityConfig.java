@@ -67,13 +67,12 @@ public class SecurityConfig {
 
                 // comment
                 .antMatchers(HttpMethod.DELETE,"/comment/**/**").authenticated()
-                .antMatchers(HttpMethod.POST,"/comment/**").authenticated()
+                .antMatchers(HttpMethod.POST,"/comment/**/**").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/comment/**/**").authenticated()
 
                 // upload
                 .antMatchers(HttpMethod.POST,"/image").authenticated()
                 .antMatchers(HttpMethod.POST, "/image/profile").permitAll()
-
 
                 .anyRequest().denyAll();
         http

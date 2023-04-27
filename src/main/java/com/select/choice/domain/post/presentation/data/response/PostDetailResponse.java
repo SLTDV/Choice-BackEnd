@@ -11,9 +11,9 @@ import java.util.List;
 @Builder
 @RequiredArgsConstructor
 public class PostDetailResponse {
-    private final String writer;
-    private final String image;
     private final Integer page;
     private final Integer size;
+    private final String writer;
+    private final String image;
     private final List<CommentDetailDto> comment;
 }

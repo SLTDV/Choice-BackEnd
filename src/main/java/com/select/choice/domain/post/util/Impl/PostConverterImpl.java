@@ -105,7 +105,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         commentRepository.countByPost(post)
                 )
-        ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
+        ).collect(Collectors.toList());
     }
 
     @Override
@@ -120,7 +120,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         commentRepository.countByPost(post)
                 )
-        ).sorted(Comparator.comparing(WebPostDto::getIdx).reversed()).collect(Collectors.toList());
+        ).collect(Collectors.toList());
     }
 
     @Override
@@ -215,17 +215,41 @@ public class PostConverterImpl implements PostConverter {
 
     @Override
     public WebPostDetailResponse toResponse(WebPostDetailDto dto) {
-        return WebPostDetailResponse.builder()
-                .title(dto.getTitle())
-                .content(dto.getContent())
-                .firstImageUrl(dto.getFirstImageUrl())
-                .secondImageUrl(dto.getSecondImageUrl())
-                .profileImageUrl(dto.getProfileImageUrl())
-                .firstVotingOption(dto.getFirstVotingOption())
-                .secondVotingOption(dto.getSecondVotingOption())
-                .writer(dto.getWriter())
-                .comment(dto.getComment())
-                .build();
+        if(dto.getVotingState().isPresent()){
+            return WebPostDetailResponse.builder()
+                    .title(dto.getTitle())
+                    .content(dto.getContent())
+                    .firstImageUrl(dto.getFirstImageUrl())
+                    .secondImageUrl(dto.getSecondImageUrl())
+                    .profileImageUrl(dto.getProfileImageUrl())
+                    .firstVotingOption(dto.getFirstVotingOption())
+                    .secondVotingOption(dto.getSecondVotingOption())
+                    .firstVotingCount(dto.getFirstVotingCount())
+                    .secondVotingCount(dto.getSecondVotingCount())
+                    .writer(dto.getWriter())
+                    .page(dto.getPage())
+                    .size(dto.getSize())
+                    .votingState(dto.getVotingState().get().getVote())
+                    .comment(dto.getComment())
+                    .build();
+        } else {
+            return WebPostDetailResponse.builder()
+                    .title(dto.getTitle())
+                    .content(dto.getContent())
+                    .firstImageUrl(dto.getFirstImageUrl())
+                    .secondImageUrl(dto.getSecondImageUrl())
+                    .profileImageUrl(dto.getProfileImageUrl())
+                    .firstVotingOption(dto.getFirstVotingOption())
+                    .secondVotingOption(dto.getSecondVotingOption())
+                    .firstVotingCount(dto.getFirstVotingCount())
+                    .secondVotingCount(dto.getSecondVotingCount())
+                    .writer(dto.getWriter())
+                    .page(dto.getPage())
+                    .size(dto.getSize())
+                    .votingState(0)
+                    .comment(dto.getComment())
+                    .build();
+        }
     }
 
     @Override
@@ -327,8 +351,8 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public VoteOptionDto toDto(VoteOptionRequest addCountRequest) {
-        int choice = addCountRequest.getChoice();
+    public VoteOptionDto toDto(VoteOptionRequest voteOptionRequest) {
+        Integer choice = voteOptionRequest.getChoice();
         return VoteOptionDto.builder()
                 .choice(choice)
                 .build();
