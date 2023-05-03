@@ -29,7 +29,7 @@ public class JwtTokenProvider {
     private final AuthDetailsService authDetailsService;
 
     private final long ACCESS_TOKEN_EXPIRED_TIME = 60 * 15;
-    private final long REFRESH_TOKEN_EXPIRED_TIME = 60L * 60 * 24 * 7; // 1주
+    private final long REFRESH_TOKEN_EXPIRED_TIME = 60 * 60 * 24 * 7; // 1주
 
     @AllArgsConstructor
     public enum TokenType{
