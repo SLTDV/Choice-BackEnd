@@ -8,6 +8,7 @@ import com.select.choice.domain.post.presentation.data.response.*;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 import com.select.choice.domain.user.domain.entity.User;
+import com.select.choice.domain.user.presentation.data.dto.WebPostDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -31,9 +32,10 @@ public interface PostConverter {
     TodayPostListDto toTodayPostListDto(List<TodayPostDto> todayPosts);
     TodayPostResponse toTodayPostResponse(TodayPostDto todayPostDto);
     TodayPostListResponse toTodayPostListResponse(List<TodayPostResponse> todayPostListResponses);
-    WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable);
+    WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable, User user);
     WebVerPostDetailResponse toResponse(WebVerPostDetailDto dto);
     PostListDto toDto(List<Post> list, Pageable pageable);
     PostListResponse toResponse(List<PostResponse> postResponses, int pageNumber);
     WebVerPostListResponse toWebResponse(List<WebVerPostResponse> webVerPostResponseList, int pageNumber);
+    List<WebPostDto> toWebPostDto(List<Post> postList, User user);
 }

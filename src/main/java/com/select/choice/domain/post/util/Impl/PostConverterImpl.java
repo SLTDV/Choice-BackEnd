@@ -11,6 +11,7 @@ import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.domain.entity.User;
+import com.select.choice.domain.user.presentation.data.dto.WebPostDto;
 import com.select.choice.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -105,7 +106,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         commentRepository.countByPost(post)
                 )
-        ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
+        ).collect(Collectors.toList());
     }
 
     @Override
@@ -120,7 +121,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         commentRepository.countByPost(post)
                 )
-        ).sorted(Comparator.comparing(WebVerPostDto::getIdx).reversed()).collect(Collectors.toList());
+        ).collect(Collectors.toList());
     }
 
     @Override
@@ -194,7 +195,7 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable) {
+    public WebVerPostDetailDto toPostDetailDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable, User user) {
         return WebVerPostDetailDto.builder()
                 .title(post.getTitle())
                 .content(post.getContent())
@@ -203,9 +204,12 @@ public class PostConverterImpl implements PostConverter {
                 .profileImageUrl(post.getUser().getProfileImageUrl())
                 .firstVotingOption(post.getFirstVotingOption())
                 .secondVotingOption(post.getSecondVotingOption())
+                .firstVotingCount(post.getFirstVotingCount())
+                .secondVotingCount(post.getSecondVotingCount())
                 .writer(post.getUser().getNickname())
                 .page(pageable.getPageNumber())
                 .size(commentDetailDtoList.size())
+                .votingState(postVotingStateRepository.findByUserAndPost(user, post))
                 .comment(commentDetailDtoList)
                 .build();
 
@@ -213,17 +217,41 @@ public class PostConverterImpl implements PostConverter {
 
     @Override
     public WebVerPostDetailResponse toResponse(WebVerPostDetailDto dto) {
-        return WebVerPostDetailResponse.builder()
-                .title(dto.getTitle())
-                .content(dto.getContent())
-                .firstImageUrl(dto.getFirstImageUrl())
-                .secondImageUrl(dto.getSecondImageUrl())
-                .profileImageUrl(dto.getProfileImageUrl())
-                .firstVotingOption(dto.getFirstVotingOption())
-                .secondVotingOption(dto.getSecondVotingOption())
-                .writer(dto.getWriter())
-                .comment(dto.getComment())
-                .build();
+        if(dto.getVotingState().isPresent()){
+            return WebVerPostDetailResponse.builder()
+                    .title(dto.getTitle())
+                    .content(dto.getContent())
+                    .firstImageUrl(dto.getFirstImageUrl())
+                    .secondImageUrl(dto.getSecondImageUrl())
+                    .profileImageUrl(dto.getProfileImageUrl())
+                    .firstVotingOption(dto.getFirstVotingOption())
+                    .secondVotingOption(dto.getSecondVotingOption())
+                    .firstVotingCount(dto.getFirstVotingCount())
+                    .secondVotingCount(dto.getSecondVotingCount())
+                    .writer(dto.getWriter())
+                    .page(dto.getPage())
+                    .size(dto.getSize())
+                    .votingState(dto.getVotingState().get().getVote())
+                    .comment(dto.getComment())
+                    .build();
+        } else {
+            return WebVerPostDetailResponse.builder()
+                    .title(dto.getTitle())
+                    .content(dto.getContent())
+                    .firstImageUrl(dto.getFirstImageUrl())
+                    .secondImageUrl(dto.getSecondImageUrl())
+                    .profileImageUrl(dto.getProfileImageUrl())
+                    .firstVotingOption(dto.getFirstVotingOption())
+                    .secondVotingOption(dto.getSecondVotingOption())
+                    .firstVotingCount(dto.getFirstVotingCount())
+                    .secondVotingCount(dto.getSecondVotingCount())
+                    .writer(dto.getWriter())
+                    .page(dto.getPage())
+                    .size(dto.getSize())
+                    .votingState(0)
+                    .comment(dto.getComment())
+                    .build();
+        }
     }
 
     @Override
@@ -250,6 +278,21 @@ public class PostConverterImpl implements PostConverter {
                 .size(webVerPostResponseList.size())
                 .posts(webVerPostResponseList)
                 .build();
+    }
+
+    @Override
+    public List<WebPostDto> toWebPostDto(List<Post> postList, User user) {
+        return postList.stream().map( entity ->
+                new WebPostDto(
+                        entity.getFirstImageUrl(),
+                        entity.getTitle(),
+                        entity.getContent(),
+                        entity.getFirstVotingOption(),
+                        postVotingStateRepository.findByUserAndPost(user, entity),
+                        entity.getFirstVotingCount() + entity.getSecondVotingCount(),
+                        commentRepository.countByPost(entity)
+                )
+        ).collect(Collectors.toList());
     }
 
     @Override

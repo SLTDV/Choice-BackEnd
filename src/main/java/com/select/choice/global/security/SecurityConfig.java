@@ -48,6 +48,7 @@ public class SecurityConfig {
                 // user
                 .antMatchers(HttpMethod.DELETE,"/user").authenticated()
                 .antMatchers(HttpMethod.GET,"/user").authenticated()
+                .antMatchers(HttpMethod.GET,"/user/my").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/user").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/user/image").authenticated()
                 .antMatchers(HttpMethod.GET, "/user/header").authenticated()
@@ -66,13 +67,12 @@ public class SecurityConfig {
 
                 // comment
                 .antMatchers(HttpMethod.DELETE,"/comment/**/**").authenticated()
-                .antMatchers(HttpMethod.POST,"/comment/**").authenticated()
-                .antMatchers(HttpMethod.PATCH,"/comment/**").authenticated()
+                .antMatchers(HttpMethod.POST,"/comment/**/**").authenticated()
+                .antMatchers(HttpMethod.PATCH,"/comment/**/**").authenticated()
 
                 // upload
                 .antMatchers(HttpMethod.POST,"/image").authenticated()
                 .antMatchers(HttpMethod.POST, "/image/profile").permitAll()
-
 
                 .anyRequest().denyAll();
         http

@@ -20,7 +20,9 @@ import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
 import com.select.choice.global.error.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,13 +45,17 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto>getAllPostList(Pageable pageable) {
-        List<Post> list = postRepository.findAll(pageable).toList();
+        List<Post> list = postRepository.findAll(
+                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("idx").descending()))
+                .toList();
         return postConverter.toDto(list);
     }
 
     @Override
     public List<WebVerPostDto> getPost(Pageable pageable) {
-        List<Post> list = postRepository.findAll(pageable).toList();
+        List<Post> list = postRepository.findAll(
+                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("idx").descending()))
+                .toList();
         return postConverter.toPostDto(list);
     }
 
@@ -89,7 +95,9 @@ public class PostServiceImpl implements PostService {
     public PostDetailDto aggregateDetail(Long postIdx, Pageable pageable) {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
-        List<Comment> comment = commentRepository.findAllByPostIdx(postIdx, pageable);
+        List<Comment> comment = commentRepository.findAllByPostIdx(
+                postIdx,
+                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("idx").descending()));
         List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment, user);
 
         return postConverter.toDto(commentDetailDtoList, post, pageable);
@@ -99,10 +107,12 @@ public class PostServiceImpl implements PostService {
     public WebVerPostDetailDto getPostDetail(Long postIdx, Pageable pageable) {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
-        List<Comment> comment = commentRepository.findAllByPostIdx(postIdx, pageable);
+        List<Comment> comment = commentRepository.findAllByPostIdx(
+                postIdx,
+                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("idx").descending()));
         List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment, user);
 
-        return postConverter.toPostDetailDto(commentDetailDtoList, post, pageable);
+        return postConverter.toPostDetailDto(commentDetailDtoList, post, pageable, user);
     }
 
     @Override

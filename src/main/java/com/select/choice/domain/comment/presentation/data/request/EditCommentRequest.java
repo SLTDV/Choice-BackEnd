@@ -3,7 +3,8 @@ package com.select.choice.domain.comment.presentation.data.request;
 import lombok.*;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class EditCommentRequest {
-    private final String content;
+    private String content;
 }
