@@ -4,15 +4,13 @@ import com.select.choice.domain.post.presentation.data.dto.PostDto;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import com.select.choice.domain.post.util.PostConverter;
-import com.select.choice.domain.user.presentation.data.dto.ChangeProfileImageDto;
-import com.select.choice.domain.user.presentation.data.dto.HeaderDto;
-import com.select.choice.domain.user.presentation.data.dto.MyPageDto;
-import com.select.choice.domain.user.presentation.data.dto.NicknameDto;
+import com.select.choice.domain.user.presentation.data.dto.*;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.presentation.data.request.ChangeNicknameRequest;
 import com.select.choice.domain.user.presentation.data.request.ChangeProfileImageRequest;
 import com.select.choice.domain.user.presentation.data.response.GetMyPageResponse;
 import com.select.choice.domain.user.presentation.data.response.HeaderResponse;
+import com.select.choice.domain.user.presentation.data.response.WebMyPageResponse;
 import com.select.choice.domain.user.util.UserConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -77,6 +75,24 @@ public class UserConverterImpl implements UserConverter {
         return HeaderResponse.builder()
                 .nickname(headerDto.getNickname())
                 .image(headerDto.getImage())
+                .build();
+    }
+
+    @Override
+    public WebMyPageDto toWebMyPageDto(User user, List<WebPostDto> postDtoList) {
+        return WebMyPageDto.builder()
+                .nickname(user.getNickname())
+                .image(user.getProfileImageUrl())
+                .postList(postDtoList)
+                .build();
+    }
+
+    @Override
+    public WebMyPageResponse toResponse(WebMyPageDto myPageDto) {
+        return WebMyPageResponse.builder()
+                .nickname(myPageDto.getNickname())
+                .image(myPageDto.getImage())
+                .postList(myPageDto.getPostList())
                 .build();
     }
 }
