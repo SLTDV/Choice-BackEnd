@@ -11,6 +11,7 @@ import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.domain.entity.User;
+import com.select.choice.domain.user.presentation.data.dto.WebPostDto;
 import com.select.choice.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -277,6 +278,21 @@ public class PostConverterImpl implements PostConverter {
                 .size(webVerPostResponseList.size())
                 .posts(webVerPostResponseList)
                 .build();
+    }
+
+    @Override
+    public List<WebPostDto> toWebPostDto(List<Post> postList, User user) {
+        return postList.stream().map( entity ->
+                new WebPostDto(
+                        entity.getFirstImageUrl(),
+                        entity.getTitle(),
+                        entity.getContent(),
+                        entity.getFirstVotingOption(),
+                        postVotingStateRepository.findByUserAndPost(user, entity),
+                        entity.getFirstVotingCount() + entity.getSecondVotingCount(),
+                        commentRepository.countByPost(entity)
+                )
+        ).collect(Collectors.toList());
     }
 
     @Override

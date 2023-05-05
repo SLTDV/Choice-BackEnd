@@ -46,7 +46,7 @@ public class UserUtilImpl implements UserUtil {
         return findUserByEmail(email);
     }
 
-    public void deleteUser(User user){
+    public void withdrawal(User user){
         userRepository.delete(user);
     }
 }
