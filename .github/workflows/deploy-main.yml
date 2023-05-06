@@ -20,7 +20,7 @@ jobs:
         uses: cloudtype-github-actions/deploy@v1
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
-          project: shgur7236/choice-backend
+          project: shgur7236/choice
           stage: main
           yaml: >
             name: choice-backend
@@ -28,7 +28,7 @@ jobs:
             app: java@11
 
             options:
-              ports: "8080"
+              ports: 8080
               env:
                 - name: DB_DRIVER
                   value: ${{ secrets.DB_DRIVER }}
@@ -50,6 +50,8 @@ jobs:
                   value: ${{ secrets.REDIS_HOST }}
                 - name: REDIS_PORT
                   value: ${{ secrets.REDIS_PORT }}
+                - name: REDIS_PASSWORD
+                  value: ${{ secrets.REDIS_PASSWORD }}
                 - name: MAX_REQ_SIZE
                   value: ${{ secrets.MAX_REQ_SIZE }}
                 - name: MAX_FILE_SIZE
