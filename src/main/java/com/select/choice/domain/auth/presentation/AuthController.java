@@ -32,8 +32,6 @@ public class AuthController {
         SignInDto signInDto = authConverter.toDto(signInRequest);
         TokenDto tokenDto = authService.signIn(signInDto);
         TokenResponse tokenResponse = authConverter.toResponse(tokenDto);
-        System.out.println(tokenResponse.getRefreshToken());
-        System.out.println(tokenResponse.getRefreshExpiredTime());
         return new ResponseEntity<>(tokenResponse, HttpStatus.OK);
 
     }
