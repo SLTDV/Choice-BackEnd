@@ -39,7 +39,7 @@ public class PostController {
     기능: 게시물 조회 WEB.ver
     담당자: 노혁
      */
-    @GetMapping("/web")
+    @GetMapping("/latested")
     public ResponseEntity<WebVerPostListResponse> getPost(Pageable pageable){
         List<WebVerPostDto> webVerPostDtoList = postService.getPost(pageable);
         List<WebVerPostResponse> webVerPostResponseList = postConverter.toPostResponse(webVerPostDtoList);
@@ -61,7 +61,7 @@ public class PostController {
     기능: 인기 게시물 조회 WEB.ver
     담당자: 노혁
      */
-    @GetMapping("/list/web")
+    @GetMapping("/popularity")
     public ResponseEntity<WebVerPostListResponse> getBestPost(Pageable pageable) {
         List<WebVerPostDto> bestPostList = postService.getBestPost(pageable);
         List<WebVerPostResponse> bestPostResponseList = postConverter.toPostResponse(bestPostList);
@@ -104,7 +104,7 @@ public class PostController {
     기능: 게시물 상세페이지 조회 WEb.ver
     담당자: 노혁
      */
-    @GetMapping("/web/{postIdx}")
+    @GetMapping("/detail/{postIdx}")
     public ResponseEntity<WebVerPostDetailResponse> getPostDetail(@PathVariable("postIdx") Long postIdx, Pageable pageable) {
         WebVerPostDetailDto dto = postService.getPostDetail(postIdx, pageable);
         WebVerPostDetailResponse response = postConverter.toResponse(dto);
