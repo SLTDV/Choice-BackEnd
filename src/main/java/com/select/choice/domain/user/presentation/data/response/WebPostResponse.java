@@ -8,9 +8,9 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 public class WebPostResponse {
-    private final String imageUrl;
+    private final Long idx;
     private final String title;
-    private final String content;
+    private final String imageUrl;
     private final String firstVotingOption;
     private final Integer votingState;
     private final Integer participants;

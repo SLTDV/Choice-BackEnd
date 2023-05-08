@@ -12,13 +12,13 @@ import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.presentation.data.dto.WebPostDto;
+import com.select.choice.domain.user.presentation.data.response.WebPostResponse;
 import com.select.choice.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -284,9 +284,9 @@ public class PostConverterImpl implements PostConverter {
     public List<WebPostDto> toWebPostDto(List<Post> postList, User user) {
         return postList.stream().map( entity ->
                 new WebPostDto(
+                        entity.getIdx(),
                         entity.getFirstImageUrl(),
                         entity.getTitle(),
-                        entity.getContent(),
                         entity.getFirstVotingOption(),
                         postVotingStateRepository.findByUserAndPost(user, entity),
                         entity.getFirstVotingCount() + entity.getSecondVotingCount(),
@@ -373,6 +373,33 @@ public class PostConverterImpl implements PostConverter {
         return AddCountDto.builder()
                 .choice(choice)
                 .build();
+    }
+
+    @Override
+    public List<WebPostResponse> toWebPostResponse(List<WebPostDto> postList) {
+        return postList.stream().map(dto -> {
+            if(dto.getVotingState().isPresent()) {
+                return new WebPostResponse(
+                        dto.getIdx(),
+                        dto.getTitle(),
+                        dto.getImageUrl(),
+                        dto.getFirstVotingOption(),
+                        dto.getVotingState().get().getVote(),
+                        dto.getParticipants(),
+                        dto.getCommentCount()
+                );
+            } else {
+                return new WebPostResponse(
+                        dto.getIdx(),
+                        dto.getTitle(),
+                        dto.getImageUrl(),
+                        dto.getFirstVotingOption(),
+                        0,
+                        dto.getParticipants(),
+                        dto.getCommentCount()
+                );
+            }
+        }).collect(Collectors.toList());
     }
 }
 
