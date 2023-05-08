@@ -168,9 +168,9 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public TodayPostListDto toTodayPostListDto(List<TodayPostDto> todayPosts) {
+    public TodayPostListDto toTodayPostListDto(List<TodayPostDto> todayPostList) {
         return TodayPostListDto.builder()
-                .todayPosts(todayPosts)
+                .todayPostList(todayPostList)
                 .build();
     }
 
@@ -190,7 +190,7 @@ public class PostConverterImpl implements PostConverter {
     @Override
     public TodayPostListResponse toTodayPostListResponse(List<TodayPostResponse> todayPostListResponses) {
         return TodayPostListResponse.builder()
-                .todayPosts(todayPostListResponses)
+                .todayPostList(todayPostListResponses)
                 .build();
     }
 
@@ -210,7 +210,7 @@ public class PostConverterImpl implements PostConverter {
                 .page(pageable.getPageNumber())
                 .size(commentDetailDtoList.size())
                 .votingState(postVotingStateRepository.findByUserAndPost(user, post))
-                .comment(commentDetailDtoList)
+                .commentList(commentDetailDtoList)
                 .build();
 
     }
@@ -232,7 +232,7 @@ public class PostConverterImpl implements PostConverter {
                     .page(dto.getPage())
                     .size(dto.getSize())
                     .votingState(dto.getVotingState().get().getVote())
-                    .comment(dto.getComment())
+                    .comment(dto.getCommentList())
                     .build();
         } else {
             return WebVerPostDetailResponse.builder()
@@ -249,7 +249,7 @@ public class PostConverterImpl implements PostConverter {
                     .page(dto.getPage())
                     .size(dto.getSize())
                     .votingState(0)
-                    .comment(dto.getComment())
+                    .comment(dto.getCommentList())
                     .build();
         }
     }
@@ -267,7 +267,7 @@ public class PostConverterImpl implements PostConverter {
         return PostListResponse.builder()
                 .page(pageNumber)
                 .size(postResponses.size())
-                .posts(postResponses)
+                .postList(postResponses)
                 .build();
     }
 
@@ -276,7 +276,7 @@ public class PostConverterImpl implements PostConverter {
         return WebVerPostListResponse.builder()
                 .page(pageNumber)
                 .size(webVerPostResponseList.size())
-                .posts(webVerPostResponseList)
+                .postList(webVerPostResponseList)
                 .build();
     }
 
@@ -328,8 +328,8 @@ public class PostConverterImpl implements PostConverter {
                 .writer(postDetailDto.getWriter())
                 .image(postDetailDto.getImage())
                 .page(postDetailDto.getPageable().getPageNumber())
-                .size(postDetailDto.getComment().size())
-                .comment(postDetailDto.getComment())
+                .size(postDetailDto.getCommentList().size())
+                .commentList(postDetailDto.getCommentList())
                 .build();
     }
     @Override
@@ -337,7 +337,7 @@ public class PostConverterImpl implements PostConverter {
         return PostDetailDto.builder()
                 .writer(post.getUser().getNickname())
                 .image(post.getUser().getProfileImageUrl())
-                .comment(commentDetailDtoList)
+                .commentList(commentDetailDtoList)
                 .pageable(pageable)
                 .build();
     }

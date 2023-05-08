@@ -15,5 +15,5 @@ public class PostDetailResponse {
     private final Integer size;
     private final String writer;
     private final String image;
-    private final List<CommentDetailDto> comment;
+    private final List<CommentDetailDto> commentList;
 }
