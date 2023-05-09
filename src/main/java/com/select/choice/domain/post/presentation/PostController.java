@@ -45,7 +45,7 @@ public class PostController {
     기능: 게시물 조회 WEB.ver
     담당자: 노혁
      */
-    @GetMapping("/web")
+    @GetMapping("/latested")
     public ResponseEntity<WebPostListResponse> getPost(Pageable pageable){
         List<WebPostDto> webVerPostDtoList = getLatestPostsService.getLatestPostList(pageable);
         List<WebPostResponse> webVerPostResponseList = postConverter.toPostResponse(webVerPostDtoList);
@@ -67,7 +67,7 @@ public class PostController {
     기능: 인기 게시물 조회 WEB.ver
     담당자: 노혁
      */
-    @GetMapping("/list/web")
+    @GetMapping("/popularity")
     public ResponseEntity<WebPostListResponse> getBestPost(Pageable pageable) {
         List<WebPostDto> bestPostList = getPopularPostsService.getPopularPostList(pageable);
         List<WebPostResponse> bestPostResponseList = postConverter.toPostResponse(bestPostList);
@@ -110,7 +110,7 @@ public class PostController {
     기능: 게시물 상세페이지 조회 WEb.ver
     담당자: 노혁
      */
-    @GetMapping("/web/{postIdx}")
+    @GetMapping("/detail/{postIdx}")
     public ResponseEntity<WebPostDetailResponse> getPostDetail(@PathVariable("postIdx") Long postIdx, Pageable pageable) {
         WebPostDetailDto dto = getPostDetailService.getWebPostDetail(postIdx, pageable);
         WebPostDetailResponse response = postConverter.toResponse(dto);
@@ -136,7 +136,7 @@ public class PostController {
     @GetMapping("/today")
     public ResponseEntity<TodayPostListResponse> getTodayPostList() {
         TodayPostListDto todayPostListDto = getTopFivePostsByVoteCountTodayService.getTopFivePostsByVoteCountTodayService();
-        List<TodayPostResponse> todayPostListResponses = todayPostListDto.getTodayPosts().stream()
+        List<TodayPostResponse> todayPostListResponses = todayPostListDto.getTodayPostList().stream()
                 .limit(5)
                 .map(postConverter::toTodayPostResponse)
                 .collect(Collectors.toList());

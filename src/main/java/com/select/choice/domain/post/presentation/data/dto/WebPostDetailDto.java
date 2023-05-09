@@ -25,5 +25,5 @@ public class WebPostDetailDto {
     private final Integer page;
     private final Integer size;
     private final Optional<PostVotingState> votingState;
-    private final List<CommentDetailDto> comment;
+    private final List<CommentDetailDto> commentList;
 }

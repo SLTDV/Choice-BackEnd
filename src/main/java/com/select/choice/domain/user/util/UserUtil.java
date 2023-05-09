@@ -9,5 +9,5 @@ public interface UserUtil {
     boolean existsByNickname(String nickname);
     void save(User user);
     User currentUser();
-    void deleteUser(User user);
+    void withdrawal(User user);
 }

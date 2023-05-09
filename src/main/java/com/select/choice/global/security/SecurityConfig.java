@@ -48,19 +48,20 @@ public class SecurityConfig {
                 // user
                 .antMatchers(HttpMethod.DELETE,"/user").authenticated()
                 .antMatchers(HttpMethod.GET,"/user").authenticated()
+                .antMatchers(HttpMethod.GET,"/user/my").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/user").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/user/image").authenticated()
                 .antMatchers(HttpMethod.GET, "/user/header").authenticated()
 
                 // post
                 .antMatchers(HttpMethod.GET,"/post").authenticated()
-                .antMatchers(HttpMethod.GET,"/post/web").permitAll()
+                .antMatchers(HttpMethod.GET,"/post/latested").permitAll()
                 .antMatchers(HttpMethod.GET,"/post/list").authenticated()
-                .antMatchers(HttpMethod.GET,"/post/list/web").permitAll()
+                .antMatchers(HttpMethod.GET,"/post/popularity").permitAll()
                 .antMatchers(HttpMethod.POST,"/post").authenticated()
                 .antMatchers(HttpMethod.POST,"/post/vote/**").authenticated()
                 .antMatchers(HttpMethod.GET,"/post/**").authenticated()
-                .antMatchers(HttpMethod.GET,"/post/web/**").authenticated()
+                .antMatchers(HttpMethod.GET,"/post/detail/**").authenticated()
                 .antMatchers(HttpMethod.DELETE,"/post/**").authenticated()
                 .antMatchers(HttpMethod.GET,"/post/today").authenticated()
 

@@ -46,7 +46,7 @@ public class UserUtilImpl implements UserUtil {
         return findUserByPhoneNumber(phoneNumber);
     }
 
-    public void deleteUser(User user){
+    public void withdrawal(User user){
         userRepository.delete(user);
     }
 }

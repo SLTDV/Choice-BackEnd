@@ -1,4 +1,4 @@
-package com.select.choice.domain.user.Service;
+package com.select.choice.domain.user.service;
 
 import com.select.choice.domain.user.presentation.data.dto.ChangeProfileImageDto;
 

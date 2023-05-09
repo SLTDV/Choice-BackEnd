@@ -1,10 +1,13 @@
-package com.select.choice.domain.user.Service.Impl;
+package com.select.choice.domain.user.service.Impl;
 
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.domain.repository.PostRepository;
-import com.select.choice.domain.user.Service.GetMyPageService;
+import com.select.choice.domain.post.presentation.data.dto.WebPostDto;
+import com.select.choice.domain.post.util.PostConverter;
+import com.select.choice.domain.user.presentation.data.dto.WebMyPagePostDto;
+import com.select.choice.domain.user.service.GetWebMyPageService;
 import com.select.choice.domain.user.domain.entity.User;
-import com.select.choice.domain.user.presentation.data.dto.MyPageDto;
+import com.select.choice.domain.user.presentation.data.dto.WebMyPageDto;
 import com.select.choice.domain.user.util.UserConverter;
 import com.select.choice.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
@@ -14,16 +17,19 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class GetMyPageServiceImpl implements GetMyPageService {
+public class GetWebMyPageServiceImpl implements GetWebMyPageService {
     private final UserUtil userUtil;
     private final PostRepository postRepository;
     private final UserConverter userConverter;
+    private final PostConverter postConverter;
 
     @Override
-    public MyPageDto getMyPage() {
+    public WebMyPageDto getMyPage() {
         User user = userUtil.currentUser();
-        List<Post> postList = postRepository.findAllByUserIdx(user.getIdx());
 
-        return userConverter.toDto(user, postList);
+        List<Post> postList = postRepository.findAllByUserIdx(user.getIdx());
+        List<WebMyPagePostDto> webPostDtoList = postConverter.toWebMyPagePostDto(postList, user);
+
+        return userConverter.toWebMyPageDto(user, webPostDtoList);
     }
 }

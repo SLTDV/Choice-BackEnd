@@ -1,6 +1,6 @@
-package com.select.choice.domain.user.Service.Impl;
+package com.select.choice.domain.user.service.Impl;
 
-import com.select.choice.domain.user.Service.GetHeaderService;
+import com.select.choice.domain.user.service.GetHeaderService;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.presentation.data.dto.HeaderDto;
 import com.select.choice.domain.user.util.UserConverter;

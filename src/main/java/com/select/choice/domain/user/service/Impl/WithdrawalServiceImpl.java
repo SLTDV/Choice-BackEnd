@@ -1,6 +1,6 @@
-package com.select.choice.domain.user.Service.Impl;
+package com.select.choice.domain.user.service.Impl;
 
-import com.select.choice.domain.user.Service.WithdrawalService;
+import com.select.choice.domain.user.service.WithdrawalService;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +14,6 @@ public class WithdrawalServiceImpl implements WithdrawalService {
     @Override
     public void withdrawal() {
         User user = userUtil.currentUser();
-        userUtil.deleteUser(user);
+        userUtil.withdrawal(user);
     }
 }
