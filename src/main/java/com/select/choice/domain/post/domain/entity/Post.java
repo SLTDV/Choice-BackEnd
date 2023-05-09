@@ -31,7 +31,6 @@ public class Post extends BaseIdEntity {
     private Integer secondVotingCount;
     private String createdAt;
 
-
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
