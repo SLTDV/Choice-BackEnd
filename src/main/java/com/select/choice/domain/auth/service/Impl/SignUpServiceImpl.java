@@ -2,6 +2,7 @@ package com.select.choice.domain.auth.service.Impl;
 
 import com.select.choice.domain.auth.domain.repository.AuthenticationRepository;
 import com.select.choice.domain.auth.exception.DuplicateNicknameException;
+import com.select.choice.domain.auth.exception.DuplicatePhoneNumberException;
 import com.select.choice.domain.auth.exception.NicknameRegexpException;
 import com.select.choice.domain.auth.exception.NotRegisteredPhoneNumberException;
 import com.select.choice.domain.auth.presentation.data.dto.SignUpDto;
@@ -22,7 +23,9 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Override
     public void signUp(SignUpDto signUpDto) {
-        if(!authenticationRepository.existsById(signUpDto.getPhoneNumber())) {
+        if(userUtil.existsByPhoneNumber(signUpDto.getPhoneNumber())) {
+            throw new DuplicatePhoneNumberException(ErrorCode.DUPLICATE_PHONE_NUMBER);
+        } else if(!authenticationRepository.existsById(signUpDto.getPhoneNumber())) {
             throw new NotRegisteredPhoneNumberException(ErrorCode.NOT_REGISTERED_PHONE_NUMBER);
         } else if (userUtil.existsByNickname(signUpDto.getNickname())) {
             throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);
