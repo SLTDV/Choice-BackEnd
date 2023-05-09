@@ -5,7 +5,6 @@ import com.select.choice.domain.auth.presentation.data.dto.*;
 import com.select.choice.domain.auth.presentation.data.request.SendPhoneNumberRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
-import com.select.choice.domain.auth.presentation.data.request.SignupDuplicationCheckRequest;
 import com.select.choice.domain.auth.presentation.data.response.TokenResponse;
 import com.select.choice.domain.user.domain.entity.User;
 
@@ -19,5 +18,4 @@ public interface AuthConverter {
     User toEntity(SignUpDto signUpDto, boolean isProfileImage);
     RefreshToken toEntity(Long userIdx, String refreshToken);
     SendPhoneNumberDto toDto(SendPhoneNumberRequest sendPhoneNumberRequest);
-    SignupDuplicationCheckDto toDto(SignupDuplicationCheckRequest signupDuplicationCheckRequest);
 }
