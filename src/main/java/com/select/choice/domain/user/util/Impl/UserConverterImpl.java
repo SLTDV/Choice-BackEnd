@@ -2,6 +2,7 @@ package com.select.choice.domain.user.util.Impl;
 
 import com.select.choice.domain.post.presentation.data.dto.PostDto;
 import com.select.choice.domain.post.domain.entity.Post;
+import com.select.choice.domain.post.presentation.data.dto.WebPostDto;
 import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.presentation.data.dto.*;
@@ -79,7 +80,7 @@ public class UserConverterImpl implements UserConverter {
     }
 
     @Override
-    public WebMyPageDto toWebMyPageDto(User user, List<WebPostDto> postDtoList) {
+    public WebMyPageDto toWebMyPageDto(User user, List<WebMyPagePostDto> postDtoList) {
         return WebMyPageDto.builder()
                 .nickname(user.getNickname())
                 .profileImageUrl(user.getProfileImageUrl())
@@ -92,7 +93,7 @@ public class UserConverterImpl implements UserConverter {
         return WebMyPageResponse.builder()
                 .nickname(myPageDto.getNickname())
                 .image(myPageDto.getProfileImageUrl())
-                .postList(postConverter.toWebPostResponse(myPageDto.getPostList()))
+                .postList(postConverter.toWebMyPagePostResponse(myPageDto.getPostList()))
                 .build();
     }
 }

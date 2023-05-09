@@ -12,5 +12,5 @@ import java.util.List;
 public class WebMyPageResponse {
     private final String nickname;
     private final String image;
-    private final List<WebPostResponse> postList;
+    private final List<WebMyPagePostResponse> postList;
 }

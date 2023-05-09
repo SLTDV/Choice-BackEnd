@@ -27,8 +27,8 @@ public class Post extends BaseIdEntity {
     private String firstVotingOption;
     @Column(nullable = false)
     private String secondVotingOption;
-    private int firstVotingCount;
-    private int secondVotingCount;
+    private Integer firstVotingCount;
+    private Integer secondVotingCount;
     private String createdAt;
 
 

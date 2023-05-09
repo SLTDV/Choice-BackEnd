@@ -12,5 +12,5 @@ import java.util.List;
 public class WebMyPageDto {
     private final String nickname;
     private final String profileImageUrl;
-    private final List<WebPostDto> postList;
+    private final List<WebMyPagePostDto> postList;
 }

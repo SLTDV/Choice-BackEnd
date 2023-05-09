@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
                 .authorizeRequests()
-                .mvcMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 
                 // auth
                 .antMatchers(HttpMethod.POST,"/auth/signin").permitAll()
@@ -43,6 +43,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.PATCH,"/auth").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/auth").authenticated()
                 .antMatchers(HttpMethod.POST, "/auth/phone").permitAll()
+                .antMatchers(HttpMethod.GET, "/auth/phone").permitAll()
 
                 // user
                 .antMatchers(HttpMethod.DELETE,"/user").authenticated()
