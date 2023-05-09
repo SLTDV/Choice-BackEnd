@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseIdEntity {
     @Column(nullable = false)
-    private String email;
+    private String phoneNumber;
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
@@ -19,8 +19,8 @@ public class User extends BaseIdEntity {
     private String profileImageUrl;
 
     @Builder
-    public User(String email, String password, String nickname, String profileImageUrl) {
-        this.email = email;
+    public User(String phoneNumber, String password, String nickname, String profileImageUrl) {
+        this.phoneNumber = phoneNumber;
         this.password = password;
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;

@@ -35,15 +35,15 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
                 .authorizeRequests()
-                .mvcMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 
                 // auth
                 .antMatchers(HttpMethod.POST,"/auth/signin").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth/signup").permitAll()
-                .antMatchers(HttpMethod.POST, "/auth/duplication").permitAll()
                 .antMatchers(HttpMethod.PATCH,"/auth").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/auth").authenticated()
                 .antMatchers(HttpMethod.POST, "/auth/phone").permitAll()
+                .antMatchers(HttpMethod.GET, "/auth/phone").permitAll()
 
                 // user
                 .antMatchers(HttpMethod.DELETE,"/user").authenticated()
@@ -55,13 +55,13 @@ public class SecurityConfig {
 
                 // post
                 .antMatchers(HttpMethod.GET,"/post").authenticated()
-                .antMatchers(HttpMethod.GET,"/post/web").permitAll()
+                .antMatchers(HttpMethod.GET,"/post/latested").permitAll()
                 .antMatchers(HttpMethod.GET,"/post/list").authenticated()
-                .antMatchers(HttpMethod.GET,"/post/list/web").permitAll()
+                .antMatchers(HttpMethod.GET,"/post/popularity").permitAll()
                 .antMatchers(HttpMethod.POST,"/post").authenticated()
                 .antMatchers(HttpMethod.POST,"/post/vote/**").authenticated()
                 .antMatchers(HttpMethod.GET,"/post/**").authenticated()
-                .antMatchers(HttpMethod.GET,"/post/web/**").authenticated()
+                .antMatchers(HttpMethod.GET,"/post/detail/**").authenticated()
                 .antMatchers(HttpMethod.DELETE,"/post/**").authenticated()
                 .antMatchers(HttpMethod.GET,"/post/today").authenticated()
 

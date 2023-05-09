@@ -12,5 +12,5 @@ import java.util.List;
 public class PostListResponse {
     private final Integer page;
     private final Integer size;
-    private final List<PostResponse> posts;
+    private final List<PostResponse> postList;
 }

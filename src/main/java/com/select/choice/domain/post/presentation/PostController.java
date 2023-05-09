@@ -2,10 +2,10 @@ package com.select.choice.domain.post.presentation;
 
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.response.*;
-import com.select.choice.domain.post.presentation.data.request.AddCountRequest;
+import com.select.choice.domain.post.presentation.data.request.VoteOptionRequest;
 
 import com.select.choice.domain.post.presentation.data.request.CreatePostRequest;
-import com.select.choice.domain.post.service.PostService;
+import com.select.choice.domain.post.service.*;
 import com.select.choice.domain.post.util.PostConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +21,13 @@ import java.util.stream.Collectors;
 @RequestMapping("/post")
 @RequiredArgsConstructor
 public class PostController {
-    private final PostService postService;
+    private final CreatePostService createPostService;
+    private final DeletePostService deletePostService;
+    private final GetLatestPostsService getLatestPostsService;
+    private final GetPostDetailService getPostDetailService;
+    private final GetTopFivePostsByVoteCountTodayService getTopFivePostsByVoteCountTodayService;
+    private final VoteForPostService voteForPostService;
+    private final GetPopularPostsService getPopularPostsService;
     private final PostConverter postConverter;
 
     /*
@@ -30,7 +36,7 @@ public class PostController {
      */
     @GetMapping
     public ResponseEntity<PostListResponse> getAllPostList(Pageable pageable){
-        List<PostDto> postList = postService.getAllPostList(pageable);
+        List<PostDto> postList = getLatestPostsService.getLatestPost(pageable);
         List<PostResponse> postResponses = postConverter.toResponse(postList);
         return new ResponseEntity<>(postConverter.toResponse(postResponses, pageable.getPageNumber()), HttpStatus.OK);
     }
@@ -39,10 +45,10 @@ public class PostController {
     기능: 게시물 조회 WEB.ver
     담당자: 노혁
      */
-    @GetMapping("/web")
-    public ResponseEntity<WebVerPostListResponse> getPost(Pageable pageable){
-        List<WebVerPostDto> webVerPostDtoList = postService.getPost(pageable);
-        List<WebVerPostResponse> webVerPostResponseList = postConverter.toPostResponse(webVerPostDtoList);
+    @GetMapping("/latested")
+    public ResponseEntity<WebPostListResponse> getPost(Pageable pageable){
+        List<WebPostDto> webVerPostDtoList = getLatestPostsService.getLatestPostList(pageable);
+        List<WebPostResponse> webVerPostResponseList = postConverter.toPostResponse(webVerPostDtoList);
         return new ResponseEntity<>(postConverter.toWebResponse(webVerPostResponseList, pageable.getPageNumber()), HttpStatus.OK);
     }
 
@@ -52,7 +58,7 @@ public class PostController {
      */
     @GetMapping("/list")
     public ResponseEntity<PostListResponse> getBestPostList(Pageable pageable){
-        List<PostDto> bestPostList = postService.getBestPostList(pageable);
+        List<PostDto> bestPostList = getPopularPostsService.getPopularPosts(pageable);
         List<PostResponse> bestPostResponseList = postConverter.toResponse(bestPostList);
         return new ResponseEntity<>(postConverter.toResponse(bestPostResponseList, pageable.getPageNumber()), HttpStatus.OK);
     }
@@ -61,10 +67,10 @@ public class PostController {
     기능: 인기 게시물 조회 WEB.ver
     담당자: 노혁
      */
-    @GetMapping("/list/web")
-    public ResponseEntity<WebVerPostListResponse> getBestPost(Pageable pageable) {
-        List<WebVerPostDto> bestPostList = postService.getBestPost(pageable);
-        List<WebVerPostResponse> bestPostResponseList = postConverter.toPostResponse(bestPostList);
+    @GetMapping("/popularity")
+    public ResponseEntity<WebPostListResponse> getBestPost(Pageable pageable) {
+        List<WebPostDto> bestPostList = getPopularPostsService.getPopularPostList(pageable);
+        List<WebPostResponse> bestPostResponseList = postConverter.toPostResponse(bestPostList);
         return new ResponseEntity<>(postConverter.toWebResponse(bestPostResponseList, pageable.getPageNumber()), HttpStatus.OK);
     }
 
@@ -75,7 +81,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<Void> createPost(@RequestBody @Valid CreatePostRequest createPostRequestDto) {
         CreatePostDto dto = postConverter.toDto(createPostRequestDto);
-        postService.createPost(dto);
+        createPostService.createPost(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -85,7 +91,7 @@ public class PostController {
      */
     @DeleteMapping("/{postIdx}")
     public ResponseEntity<Void> deletePost(@PathVariable("postIdx") Long postIdx){
-        postService.deletePost(postIdx);
+        deletePostService.deletePost(postIdx);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -95,7 +101,7 @@ public class PostController {
      */
     @GetMapping({"/{postIdx}"})
     public ResponseEntity<PostDetailResponse> postDetail(@PathVariable("postIdx") Long postIdx, Pageable pageable) {
-        PostDetailDto dto = postService.aggregateDetail(postIdx, pageable);
+        PostDetailDto dto = getPostDetailService.getPostDetail(postIdx, pageable);
         PostDetailResponse response = postConverter.toResponse(dto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -104,10 +110,10 @@ public class PostController {
     기능: 게시물 상세페이지 조회 WEb.ver
     담당자: 노혁
      */
-    @GetMapping("/web/{postIdx}")
-    public ResponseEntity<WebVerPostDetailResponse> getPostDetail(@PathVariable("postIdx") Long postIdx, Pageable pageable) {
-        WebVerPostDetailDto dto = postService.getPostDetail(postIdx, pageable);
-        WebVerPostDetailResponse response = postConverter.toResponse(dto);
+    @GetMapping("/detail/{postIdx}")
+    public ResponseEntity<WebPostDetailResponse> getPostDetail(@PathVariable("postIdx") Long postIdx, Pageable pageable) {
+        WebPostDetailDto dto = getPostDetailService.getWebPostDetail(postIdx, pageable);
+        WebPostDetailResponse response = postConverter.toResponse(dto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -116,10 +122,10 @@ public class PostController {
     담당자: 노혁
      */
     @PostMapping("/vote/{postIdx}")
-    public ResponseEntity<VoteCountResponse> voteCount(@PathVariable("postIdx") Long postIdx, @RequestBody AddCountRequest addCountRequest){
-        AddCountDto addCountDto = postConverter.toDto(addCountRequest);
-        VoteCountDto voteCountDto = postService.voteCount(addCountDto, postIdx);
-        VoteCountResponse addCountResponse = postConverter.toResponse(voteCountDto);
+    public ResponseEntity<VoteForPostResponse> voteCount(@PathVariable("postIdx") Long postIdx, @RequestBody VoteOptionRequest addCountRequest){
+        VoteOptionDto addCountDto = postConverter.toDto(addCountRequest);
+        VoteForPostDto voteForPostDto = voteForPostService.voteForPost(addCountDto, postIdx);
+        VoteForPostResponse addCountResponse = postConverter.toResponse(voteForPostDto);
         return new ResponseEntity<>(addCountResponse, HttpStatus.CREATED);
     }
 
@@ -129,8 +135,8 @@ public class PostController {
      */
     @GetMapping("/today")
     public ResponseEntity<TodayPostListResponse> getTodayPostList() {
-        TodayPostListDto todayPostListDto = postService.getTodayPostList();
-        List<TodayPostResponse> todayPostListResponses = todayPostListDto.getTodayPosts().stream()
+        TodayPostListDto todayPostListDto = getTopFivePostsByVoteCountTodayService.getTopFivePostsByVoteCountTodayService();
+        List<TodayPostResponse> todayPostListResponses = todayPostListDto.getTodayPostList().stream()
                 .limit(5)
                 .map(postConverter::toTodayPostResponse)
                 .collect(Collectors.toList());

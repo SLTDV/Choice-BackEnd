@@ -14,4 +14,5 @@ public class TokenResponse {
     @JsonFormat(pattern = "yyyy-MM-dd 'T' HH:mm:ss")
     private final LocalDateTime accessExpiredTime;
     @JsonFormat(pattern = "yyyy-MM-dd 'T' HH:mm:ss")
-    private final LocalDateTime refreshExpiredTime;}
+    private final LocalDateTime refreshExpiredTime;
+}

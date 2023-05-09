@@ -24,13 +24,13 @@ public class UserUtilImpl implements UserUtil {
         }
     }
 
-    public User findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email).orElseThrow(()
+    public User findUserByPhoneNumber(String phoneNumber) {
+        return userRepository.findUserByPhoneNumber(phoneNumber).orElseThrow(()
                 -> new UserNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 
-    public boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return userRepository.existsByPhoneNumber(phoneNumber);
     }
 
     public boolean existsByNickname(String nickname) {
@@ -42,8 +42,8 @@ public class UserUtilImpl implements UserUtil {
     }
 
     public User currentUser(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return findUserByEmail(email);
+        String phoneNumber = SecurityContextHolder.getContext().getAuthentication().getName();
+        return findUserByPhoneNumber(phoneNumber);
     }
 
     public void withdrawal(User user){

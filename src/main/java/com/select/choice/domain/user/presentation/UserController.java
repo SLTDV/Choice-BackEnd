@@ -1,6 +1,6 @@
 package com.select.choice.domain.user.presentation;
 
-import com.select.choice.domain.user.Service.*;
+import com.select.choice.domain.user.service.*;
 import com.select.choice.domain.user.presentation.data.dto.*;
 import com.select.choice.domain.user.presentation.data.request.ChangeNicknameRequest;
 import com.select.choice.domain.user.presentation.data.request.ChangeProfileImageRequest;

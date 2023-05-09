@@ -1,6 +1,7 @@
 package com.select.choice.domain.user.util;
 
 import com.select.choice.domain.post.domain.entity.Post;
+import com.select.choice.domain.post.presentation.data.dto.WebPostDto;
 import com.select.choice.domain.user.presentation.data.dto.*;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.presentation.data.request.ChangeNicknameRequest;
@@ -18,6 +19,6 @@ public interface UserConverter {
     ChangeProfileImageDto toDto(ChangeProfileImageRequest changeProfileImageRequest);
     HeaderDto toDto(User user);
     HeaderResponse toResponse(HeaderDto headerDto);
-    WebMyPageDto toWebMyPageDto(User user, List<WebPostDto> postDtoList);
+    WebMyPageDto toWebMyPageDto(User user, List<WebMyPagePostDto> postDtoList);
     WebMyPageResponse toResponse(WebMyPageDto myPageDto);
 }
