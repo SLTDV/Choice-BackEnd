@@ -14,5 +14,5 @@ public class PostDetailDto {
     private final String writer;
     private final String image;
     private final Pageable pageable;
-    private final List<CommentDetailDto> comment;
+    private final List<CommentDetailDto> commentList;
 }

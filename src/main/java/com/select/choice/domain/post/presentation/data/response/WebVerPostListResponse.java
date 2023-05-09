@@ -12,5 +12,5 @@ import java.util.List;
 public class WebVerPostListResponse {
     private final Integer page;
     private final Integer size;
-    private final List<WebVerPostResponse> posts;
+    private final List<WebVerPostResponse> postList;
 }

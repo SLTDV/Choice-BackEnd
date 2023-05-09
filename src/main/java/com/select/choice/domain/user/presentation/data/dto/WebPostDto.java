@@ -11,9 +11,9 @@ import java.util.Optional;
 @Builder
 @RequiredArgsConstructor
 public class WebPostDto {
-    private final String imageUrl;
+    private final Long idx;
     private final String title;
-    private final String content;
+    private final String imageUrl;
     private final String firstVotingOption;
     private final Optional<PostVotingState> votingState;
     private final Integer participants;

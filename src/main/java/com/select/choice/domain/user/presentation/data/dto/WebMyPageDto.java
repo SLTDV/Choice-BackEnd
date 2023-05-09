@@ -11,6 +11,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebMyPageDto {
     private final String nickname;
-    private final String image;
+    private final String profileImageUrl;
     private final List<WebPostDto> postList;
 }

@@ -99,13 +99,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void signupDuplicationCheck(SignupDuplicationCheckDto signupDuplicationCheckDto) {
-        if (userUtil.existsByEmail(signupDuplicationCheckDto.getEmail())) {
-            throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
-        }
-    }
-
-    @Override
     public TokenDto refresh(String refreshToken) {
         jwtTokenProvider.validateToken(refreshToken, JwtTokenProvider.TokenType.REFRESH_TOKEN);
 

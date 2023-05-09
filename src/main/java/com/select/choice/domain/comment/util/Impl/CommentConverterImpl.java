@@ -53,6 +53,6 @@ public class CommentConverterImpl implements CommentConverter {
                         list.getUser().getProfileImageUrl(),
                         list.getUser().equals(user)
                 )
-        ).sorted(Comparator.comparing(CommentDetailDto::getIdx).reversed()).collect(Collectors.toList());
+        ).collect(Collectors.toList());
     }
 }

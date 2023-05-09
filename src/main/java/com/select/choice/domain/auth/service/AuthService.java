@@ -9,5 +9,4 @@ public interface AuthService {
     void signUp(SignUpDto signUpDto);
     void logout(String token);
     void sendSMS(SendPhoneNumberDto dto) throws CoolsmsException;
-    void signupDuplicationCheck(SignupDuplicationCheckDto signupDuplicationCheckDto);
 }
