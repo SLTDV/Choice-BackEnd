@@ -52,6 +52,7 @@ public class UserController {
      */
     @GetMapping("/my")
     public ResponseEntity<WebMyPageResponse> getWebMyPage() {
+        System.out.println("???");
         WebMyPageDto myPageDto = getWebMypageService.getMyPage();
         WebMyPageResponse myPageResponse = userConverter.toResponse(myPageDto);
         return new ResponseEntity<>(myPageResponse, HttpStatus.OK);
