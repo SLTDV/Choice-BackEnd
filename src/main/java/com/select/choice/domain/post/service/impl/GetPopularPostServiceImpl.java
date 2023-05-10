@@ -21,7 +21,7 @@ public class GetPopularPostServiceImpl implements GetPopularPostsService {
     @Override
     public List<PostDto> getPopularPosts(Pageable pageable) {
         List<Post> list = postRepository.getPopularPosts(pageable);
-        return postConverter.toBestPostDto(list);
+        return postConverter.toDto(list);
     }
 
     @Override

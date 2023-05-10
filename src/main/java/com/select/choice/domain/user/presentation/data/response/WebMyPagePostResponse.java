@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebMyPagePostResponse {
     private final Long idx;
-    private final String imageUrl;
     private final String title;
+    private final String imageUrl;
     private final String firstVotingOption;
     private final Integer votingState;
     private final Integer participants;
