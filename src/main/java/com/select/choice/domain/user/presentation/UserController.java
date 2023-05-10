@@ -55,7 +55,6 @@ public class UserController {
         System.out.println("???");
         WebMyPageDto myPageDto = getWebMypageService.getMyPage();
         WebMyPageResponse myPageResponse = userConverter.toResponse(myPageDto);
-        System.out.println("second: " + myPageResponse.getPostList().get(0).getSecondVotingOption());
         return new ResponseEntity<>(myPageResponse, HttpStatus.OK);
     }
 
