@@ -23,9 +23,7 @@ public class RefreshServiceImpl implements RefreshService {
         jwtTokenProvider.validateToken(refreshToken, JwtTokenProvider.TokenType.REFRESH_TOKEN);
 
         String email = jwtTokenProvider.getTokenSubject(refreshToken, JwtTokenProvider.TokenType.REFRESH_TOKEN);
-        System.out.println("email : " + email);
         RefreshToken existingRefreshToken = refreshTokenRepository.findByRefreshToken(refreshToken);
-        System.out.println("existingRefresh : " + existingRefreshToken.getUserId());
 
         String newAccessToken = jwtTokenProvider.generateAccessToken(email);
         String newRefreshToken = jwtTokenProvider.generateRefreshToken(email);
