@@ -11,6 +11,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebMyPageResponse {
     private final String nickname;
-    private final String image;
+    private final String profileImageUrl;
     private final List<WebMyPagePostResponse> postList;
 }
