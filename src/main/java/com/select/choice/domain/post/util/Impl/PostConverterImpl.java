@@ -265,7 +265,7 @@ public class PostConverterImpl implements PostConverter {
                         entity.getFirstImageUrl(),
                         entity.getTitle(),
                         entity.getFirstVotingOption(),
-                        postVotingStateRepository.findByUserAndPost(user, entity),
+                        entity.getSecondVotingOption(),
                         entity.getFirstVotingCount() + entity.getSecondVotingCount(),
                         commentRepository.countByPost(entity)
                 )
@@ -354,29 +354,16 @@ public class PostConverterImpl implements PostConverter {
 
     @Override
     public List<WebMyPagePostResponse> toWebMyPagePostResponse(List<WebMyPagePostDto> postList) {
-        return postList.stream().map(dto -> {
-            if(dto.getVotingState().isPresent()) {
-                return new WebMyPagePostResponse(
+        return postList.stream().map(dto ->
+                new WebMyPagePostResponse(
                         dto.getIdx(),
                         dto.getTitle(),
                         dto.getImageUrl(),
                         dto.getFirstVotingOption(),
-                        dto.getVotingState().get().getVote(),
+                        dto.getSecondVotingOption(),
                         dto.getParticipants(),
                         dto.getCommentCount()
-                );
-            } else {
-                return new WebMyPagePostResponse(
-                        dto.getIdx(),
-                        dto.getTitle(),
-                        dto.getImageUrl(),
-                        dto.getFirstVotingOption(),
-                        0,
-                        dto.getParticipants(),
-                        dto.getCommentCount()
-                );
-            }
-        }).collect(Collectors.toList());
+                )).collect(Collectors.toList());
     }
 }
 
