@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    driver-class-name: ${DB_DRIVER}
+    url: ${DB_URL}
+    password: ${DB_PW}
+    username: ${DB_USERNAME}
+
+  main:
+    allow-bean-definition-overriding: ${MAIN_OVERRIDING}
+
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_DDL}
+    defer-datasource-initialization: ${JPA_INITIAL}
+
+  cache:
+    type: ${REDIS}
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
+  servlet:
+    multipart:
+      max-request-size: ${MAX_REQ_SIZE}
+      max-file-size: ${MAX_FILE_SIZE}
+
+jwt:
+  access-secret: ${JWT_ACCESS}
+  refresh-secret: ${JWt_REFRESH}
+server:
+  port: ${SERVER_PORT}
+
+coolsms:
+  api-key: ${COOL_SMS_API_KEY}
+  api-secret: ${COOL_SMS_API_SECRET}
+
+
+cloud:
+  aws:
+    region:
+      static : ${AWS_REGION}
+    stack:
+      auto: ${AWS_STACK}
+    credentials:
+      instance-profile: ${AWS_PROFILE}
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    s3:
+      bucket: ${S3_BUCKET}
+      url: ${S3_URL}
