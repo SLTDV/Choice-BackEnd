@@ -262,8 +262,8 @@ public class PostConverterImpl implements PostConverter {
         return postList.stream().map( entity ->
                 new WebMyPagePostDto(
                         entity.getIdx(),
-                        entity.getFirstImageUrl(),
                         entity.getTitle(),
+                        entity.getFirstImageUrl(),
                         entity.getFirstVotingOption(),
                         entity.getSecondVotingOption(),
                         entity.getFirstVotingCount() + entity.getSecondVotingCount(),
