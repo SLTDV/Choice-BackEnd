@@ -54,6 +54,7 @@ public class UserController {
     public ResponseEntity<WebMyPageResponse> getWebMyPage() {
         WebMyPageDto myPageDto = getWebMypageService.getMyPage();
         WebMyPageResponse myPageResponse = userConverter.toResponse(myPageDto);
+        System.out.println(myPageResponse.getPostList().get(0).getSecondVotingOption());
         return new ResponseEntity<>(myPageResponse, HttpStatus.OK);
     }
 
