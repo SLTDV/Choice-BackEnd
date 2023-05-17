@@ -3,6 +3,7 @@ package com.select.choice.domain.post.service.impl;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.post.presentation.data.dto.PostDto;
+import com.select.choice.domain.post.presentation.data.dto.TotalPageAndWebPostDtoList;
 import com.select.choice.domain.post.presentation.data.dto.WebPostDto;
 import com.select.choice.domain.post.service.GetPopularPostsService;
 import com.select.choice.domain.post.util.PostConverter;
@@ -25,8 +26,12 @@ public class GetPopularPostServiceImpl implements GetPopularPostsService {
     }
 
     @Override
-    public List<WebPostDto> getPopularPostList(Pageable pageable) {
+    public TotalPageAndWebPostDtoList getPopularPostList(Pageable pageable) {
         List<Post> list = postRepository.getPopularPosts(pageable);
-        return postConverter.toBestPostDtoList(list);
+
+        Integer totalPage = postRepository.findAll().size() / pageable.getPageSize();
+        List<WebPostDto> webPostDtoList = postConverter.toPostDto(list);
+
+        return postConverter.toDto(totalPage, webPostDtoList);
     }
 }

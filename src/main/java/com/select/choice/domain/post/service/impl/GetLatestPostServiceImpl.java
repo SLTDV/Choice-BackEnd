@@ -3,6 +3,7 @@ package com.select.choice.domain.post.service.impl;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.post.presentation.data.dto.PostDto;
+import com.select.choice.domain.post.presentation.data.dto.TotalPageAndWebPostDtoList;
 import com.select.choice.domain.post.presentation.data.dto.WebPostDto;
 import com.select.choice.domain.post.service.GetLatestPostsService;
 import com.select.choice.domain.post.util.PostConverter;
@@ -29,10 +30,13 @@ public class GetLatestPostServiceImpl implements GetLatestPostsService {
     }
 
     @Override
-    public List<WebPostDto> getLatestPostList(Pageable pageable) {
+    public TotalPageAndWebPostDtoList getLatestPostList(Pageable pageable) {
         List<Post> list = postRepository.findAll(
                 PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("idx").descending()))
                 .toList();
-        return postConverter.toPostDto(list);
+        Integer totalPage = postRepository.findAll().size() / pageable.getPageSize();
+        List<WebPostDto> webPostDtoList = postConverter.toPostDto(list);
+
+        return postConverter.toDto(totalPage, webPostDtoList);
     }
 }
