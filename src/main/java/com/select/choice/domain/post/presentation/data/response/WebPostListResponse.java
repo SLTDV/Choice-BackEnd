@@ -11,6 +11,5 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebPostListResponse {
     private final Integer page;
-    private final Integer size;
     private final List<WebPostResponse> postList;
 }
