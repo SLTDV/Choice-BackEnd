@@ -33,7 +33,9 @@ public class GetPostDetailServiceImpl implements GetPostDetailService {
     public PostDetailDto getPostDetail(Long postIdx, Pageable pageable) {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
-        List<Comment> comment = commentRepository.findAllByPostIdx(postIdx, pageable);
+        List<Comment> comment = commentRepository.findAllByPostIdx(
+                postIdx,
+                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("idx").descending()));
         List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment, user);
 
         return postConverter.toDto(commentDetailDtoList, post, pageable);

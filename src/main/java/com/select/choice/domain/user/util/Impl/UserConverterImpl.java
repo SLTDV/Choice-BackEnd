@@ -92,7 +92,7 @@ public class UserConverterImpl implements UserConverter {
     public WebMyPageResponse toResponse(WebMyPageDto myPageDto) {
         return WebMyPageResponse.builder()
                 .nickname(myPageDto.getNickname())
-                .image(myPageDto.getProfileImageUrl())
+                .profileImageUrl(myPageDto.getProfileImageUrl())
                 .postList(postConverter.toWebMyPagePostResponse(myPageDto.getPostList()))
                 .build();
     }

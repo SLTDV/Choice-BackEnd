@@ -6,18 +6,15 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.annotation.PostConstruct;
-import java.util.Date;
 import java.util.TimeZone;
 
 @ConfigurationPropertiesScan(basePackages = {"com.select.*"})
 @SpringBootApplication
 @EnableJpaRepositories
 public class ChoiceApplication {
-
 	@PostConstruct
 	public void started() {
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-		System.out.println("현재시각 : " + new Date());
 	}
 
 	public static void main(String[] args) {
