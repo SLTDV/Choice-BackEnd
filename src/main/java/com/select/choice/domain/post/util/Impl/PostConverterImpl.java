@@ -140,21 +140,6 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public List<WebPostDto> toBestPostDtoList(List<Post> list) {
-        return list.stream().map(entity ->
-                new WebPostDto(
-                        entity.getIdx(),
-                        entity.getFirstImageUrl(),
-                        entity.getTitle(),
-                        entity.getFirstVotingOption(),
-                        entity.getSecondVotingOption(),
-                        entity.getFirstVotingCount() + entity.getSecondVotingCount(),
-                        commentRepository.countByPost(entity)
-                )
-        ).collect(Collectors.toList());
-    }
-
-    @Override
     public TodayPostDto toTodayPostDto(Post post) {
         return TodayPostDto.builder()
                 .idx(post.getIdx())
@@ -271,10 +256,9 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public WebPostListResponse toWebResponse(List<WebPostResponse> webVerPostResponseList, int pageNumber) {
+    public WebPostListResponse toWebResponse(List<WebPostResponse> webVerPostResponseList, int totalPage) {
         return WebPostListResponse.builder()
-                .page(pageNumber)
-                .size(webVerPostResponseList.size())
+                .page(totalPage)
                 .postList(webVerPostResponseList)
                 .build();
     }
@@ -399,6 +383,14 @@ public class PostConverterImpl implements PostConverter {
                 );
             }
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public TotalPageAndWebPostDtoList toDto(Integer totalPage, List<WebPostDto> webPostDtoList) {
+        return TotalPageAndWebPostDtoList.builder()
+                .totalPage(totalPage)
+                .webPostDtoList(webPostDtoList)
+                .build();
     }
 }
 

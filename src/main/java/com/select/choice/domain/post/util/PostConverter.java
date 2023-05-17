@@ -8,10 +8,8 @@ import com.select.choice.domain.post.presentation.data.response.*;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.request.VoteOptionRequest;
 import com.select.choice.domain.user.domain.entity.User;
-import com.select.choice.domain.user.presentation.data.dto.WebMyPageDto;
 import com.select.choice.domain.user.presentation.data.dto.WebMyPagePostDto;
 import com.select.choice.domain.user.presentation.data.response.WebMyPagePostResponse;
-import com.select.choice.domain.user.presentation.data.response.WebMyPageResponse;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -30,7 +28,6 @@ public interface PostConverter {
     PostVotingState toEntity(User user, Post post);
     List<WebPostDto> toPostDto(List<Post> list);
     List<WebPostResponse> toPostResponse(List<WebPostDto> webVerPostDtoList);
-    List<WebPostDto> toBestPostDtoList(List<Post> list);
     TodayPostDto toTodayPostDto(Post post);
     TodayPostListDto toTodayPostListDto(List<TodayPostDto> todayPosts);
     TodayPostResponse toTodayPostResponse(TodayPostDto todayPostDto);
@@ -39,7 +36,8 @@ public interface PostConverter {
     WebPostDetailResponse toResponse(WebPostDetailDto dto);
     PostListDto toDto(List<Post> list, Pageable pageable);
     PostListResponse toResponse(List<PostResponse> postResponses, int pageNumber);
-    WebPostListResponse toWebResponse(List<WebPostResponse> webVerPostResponseList, int pageNumber);
+    WebPostListResponse toWebResponse(List<WebPostResponse> webVerPostResponseList, int totalPage);
     List<WebMyPagePostDto> toWebMyPagePostDto(List<Post> postList, User user);
     List<WebMyPagePostResponse> toWebMyPagePostResponse(List<WebMyPagePostDto> postList);
+    TotalPageAndWebPostDtoList toDto(Integer totalPage, List<WebPostDto> webPostDtoList);
 }
