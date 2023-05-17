@@ -47,9 +47,13 @@ public class PostController {
      */
     @GetMapping("/latested")
     public ResponseEntity<WebPostListResponse> getPost(Pageable pageable){
-        List<WebPostDto> webVerPostDtoList = getLatestPostsService.getLatestPostList(pageable);
-        List<WebPostResponse> webVerPostResponseList = postConverter.toPostResponse(webVerPostDtoList);
-        return new ResponseEntity<>(postConverter.toWebResponse(webVerPostResponseList, pageable.getPageNumber()), HttpStatus.OK);
+        TotalPageAndWebPostDtoList totalPageAndWebPostDtoList = getLatestPostsService.getLatestPostList(pageable);
+
+        List<WebPostDto> webPostDtoList = totalPageAndWebPostDtoList.getWebPostDtoList();
+        Integer totalPage = totalPageAndWebPostDtoList.getTotalPage();
+
+        List<WebPostResponse> webVerPostResponseList = postConverter.toPostResponse(webPostDtoList);
+        return new ResponseEntity<>(postConverter.toWebResponse(webVerPostResponseList, totalPage), HttpStatus.OK);
     }
 
     /*
@@ -69,9 +73,13 @@ public class PostController {
      */
     @GetMapping("/popularity")
     public ResponseEntity<WebPostListResponse> getBestPost(Pageable pageable) {
-        List<WebPostDto> bestPostList = getPopularPostsService.getPopularPostList(pageable);
-        List<WebPostResponse> bestPostResponseList = postConverter.toPostResponse(bestPostList);
-        return new ResponseEntity<>(postConverter.toWebResponse(bestPostResponseList, pageable.getPageNumber()), HttpStatus.OK);
+        TotalPageAndWebPostDtoList totalPageAndWebPostDtoList = getPopularPostsService.getPopularPostList(pageable);
+
+        List<WebPostDto> webPostDtoList = totalPageAndWebPostDtoList.getWebPostDtoList();
+        Integer totalPage = totalPageAndWebPostDtoList.getTotalPage();
+
+        List<WebPostResponse> webPostResponseList = postConverter.toPostResponse(webPostDtoList);
+        return new ResponseEntity<>(postConverter.toWebResponse(webPostResponseList, totalPage), HttpStatus.OK);
     }
 
     /*
