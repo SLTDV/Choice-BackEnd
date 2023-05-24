@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,7 +85,7 @@ public class PostConverterImpl implements PostConverter {
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         commentRepository.countByPost(post)
                 )
-        ).collect(Collectors.toList());
+        ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
     }
 
     @Override
