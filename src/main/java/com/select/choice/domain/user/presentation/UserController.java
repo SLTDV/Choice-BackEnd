@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -63,7 +65,7 @@ public class UserController {
     담당자: 노혁
      */
     @PatchMapping
-    public ResponseEntity<Void> changeNickname(@RequestBody ChangeNicknameRequest changeNicknameRequest){
+    public ResponseEntity<Void> changeNickname(@RequestBody @Valid ChangeNicknameRequest changeNicknameRequest){
         NicknameDto nicknameDto = userConverter.toDto(changeNicknameRequest);
         changeNicknameService.changeNickname(nicknameDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
