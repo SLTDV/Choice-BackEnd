@@ -39,4 +39,5 @@ public interface PostConverter {
     List<WebMyPagePostDto> toWebMyPagePostDto(List<Post> postList, User user);
     List<WebMyPagePostResponse> toWebMyPagePostResponse(List<WebMyPagePostDto> postList);
     TotalPageAndWebPostDtoList toDto(Integer totalPage, List<WebPostDto> webPostDtoList);
+    List<PostDto> toMyPagePostDto(List<Post> postList);
 }

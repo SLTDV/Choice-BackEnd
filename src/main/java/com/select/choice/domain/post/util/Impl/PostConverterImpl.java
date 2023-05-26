@@ -85,6 +85,27 @@ public class PostConverterImpl implements PostConverter {
                         post.getFirstVotingCount() + post.getSecondVotingCount(),
                         commentRepository.countByPost(post)
                 )
+        ).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PostDto> toMyPagePostDto(List<Post> entity) {
+        User user = userUtil.currentUser();
+        return entity.stream().map(post ->
+                new PostDto(
+                        post.getIdx(),
+                        post.getFirstImageUrl(),
+                        post.getSecondImageUrl(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getFirstVotingOption(),
+                        post.getSecondVotingOption(),
+                        post.getFirstVotingCount(),
+                        post.getSecondVotingCount(),
+                        postVotingStateRepository.findByUserAndPost(user, post),
+                        post.getFirstVotingCount() + post.getSecondVotingCount(),
+                        commentRepository.countByPost(post)
+                )
         ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
     }
 
