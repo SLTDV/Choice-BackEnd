@@ -4,6 +4,7 @@ import com.select.choice.domain.auth.domain.entity.AuthCode;
 import com.select.choice.domain.auth.domain.entity.Authentication;
 import com.select.choice.domain.auth.domain.entity.RefreshToken;
 import com.select.choice.domain.auth.presentation.data.dto.*;
+import com.select.choice.domain.auth.presentation.data.request.ChangePasswordRequest;
 import com.select.choice.domain.auth.presentation.data.request.SendPhoneNumberRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
@@ -117,6 +118,15 @@ public class AuthConverterImpl implements AuthConverter {
     public Authentication toEntity(String phoneNumber) {
         return Authentication.builder()
                 .phoneNumber(phoneNumber)
+                .build();
+    }
+
+    @Override
+    public ChangePasswordDto toDto(ChangePasswordRequest request) {
+        String password = passwordEncoder.encode(request.getPassword());
+        return ChangePasswordDto.builder()
+                .phoneNumber(request.getPhoneNumber())
+                .password(password)
                 .build();
     }
 }
