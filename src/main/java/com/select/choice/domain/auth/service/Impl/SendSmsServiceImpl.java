@@ -49,4 +49,27 @@ public class SendSmsServiceImpl implements SendSmsService {
         authCodeRepository.save(authConverter.toEntity(numStr.toString(), phoneNumber));
 
     }
+
+    @Override
+    public void send(String phoneNumber) throws CoolsmsException {
+        Message coolsms = new Message(coolSMSProperties.getApiKey(), coolSMSProperties.getApiSecret());
+
+        Random rand  = new Random();
+        StringBuilder numStr = new StringBuilder();
+        for(int i = 0; i < 4; i++) {
+            String ran = Integer.toString(rand.nextInt(10));
+            numStr.append(ran);
+        }
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("to", phoneNumber);    // 수신전화번호
+        params.put("from", "01065657236");    // 발신전화번호
+        params.put("type", "sms");
+        params.put("text", "Choice 인증번호는 [" + numStr + "] 입니다.");
+
+        coolsms.send(params);
+
+        authCodeRepository.save(authConverter.toEntity(numStr.toString(), phoneNumber));
+
+    }
 }

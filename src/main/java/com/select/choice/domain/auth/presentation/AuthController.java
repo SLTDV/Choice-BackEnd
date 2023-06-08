@@ -104,4 +104,14 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    /*
+    기능: 휴대전화로 인증번호 전송 PasswordVersion
+    담당자: 노혁
+    */
+    @PostMapping("/phone/password")
+    public ResponseEntity<Void> send(@RequestParam("phoneNumber") String phoneNumber) throws CoolsmsException {
+        sendSmsService.send(phoneNumber);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
