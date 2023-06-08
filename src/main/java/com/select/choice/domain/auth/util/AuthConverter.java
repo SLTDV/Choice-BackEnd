@@ -4,6 +4,7 @@ import com.select.choice.domain.auth.domain.entity.AuthCode;
 import com.select.choice.domain.auth.domain.entity.Authentication;
 import com.select.choice.domain.auth.domain.entity.RefreshToken;
 import com.select.choice.domain.auth.presentation.data.dto.*;
+import com.select.choice.domain.auth.presentation.data.request.ChangePasswordRequest;
 import com.select.choice.domain.auth.presentation.data.request.SendPhoneNumberRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
@@ -22,4 +23,5 @@ public interface AuthConverter {
     SendPhoneNumberDto toDto(SendPhoneNumberRequest sendPhoneNumberRequest);
     AuthCode toEntity(String numStr, String phoneNumber);
     Authentication toEntity(String phoneNumber);
+    ChangePasswordDto toDto(ChangePasswordRequest request);
 }
