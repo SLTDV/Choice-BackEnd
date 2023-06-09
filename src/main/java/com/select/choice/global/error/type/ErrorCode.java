@@ -19,7 +19,7 @@ public enum ErrorCode {
     ILLEGAL_ARGUMENT_JWT("JWT 토큰이 잘못되었습니다.", 401),
     INVALID_TOKEN("유효하지 않은 토큰입니다.", 401),
     EXPIRED_TOKEN("만료된 토큰 입니다.", 401),
-    UNREGISTERED_PHONE_NUMBER("회원가입 하지 않은 전화번호 입니다.", 401),
+    UNREGISTERED_PHONE_NUMBER("회원가입 하지 않은 전화번호 입니다.", 409),
     IS_NOT_MY_COMMENT("자신의 댓글이 아닙니다.", 403),
     IS_NOT_MY_POST("자신의 게시물이 아닙니다.", 403),
     NOT_REGISTERED_PHONE_NUMBER("인증하지 않은 전화번호입니다.", 403),
