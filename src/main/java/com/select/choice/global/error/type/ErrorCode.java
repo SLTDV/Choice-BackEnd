@@ -12,6 +12,7 @@ public enum ErrorCode {
     INVALID_VOTE_COUNT("유효하지 않는 투표 count 값입니다.", 400),
     NICKNAME_REGEXP("올바르지 않는 닉네임입니다.", 400),
     INVALID_AUTH_CODE("유효하지 않는 인증 코드 입니다.", 400),
+    PASSWORD_ORIGINAL("원래 사용했던 비밀번호 입니다.", 400),
     UNAUTHORIZED("UNAUTHORIZED", 401),
     INVALID_JWT_SIGNATURE("올바르지 않는 서명입니다.", 401),
     UNSUPPORTED_JWT("지원되지 않는 JWT 토큰입니다.", 401),

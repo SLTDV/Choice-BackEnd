@@ -123,10 +123,9 @@ public class AuthConverterImpl implements AuthConverter {
 
     @Override
     public ChangePasswordDto toDto(ChangePasswordRequest request) {
-        String password = passwordEncoder.encode(request.getPassword());
         return ChangePasswordDto.builder()
                 .phoneNumber(request.getPhoneNumber())
-                .password(password)
+                .password(request.getPassword())
                 .build();
     }
 }
