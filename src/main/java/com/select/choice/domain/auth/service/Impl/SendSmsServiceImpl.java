@@ -2,6 +2,7 @@ package com.select.choice.domain.auth.service.Impl;
 
 import com.select.choice.domain.auth.domain.repository.AuthCodeRepository;
 import com.select.choice.domain.auth.exception.DuplicatePhoneNumberException;
+import com.select.choice.domain.auth.exception.UnregisterdPhoneNumberException;
 import com.select.choice.domain.auth.properties.CoolSMSProperties;
 import com.select.choice.domain.auth.service.SendSmsService;
 import com.select.choice.domain.auth.util.AuthConverter;
@@ -52,6 +53,9 @@ public class SendSmsServiceImpl implements SendSmsService {
 
     @Override
     public void send(String phoneNumber) throws CoolsmsException {
+        if(!userUtil.existsByPhoneNumber(phoneNumber)) {
+            throw new UnregisterdPhoneNumberException(ErrorCode.UNREGISTERED_PHONE_NUMBER);
+        }
         Message coolsms = new Message(coolSMSProperties.getApiKey(), coolSMSProperties.getApiSecret());
 
         Random rand  = new Random();

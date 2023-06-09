@@ -95,7 +95,7 @@ public class AuthController {
     }
 
     /*
-    기능: 비밀번호 찾기
+    기능: 비밀번호 변경
     담당자: 노혁
      */
     @PatchMapping("/password")
