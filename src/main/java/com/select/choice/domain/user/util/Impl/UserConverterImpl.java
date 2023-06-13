@@ -27,7 +27,7 @@ public class UserConverterImpl implements UserConverter {
     public MyPageDto toDto(User user, List<Post> postList) {
         String nickname = user.getNickname();
         String image = user.getProfileImageUrl();
-        List<PostDto> postDtoList = postConverter.toDto(postList);
+        List<PostDto> postDtoList = postConverter.toMyPagePostDto(postList);
         return MyPageDto.builder()
                 .nickname(nickname)
                 .image(image)

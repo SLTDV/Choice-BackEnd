@@ -21,7 +21,6 @@ public class Post extends BaseIdEntity {
     private String secondImageUrl;
     @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
     private String content;
     @Column(nullable = false)
     private String firstVotingOption;

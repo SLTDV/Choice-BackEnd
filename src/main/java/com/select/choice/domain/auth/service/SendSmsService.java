@@ -4,4 +4,5 @@ import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 public interface SendSmsService {
     void sendSMS(String phoneNumber) throws CoolsmsException;
+    void send(String phoneNumber) throws CoolsmsException;
 }

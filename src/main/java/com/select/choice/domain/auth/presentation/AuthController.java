@@ -1,6 +1,7 @@
 package com.select.choice.domain.auth.presentation;
 
 import com.select.choice.domain.auth.presentation.data.dto.*;
+import com.select.choice.domain.auth.presentation.data.request.ChangePasswordRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignInRequest;
 import com.select.choice.domain.auth.presentation.data.request.SignUpRequest;
 import com.select.choice.domain.auth.presentation.data.response.TokenResponse;
@@ -25,6 +26,7 @@ public class AuthController {
     private final SignInService signInService;
     private final SignUpService signUpService;
     private final AuthConverter authConverter;
+    private final ChangePasswordService changePasswordService;
 
     /*
     기능: 로그인
@@ -92,5 +94,24 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /*
+    기능: 비밀번호 변경
+    담당자: 노혁
+     */
+    @PatchMapping("/password")
+    public ResponseEntity<Void> changePassword(@RequestBody @Valid ChangePasswordRequest request) {
+        changePasswordService.change(authConverter.toDto(request));
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    /*
+    기능: 휴대전화로 인증번호 전송 PasswordVersion
+    담당자: 노혁
+    */
+    @PostMapping("/phone/password")
+    public ResponseEntity<Void> send(@RequestParam("phoneNumber") String phoneNumber) throws CoolsmsException {
+        sendSmsService.send(phoneNumber);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

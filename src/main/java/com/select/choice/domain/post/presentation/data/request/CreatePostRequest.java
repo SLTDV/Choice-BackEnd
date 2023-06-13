@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 public class CreatePostRequest {
     @Size(min = 2, max = 16)
     private final String title;
-    @Size(min = 2, max = 100)
+    @Size(max = 100)
     private final String content;
     @Size(min = 1, max = 8)
     private final String firstVotingOption;

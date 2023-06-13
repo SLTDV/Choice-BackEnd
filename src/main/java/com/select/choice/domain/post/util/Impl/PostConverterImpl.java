@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,6 +89,27 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
+    public List<PostDto> toMyPagePostDto(List<Post> entity) {
+        User user = userUtil.currentUser();
+        return entity.stream().map(post ->
+                new PostDto(
+                        post.getIdx(),
+                        post.getFirstImageUrl(),
+                        post.getSecondImageUrl(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getFirstVotingOption(),
+                        post.getSecondVotingOption(),
+                        post.getFirstVotingCount(),
+                        post.getSecondVotingCount(),
+                        postVotingStateRepository.findByUserAndPost(user, post),
+                        post.getFirstVotingCount() + post.getSecondVotingCount(),
+                        commentRepository.countByPost(post)
+                )
+        ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
+    }
+
+    @Override
     public List<WebPostDto> toPostDto(List<Post> postList) {
         return postList.stream().map(post ->
                 new WebPostDto(
@@ -113,21 +135,6 @@ public class PostConverterImpl implements PostConverter {
                         dto.getSecondVotingOption(),
                         dto.getParticipants(),
                         dto.getCommentCount()
-                )
-        ).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<WebPostDto> toBestPostDtoList(List<Post> list) {
-        return list.stream().map(entity ->
-                new WebPostDto(
-                        entity.getIdx(),
-                        entity.getFirstImageUrl(),
-                        entity.getTitle(),
-                        entity.getFirstVotingOption(),
-                        entity.getSecondVotingOption(),
-                        entity.getFirstVotingCount() + entity.getSecondVotingCount(),
-                        commentRepository.countByPost(entity)
                 )
         ).collect(Collectors.toList());
     }
@@ -249,10 +256,9 @@ public class PostConverterImpl implements PostConverter {
     }
 
     @Override
-    public WebPostListResponse toWebResponse(List<WebPostResponse> webVerPostResponseList, int pageNumber) {
+    public WebPostListResponse toWebResponse(List<WebPostResponse> webVerPostResponseList, int totalPage) {
         return WebPostListResponse.builder()
-                .page(pageNumber)
-                .size(webVerPostResponseList.size())
+                .page(totalPage)
                 .postList(webVerPostResponseList)
                 .build();
     }
@@ -364,6 +370,14 @@ public class PostConverterImpl implements PostConverter {
                         dto.getParticipants(),
                         dto.getCommentCount()
                 )).collect(Collectors.toList());
+    }
+
+    @Override
+    public TotalPageAndWebPostDtoList toDto(Integer totalPage, List<WebPostDto> webPostDtoList) {
+        return TotalPageAndWebPostDtoList.builder()
+                .totalPage(totalPage)
+                .webPostDtoList(webPostDtoList)
+                .build();
     }
 }
 
