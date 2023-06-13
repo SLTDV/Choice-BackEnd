@@ -10,7 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override //CORS 설정
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "https://choice-hazel.vercel.app")
+                .allowedOrigins("http://localhost:3000", "https://server.choice-time.com", "https://choice-hazel.vercel.app")
                 .allowedMethods("GET","POST","DELETE","PUT","OPTIONS","PATCH")
                 .allowCredentials(true)
                 .maxAge(3600);
