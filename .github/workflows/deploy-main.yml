@@ -62,10 +62,6 @@ jobs:
                   value: ${{ secrets.JWT_REFRESH }}
                 - name: SERVER_PORT
                   value: ${{ secrets.SERVER_PORT }}
-                - name: COOL_SMS_API_KEY
-                  value: ${{ secrets.COOL_SMS_API_KEY }}
-                - name: COOL_SMS_API_SECRET
-                  value: ${{ secrets.COOL_SMS_API_SECRET }}
                 - name: AWS_REGION
                   value: ${{ secrets.AWS_REGION }}
                 - name: AWS_STACK
