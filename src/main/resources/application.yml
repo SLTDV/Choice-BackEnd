@@ -30,11 +30,6 @@ jwt:
 server:
   port: ${SERVER_PORT}
 
-coolsms:
-  api-key: ${COOL_SMS_API_KEY}
-  api-secret: ${COOL_SMS_API_SECRET}
-
-
 cloud:
   aws:
     region:
@@ -48,3 +43,7 @@ cloud:
     s3:
       bucket: ${S3_BUCKET}
       url: ${S3_URL}
+
+twillio:
+  account_sid: ${ACCOUNT_SID}
+  auth_token: ${AUTH_TOKEN}
