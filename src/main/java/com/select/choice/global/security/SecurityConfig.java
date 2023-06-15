@@ -66,6 +66,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET,"/post/detail/**").authenticated()
                 .antMatchers(HttpMethod.DELETE,"/post/**").authenticated()
                 .antMatchers(HttpMethod.GET,"/post/today").authenticated()
+                .antMatchers(HttpMethod.POST, "/post/**").authenticated()
 
                 // comment
                 .antMatchers(HttpMethod.DELETE,"/comment/**/**").authenticated()
