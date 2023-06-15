@@ -29,6 +29,7 @@ public class PostController {
     private final VoteForPostService voteForPostService;
     private final GetPopularPostsService getPopularPostsService;
     private final PostConverter postConverter;
+    private final ReportPostService reportPostService;
 
     /*
     기능: 게시물 조회
@@ -151,5 +152,15 @@ public class PostController {
 
         TodayPostListResponse todayPostListResponse = postConverter.toTodayPostListResponse(todayPostListResponses);
         return new ResponseEntity<>(todayPostListResponse, HttpStatus.OK);
+    }
+
+    /*
+    기능: 게시물 신고
+    담당자: 노혁
+     */
+    @PostMapping("/{postIdx}")
+    public ResponseEntity<Void> report(@PathVariable("postIdx")Long postIdx) {
+        reportPostService.report(postIdx);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
