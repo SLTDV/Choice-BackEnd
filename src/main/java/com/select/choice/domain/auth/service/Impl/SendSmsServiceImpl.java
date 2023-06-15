@@ -8,12 +8,15 @@ import com.select.choice.domain.auth.service.SendSmsService;
 import com.select.choice.domain.auth.util.AuthConverter;
 import com.select.choice.domain.user.util.UserUtil;
 import com.select.choice.global.error.type.ErrorCode;
+import com.twilio.Twilio;
 import lombok.RequiredArgsConstructor;
-import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
+
 import java.util.Random;
 
 @Service
@@ -24,31 +27,22 @@ public class SendSmsServiceImpl implements SendSmsService {
     private final AuthCodeRepository authCodeRepository;
     private final AuthConverter authConverter;
 
+    @Value("${twillio.account_sid}")
+    private String accountSid;
+
+    @Value("${twillio.auth_token}")
+    private String authToken;
+
     @Override
     public void sendSMS(String phoneNumber) throws CoolsmsException {
         if(userUtil.existsByPhoneNumber(phoneNumber)) {
             throw new DuplicatePhoneNumberException(ErrorCode.DUPLICATE_PHONE_NUMBER);
         }
 
-        Message coolsms = new Message(coolSMSProperties.getApiKey(), coolSMSProperties.getApiSecret());
+        String authCode = createAuthCode();
+        twillio(authCode, phoneNumber);
 
-        Random rand  = new Random();
-        StringBuilder numStr = new StringBuilder();
-        for(int i = 0; i < 4; i++) {
-            String ran = Integer.toString(rand.nextInt(10));
-            numStr.append(ran);
-        }
-
-        HashMap<String, String> params = new HashMap<>();
-        params.put("to", phoneNumber);    // 수신전화번호
-        params.put("from", "01065657236");    // 발신전화번호
-        params.put("type", "sms");
-        params.put("text", "Choice 인증번호는 [" + numStr + "] 입니다.");
-
-        coolsms.send(params);
-
-        authCodeRepository.save(authConverter.toEntity(numStr.toString(), phoneNumber));
-
+        authCodeRepository.save(authConverter.toEntity(authCode, phoneNumber));
     }
 
     @Override
@@ -56,24 +50,33 @@ public class SendSmsServiceImpl implements SendSmsService {
         if(!userUtil.existsByPhoneNumber(phoneNumber)) {
             throw new UnregisterdPhoneNumberException(ErrorCode.UNREGISTERED_PHONE_NUMBER);
         }
-        Message coolsms = new Message(coolSMSProperties.getApiKey(), coolSMSProperties.getApiSecret());
 
+        String authCode = createAuthCode();
+        twillio(authCode, phoneNumber);
+
+        authCodeRepository.save(authConverter.toEntity(authCode, phoneNumber));
+    }
+
+    private String createAuthCode() {
         Random rand  = new Random();
         StringBuilder numStr = new StringBuilder();
         for(int i = 0; i < 4; i++) {
             String ran = Integer.toString(rand.nextInt(10));
             numStr.append(ran);
         }
-
-        HashMap<String, String> params = new HashMap<>();
-        params.put("to", phoneNumber);    // 수신전화번호
-        params.put("from", "01065657236");    // 발신전화번호
-        params.put("type", "sms");
-        params.put("text", "Choice 인증번호는 [" + numStr + "] 입니다.");
-
-        coolsms.send(params);
-
-        authCodeRepository.save(authConverter.toEntity(numStr.toString(), phoneNumber));
-
+        return numStr.toString();
     }
+
+    private void twillio(String authCode, String phoneNumber) {
+        if(phoneNumber.startsWith("010")) {
+            phoneNumber = "+82" + phoneNumber.substring(1);
+        }
+        Twilio.init(accountSid, authToken);
+        Message message = Message.creator(
+                new PhoneNumber(phoneNumber),
+                new PhoneNumber("+14302336938"),
+                "초이스 본인확인 인증번호(" + authCode + ") 입력시 정상처리 됩니다."
+        ).create();
+    }
+
 }
