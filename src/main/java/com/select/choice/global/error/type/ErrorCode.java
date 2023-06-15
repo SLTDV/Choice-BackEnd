@@ -13,6 +13,8 @@ public enum ErrorCode {
     NICKNAME_REGEXP("올바르지 않는 닉네임입니다.", 400),
     INVALID_AUTH_CODE("유효하지 않는 인증 코드 입니다.", 400),
     PASSWORD_ORIGINAL("원래 사용했던 비밀번호 입니다.", 400),
+    FEIGN_BAD_REQUEST("잘못된 요청입니다.", 400),
+    FEIGN_UNAUTHRIZED("feign unauthorized", 401),
     UNAUTHORIZED("UNAUTHORIZED", 401),
     INVALID_JWT_SIGNATURE("올바르지 않는 서명입니다.", 401),
     UNSUPPORTED_JWT("지원되지 않는 JWT 토큰입니다.", 401),
@@ -20,6 +22,7 @@ public enum ErrorCode {
     INVALID_TOKEN("유효하지 않은 토큰입니다.", 401),
     EXPIRED_TOKEN("만료된 토큰 입니다.", 401),
     UNREGISTERED_PHONE_NUMBER("회원가입 하지 않은 전화번호 입니다.", 409),
+    FEIGN_FORBIDDEN("feign forbidden", 403),
     IS_NOT_MY_COMMENT("자신의 댓글이 아닙니다.", 403),
     IS_NOT_MY_POST("자신의 게시물이 아닙니다.", 403),
     NOT_REGISTERED_PHONE_NUMBER("인증하지 않은 전화번호입니다.", 403),
@@ -28,7 +31,8 @@ public enum ErrorCode {
     Comment_NOT_FOUND("존재하지 않은 COMMENT 입니다.", 404),
     AUTH_CODE_NOT_FOUND("존재하지 않는 AuthCode 입니다.", 404),
     DUPLICATE_PHONE_NUMBER("이미 존재하는 휴대전화 번호입니다.", 409),
-    DUPLICATE_NICKNAME("이미 존재하는 닉네임 입니다.", 409);
+    DUPLICATE_NICKNAME("이미 존재하는 닉네임 입니다.", 409),
+    ALREADY_REPORT_POST("이미 신고한 게시물 입니다.", 409);
 
     private final String message;
     private final int status;

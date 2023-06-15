@@ -1,6 +1,7 @@
 package com.select.choice.domain.post.util.Impl;
 
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
+import com.select.choice.domain.post.domain.entity.Declaration;
 import com.select.choice.domain.post.domain.repository.PostVotingStateRepository;
 import com.select.choice.domain.post.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.post.domain.entity.PostVotingState;
@@ -107,6 +108,14 @@ public class PostConverterImpl implements PostConverter {
                         commentRepository.countByPost(post)
                 )
         ).sorted(Comparator.comparing(PostDto::getIdx).reversed()).collect(Collectors.toList());
+    }
+
+    @Override
+    public Declaration toDeclarationEntity(User user, Post post) {
+        return new Declaration(
+                user,
+                post
+        );
     }
 
     @Override
@@ -290,7 +299,8 @@ public class PostConverterImpl implements PostConverter {
                 0,
                 0,
                 user,
-                LocalDate.now().toString()     
+                LocalDate.now().toString(),
+                0
                 );
     }
 

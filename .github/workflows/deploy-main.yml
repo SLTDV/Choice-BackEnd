@@ -62,10 +62,6 @@ jobs:
                   value: ${{ secrets.JWT_REFRESH }}
                 - name: SERVER_PORT
                   value: ${{ secrets.SERVER_PORT }}
-                - name: COOL_SMS_API_KEY
-                  value: ${{ secrets.COOL_SMS_API_KEY }}
-                - name: COOL_SMS_API_SECRET
-                  value: ${{ secrets.COOL_SMS_API_SECRET }}
                 - name: AWS_REGION
                   value: ${{ secrets.AWS_REGION }}
                 - name: AWS_STACK
@@ -80,6 +76,12 @@ jobs:
                   value: ${{ secrets.S3_BUCKET }}
                 - name: S3_URL
                   value: ${{ secrets.S3_URL }}
+                - name: ACCOUNT_SID
+                  value: ${{ secrets.ACCOUNT_SID }}
+                - name: AUTH_TOKEN
+                  value: ${{ secrets.AUTH_TOKEN }}
+                - name: WEBHOOK_URL
+                  value: ${{ secrets.WEBHOOK_URL }}
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git

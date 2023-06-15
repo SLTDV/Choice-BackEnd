@@ -58,7 +58,6 @@ public class AuthController {
      */
     @PatchMapping
     public ResponseEntity<TokenResponse> refresh(@RequestHeader("RefreshToken") String refreshToken) {
-        System.out.println(refreshToken);
         TokenDto tokenDto = refreshService.refresh(refreshToken);
         TokenResponse tokenResponse = authConverter.toResponse(tokenDto);
         return new ResponseEntity<>(tokenResponse, HttpStatus.CREATED);
