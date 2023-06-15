@@ -11,6 +11,7 @@ import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
 import com.select.choice.global.error.type.ErrorCode;
+import com.select.choice.infrastructure.discord.service.SendDiscordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ public class ReportPostServiceImpl implements ReportPostService {
     private final PostConverter postConverter;
     private final UserUtil userUtil;
     private final DeclarationRepository declarationRepository;
+    private final SendDiscordService sendDiscordService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -36,6 +38,9 @@ public class ReportPostServiceImpl implements ReportPostService {
         Declaration declaration = postConverter.toDeclarationEntity(user, post);
         declarationRepository.save(declaration);
         post.updateDeclarationCount();
+
+        if(post.getDeclarationCount() >= 10)
+            sendDiscordService.sendMessage(post);
     }
 }
 
