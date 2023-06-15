@@ -47,3 +47,6 @@ cloud:
 twillio:
   account_sid: ${ACCOUNT_SID}
   auth_token: ${AUTH_TOKEN}
+
+discord:
+  webhookUrl: ${WEBHOOK_URL}
