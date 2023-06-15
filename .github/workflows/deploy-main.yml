@@ -80,6 +80,10 @@ jobs:
                   value: ${{ secrets.S3_BUCKET }}
                 - name: S3_URL
                   value: ${{ secrets.S3_URL }}
+                - name: ACCOUNT_SID
+                  value: ${{ secrets.ACCOUNT_SID }}
+                - name: AUTH_TOKEN
+                  value: ${{ secrets.AUTH_TOKEN }}
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
