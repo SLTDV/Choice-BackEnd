@@ -203,6 +203,7 @@ public class PostConverterImpl implements PostConverter {
                 .writer(post.getUser().getNickname())
                 .page(pageable.getPageNumber())
                 .size(commentDetailDtoList.size())
+                .isMine(post.getUser().equals(user))
                 .votingState(postVotingStateRepository.findByUserAndPost(user, post))
                 .commentList(commentDetailDtoList)
                 .build();
@@ -224,6 +225,7 @@ public class PostConverterImpl implements PostConverter {
                     .writer(dto.getWriter())
                     .page(dto.getPage())
                     .size(dto.getSize())
+                    .isMine(dto.isMine())
                     .votingState(dto.getVotingState().get().getVote())
                     .commentList(dto.getCommentList())
                     .build();
@@ -241,6 +243,7 @@ public class PostConverterImpl implements PostConverter {
                     .writer(dto.getWriter())
                     .page(dto.getPage())
                     .size(dto.getSize())
+                    .isMine(dto.isMine())
                     .votingState(0)
                     .commentList(dto.getCommentList())
                     .build();
@@ -322,14 +325,16 @@ public class PostConverterImpl implements PostConverter {
                 .image(postDetailDto.getImage())
                 .page(postDetailDto.getPageable().getPageNumber())
                 .size(postDetailDto.getCommentList().size())
+                .isMine(postDetailDto.isMine())
                 .commentList(postDetailDto.getCommentList())
                 .build();
     }
     @Override
-    public PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable) {
+    public PostDetailDto toDto(List<CommentDetailDto> commentDetailDtoList, Post post, Pageable pageable, User user) {
         return PostDetailDto.builder()
                 .writer(post.getUser().getNickname())
                 .image(post.getUser().getProfileImageUrl())
+                .isMine(post.getUser().equals(user))
                 .commentList(commentDetailDtoList)
                 .pageable(pageable)
                 .build();
