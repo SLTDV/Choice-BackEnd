@@ -225,7 +225,7 @@ public class PostConverterImpl implements PostConverter {
                     .writer(dto.getWriter())
                     .page(dto.getPage())
                     .size(dto.getSize())
-                    .isMine(dto.isMine())
+                    .isMine(dto.getIsMine())
                     .votingState(dto.getVotingState().get().getVote())
                     .commentList(dto.getCommentList())
                     .build();
@@ -243,7 +243,7 @@ public class PostConverterImpl implements PostConverter {
                     .writer(dto.getWriter())
                     .page(dto.getPage())
                     .size(dto.getSize())
-                    .isMine(dto.isMine())
+                    .isMine(dto.getIsMine())
                     .votingState(0)
                     .commentList(dto.getCommentList())
                     .build();
@@ -325,7 +325,7 @@ public class PostConverterImpl implements PostConverter {
                 .image(postDetailDto.getImage())
                 .page(postDetailDto.getPageable().getPageNumber())
                 .size(postDetailDto.getCommentList().size())
-                .isMine(postDetailDto.isMine())
+                .isMine(postDetailDto.getIsMine())
                 .commentList(postDetailDto.getCommentList())
                 .build();
     }
