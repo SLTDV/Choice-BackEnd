@@ -24,5 +24,6 @@ public class WebPostDetailResponse {
     private final String writer;
     private final String profileImageUrl;
     private final Integer votingState;
+    private final Boolean isMine;
     private final List<CommentDetailDto> commentList;
 }

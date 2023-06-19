@@ -38,7 +38,7 @@ public class GetPostDetailServiceImpl implements GetPostDetailService {
                 PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("idx").descending()));
         List<CommentDetailDto> commentDetailDtoList = commentConverter.toDto(comment, user);
 
-        return postConverter.toDto(commentDetailDtoList, post, pageable);
+        return postConverter.toDto(commentDetailDtoList, post, pageable, user);
     }
 
     @Override
