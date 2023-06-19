@@ -4,7 +4,7 @@ import com.select.choice.domain.post.presentation.data.dto.PostDto;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.presentation.data.response.PostResponse;
 import com.select.choice.domain.post.util.PostConverter;
-import com.select.choice.domain.user.domain.entity.Block;
+import com.select.choice.domain.user.domain.entity.BlockedUser;
 import com.select.choice.domain.user.presentation.data.dto.*;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.presentation.data.request.ChangeNicknameRequest;
@@ -98,8 +98,8 @@ public class UserConverterImpl implements UserConverter {
     }
 
     @Override
-    public Block toEntity(User blockingUser, User blockedUser) {
-        return new Block(
+    public BlockedUser toEntity(User blockingUser, User blockedUser) {
+        return new BlockedUser(
                 blockingUser,
                 blockedUser
         );

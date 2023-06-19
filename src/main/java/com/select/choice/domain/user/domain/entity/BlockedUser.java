@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Block extends BaseIdEntity {
+public class BlockedUser extends BaseIdEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User blockingUser;
@@ -25,7 +25,7 @@ public class Block extends BaseIdEntity {
     private User blockedUser;
 
     @Builder
-    public Block(User blockingUser, User blockedUser) {
+    public BlockedUser(User blockingUser, User blockedUser) {
         this.blockingUser = blockingUser;
         this.blockedUser = blockedUser;
     }
