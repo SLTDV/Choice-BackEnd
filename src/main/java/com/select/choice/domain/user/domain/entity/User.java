@@ -23,6 +23,9 @@ public class User extends BaseIdEntity {
     @OneToMany(mappedBy = "blockingUser")
     private List<BlockedUser> blockedUsers;
 
+    @OneToMany(mappedBy = "blockedUser")
+    private List<BlockedUser> blockingUsers;
+
     @Builder
     public User(String phoneNumber, String password, String nickname, String profileImageUrl) {
         this.phoneNumber = phoneNumber;
