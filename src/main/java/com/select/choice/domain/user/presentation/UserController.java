@@ -99,9 +99,9 @@ public class UserController {
     기능: 유저 차단
     담당자: 노혁
      */
-    @PostMapping("/block/{userIdx}")
-    public ResponseEntity<Void> blockUser(@PathVariable("userIdx")Long userIdx) {
-        blockUserService.block(userIdx);
+    @PostMapping("/block/{postIdx}")
+    public ResponseEntity<Void> blockUser(@PathVariable("postIdx")Long postIdx) {
+        blockUserService.block(postIdx);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -109,9 +109,9 @@ public class UserController {
     기능: 유저 차단 해제
     담당자: 노혁
      */
-    @DeleteMapping("/block/{userIdx}")
-    public ResponseEntity<Void> unBlockUser(@PathVariable("userIdx")Long userIdx) {
-        unBlockUserService.unBlock(userIdx);
+    @DeleteMapping("/block/{postIdx}")
+    public ResponseEntity<Void> unBlockUser(@PathVariable("postIdx")Long postIdx) {
+        unBlockUserService.unBlock(postIdx);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
