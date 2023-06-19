@@ -24,7 +24,7 @@ public class WebPostDetailDto {
     private final String profileImageUrl;
     private final Integer page;
     private final Integer size;
-    private final boolean isMine;
+    private final Boolean isMine;
     private final Optional<PostVotingState> votingState;
     private final List<CommentDetailDto> commentList;
 }
