@@ -26,6 +26,7 @@ public class UserController {
     private final ChangeNicknameService changeNicknameService;
     private final GetWebMyPageService getWebMypageService;
     private final UserConverter userConverter;
+    private final BlockUserService blockUserService;
 
     /*
     기능: 회원탈퇴
@@ -91,5 +92,15 @@ public class UserController {
         HeaderDto headerDto = getHeaderService.getHeader();
         HeaderResponse headerResponse = userConverter.toResponse(headerDto);
         return new ResponseEntity<>(headerResponse, HttpStatus.OK);
+    }
+
+    /*
+    기능: 유저 차단
+    담당자: 노혁
+     */
+    @PostMapping("/block/{userIdx}")
+    public ResponseEntity<Void> blockUser(@PathVariable("userIdx")Long userIdx) {
+        blockUserService.block(userIdx);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
