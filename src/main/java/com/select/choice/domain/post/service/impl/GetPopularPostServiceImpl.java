@@ -12,6 +12,7 @@ import com.select.choice.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,9 +33,13 @@ public class GetPopularPostServiceImpl implements GetPopularPostsService {
     @Override
     public TotalPageAndWebPostDtoList getPopularPostList(Pageable pageable) {
         Integer totalPage = postRepository.findAll().size() / pageable.getPageSize();
-        List<WebPostDto> webPostDtoList = postConverter.toPostDto(getSortPost(pageable));
-
-        return postConverter.toDto(totalPage, webPostDtoList);
+        if(!SecurityContextHolder.getContext().getAuthentication().getName().isEmpty()) {
+            List<WebPostDto> webPostDtoList = postConverter.toPostDto(noAuth(pageable));
+            return postConverter.toDto(totalPage, webPostDtoList);
+        } else {
+            List<WebPostDto> webPostDtoList = postConverter.toPostDto(getSortPost(pageable));
+            return postConverter.toDto(totalPage, webPostDtoList);
+        }
     }
 
     private List<Post> getSortPost(Pageable pageable) {
@@ -55,5 +60,9 @@ public class GetPopularPostServiceImpl implements GetPopularPostsService {
         List<Post> pageContent = filteredList.subList(start, end);
 
         return new PageImpl<>(pageContent, pageable, filteredList.size()).toList();
+    }
+
+    private List<Post> noAuth(Pageable pageable) {
+        return postRepository.getPopularPosts(pageable);
     }
 }
