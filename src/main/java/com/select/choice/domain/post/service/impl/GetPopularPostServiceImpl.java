@@ -10,6 +10,7 @@ import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -38,9 +39,9 @@ public class GetPopularPostServiceImpl implements GetPopularPostsService {
 
     private List<Post> getSortPost(Pageable pageable) {
         User currentUser = userUtil.currentUser();
-        List<Post> list = postRepository.getPopularPosts(pageable);
+        List<Post> list = postRepository.getPopularPosts();
 
-        return list.stream()
+        List<Post> filteredList = list.stream()
                 .filter(post -> {
                     boolean isBlockedByCurrentUser = currentUser.getBlockedUsers().stream()
                             .anyMatch(blockedUser -> blockedUser.getBlockedUser().equals(post.getUser()));
@@ -48,5 +49,11 @@ public class GetPopularPostServiceImpl implements GetPopularPostsService {
                             .anyMatch(blockedUser -> blockedUser.getBlockingUser().equals(post.getUser()));
                     return !isBlockedByCurrentUser && !isBlockedByOtherUser;
                 }).collect(Collectors.toList());
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), filteredList.size());
+        List<Post> pageContent = filteredList.subList(start, end);
+
+        return new PageImpl<>(pageContent, pageable, filteredList.size()).toList();
     }
 }
