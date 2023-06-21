@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -47,8 +48,8 @@ public class PostController {
     담당자: 노혁
      */
     @GetMapping("/latested")
-    public ResponseEntity<WebPostListResponse> getPost(Pageable pageable){
-        TotalPageAndWebPostDtoList totalPageAndWebPostDtoList = getLatestPostsService.getLatestPostList(pageable);
+    public ResponseEntity<WebPostListResponse> getPost(@RequestHeader("Authorization") Optional<String> token, Pageable pageable){
+        TotalPageAndWebPostDtoList totalPageAndWebPostDtoList = getLatestPostsService.getLatestPostList(token, pageable);
 
         List<WebPostDto> webPostDtoList = totalPageAndWebPostDtoList.getWebPostDtoList();
         Integer totalPage = totalPageAndWebPostDtoList.getTotalPage();
