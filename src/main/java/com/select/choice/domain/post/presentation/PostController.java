@@ -74,8 +74,8 @@ public class PostController {
     담당자: 노혁
      */
     @GetMapping("/popularity")
-    public ResponseEntity<WebPostListResponse> getBestPost(Pageable pageable) {
-        TotalPageAndWebPostDtoList totalPageAndWebPostDtoList = getPopularPostsService.getPopularPostList(pageable);
+    public ResponseEntity<WebPostListResponse> getBestPost(@RequestHeader("Authorization")Optional<String> token,Pageable pageable) {
+        TotalPageAndWebPostDtoList totalPageAndWebPostDtoList = getPopularPostsService.getPopularPostList(token, pageable);
 
         List<WebPostDto> webPostDtoList = totalPageAndWebPostDtoList.getWebPostDtoList();
         Integer totalPage = totalPageAndWebPostDtoList.getTotalPage();
