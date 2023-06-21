@@ -33,6 +33,7 @@ public enum ErrorCode {
     AUTH_CODE_NOT_FOUND("존재하지 않는 AuthCode 입니다.", 404),
     DUPLICATE_PHONE_NUMBER("이미 존재하는 휴대전화 번호입니다.", 409),
     DUPLICATE_NICKNAME("이미 존재하는 닉네임 입니다.", 409),
+    DUPLICATE_BLOCKED_USER("이미 차단한 유저 입니다.", 409),
     ALREADY_REPORT_POST("이미 신고한 게시물 입니다.", 409);
 
     private final String message;
