@@ -16,9 +16,8 @@ public class SendDiscordServiceImpl implements SendDiscordService {
     public void sendMessage(Post post) {
         String content = "";
 
-        content = "@everyone \n";
         content += "게시물 " + "idx: " + post.getIdx() + "\n";
-        content += "위의 idx 게시물이 10회 이상 신고가 누적되었습니다.\n";
+        content += "위의 idx 게시물이 신고 되었습니다.\n";
 
         discordFeignClient.sendDiscord(new DiscordDto(content));
     }
