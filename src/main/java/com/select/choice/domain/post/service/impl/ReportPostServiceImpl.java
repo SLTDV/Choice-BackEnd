@@ -39,7 +39,7 @@ public class ReportPostServiceImpl implements ReportPostService {
         declarationRepository.save(declaration);
         post.updateDeclarationCount();
 
-        if(post.getDeclarationCount() >= 10)
+        if(post.getDeclarationCount() >= 1)
             sendDiscordService.sendMessage(post);
     }
 }

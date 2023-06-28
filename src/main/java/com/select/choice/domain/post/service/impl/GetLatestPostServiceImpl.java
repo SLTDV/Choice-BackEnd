@@ -10,12 +10,12 @@ import com.select.choice.domain.post.util.PostConverter;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.util.UserUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,24 +27,9 @@ public class GetLatestPostServiceImpl implements GetLatestPostsService {
 
     @Override
     public List<PostDto> getLatestPost(Pageable pageable) {
-        return postConverter.toDto(getSortPost(pageable));
-    }
-
-    @Override
-    public TotalPageAndWebPostDtoList getLatestPostList(Pageable pageable) {
-        Integer totalPage = postRepository.findAll().size() / pageable.getPageSize();
-        List<WebPostDto> webPostDtoList = postConverter.toPostDto(getSortPost(pageable));
-
-        return postConverter.toDto(totalPage, webPostDtoList);
-    }
-
-    private List<Post> getSortPost(Pageable pageable) {
         User currentUser = userUtil.currentUser();
-        List<Post> list = postRepository.findAll(
-                        PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("idx").descending()))
-                .toList();
-
-        return list.stream()
+        List<Post> list = postRepository.findAll(Sort.by("idx").descending());
+        List<Post> filteredList = list.stream()
                 .filter(post -> {
                     boolean isBlockedByCurrentUser = currentUser.getBlockedUsers().stream()
                             .anyMatch(blockedUser -> blockedUser.getBlockedUser().equals(post.getUser()));
@@ -52,5 +37,42 @@ public class GetLatestPostServiceImpl implements GetLatestPostsService {
                             .anyMatch(blockedUser -> blockedUser.getBlockingUser().equals(post.getUser()));
                     return !isBlockedByCurrentUser && !isBlockedByOtherUser;
                 }).collect(Collectors.toList());
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), filteredList.size());
+        List<Post> pageContent = filteredList.subList(start, end);
+        List<Post> filteredAndPaginationList = new PageImpl<>(pageContent, pageable, filteredList.size()).toList();
+
+        return postConverter.toDto(filteredAndPaginationList);
+    }
+
+    @Override
+    public TotalPageAndWebPostDtoList getLatestPostList(Optional<String> token, Pageable pageable) {
+        if (token.isPresent()) {
+            User currentUser = userUtil.currentUser();
+            List<Post> list = postRepository.findAll(Sort.by("idx").descending());
+            List<Post> filteredList = list.stream()
+                    .filter(post -> {
+                        boolean isBlockedByCurrentUser = currentUser.getBlockedUsers().stream()
+                                .anyMatch(blockedUser -> blockedUser.getBlockedUser().equals(post.getUser()));
+                        boolean isBlockedByOtherUser = currentUser.getBlockingUsers().stream()
+                                .anyMatch(blockedUser -> blockedUser.getBlockingUser().equals(post.getUser()));
+                        return !isBlockedByCurrentUser && !isBlockedByOtherUser;
+                    }).collect(Collectors.toList());
+
+            int start = (int) pageable.getOffset();
+            int end = Math.min(start + pageable.getPageSize(), filteredList.size());
+            List<Post> pageContent = filteredList.subList(start, end);
+            List<Post> filteredAndPaginationList = new PageImpl<>(pageContent, pageable, filteredList.size()).toList();
+
+            Integer totalPage = filteredList.size() / pageable.getPageSize();
+            return postConverter.toDto(totalPage, postConverter.toPostDto(filteredAndPaginationList));
+        } else {
+            List<Post> postList = postRepository.findAll(
+                            PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("idx").descending()))
+                    .toList();
+            Integer totalPage = postRepository.findAll().size() / pageable.getPageSize();
+            return postConverter.toDto(totalPage, postConverter.toPostDto(postList));
+        }
     }
 }

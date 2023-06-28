@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post,Long> {
     @Query("select p from Post p order by (p.firstVotingCount + p.secondVotingCount) desc")
+    List<Post> getPopularPosts();
+    @Query("select p from Post p order by (p.firstVotingCount + p.secondVotingCount) desc")
     List<Post> getPopularPosts(Pageable pageable);
     List<Post> findAllByCreatedAtContaining(String today);
     List<Post> findAllByUserIdx(Long idx);

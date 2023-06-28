@@ -5,6 +5,7 @@ import com.select.choice.domain.post.exception.PostNotFoundException;
 import com.select.choice.domain.user.domain.entity.User;
 import com.select.choice.domain.user.domain.repository.BlockedUserRepository;
 import com.select.choice.domain.user.exception.BlockUserSelfException;
+import com.select.choice.domain.user.exception.DuplicateBlockedUserException;
 import com.select.choice.domain.user.service.BlockUserService;
 import com.select.choice.domain.user.util.UserConverter;
 import com.select.choice.domain.user.util.UserUtil;
@@ -28,6 +29,8 @@ public class BlockUserServiceImpl implements BlockUserService {
                 .getUser();
         if(blockedUser.equals(blockingUser))
             throw new BlockUserSelfException(ErrorCode.BLOCK_USER_SELF);
+        else if(blockedUserRepository.existsByBlockingUserAndBlockedUser(blockingUser, blockedUser))
+            throw new DuplicateBlockedUserException(ErrorCode.DUPLICATE_BLOCKED_USER);
 
         blockedUserRepository.save(userConverter.toEntity(blockingUser, blockedUser));
     }
