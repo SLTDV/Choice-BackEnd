@@ -10,4 +10,5 @@ import lombok.RequiredArgsConstructor;
 public class SignInDto {
     private final String phoneNumber;
     private final String password;
+    private final String fcmToken;
 }

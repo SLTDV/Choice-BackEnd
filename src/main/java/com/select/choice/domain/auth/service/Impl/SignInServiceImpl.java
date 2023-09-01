@@ -11,6 +11,7 @@ import com.select.choice.domain.user.util.UserUtil;
 import com.select.choice.global.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -22,8 +23,10 @@ public class SignInServiceImpl implements SignInService {
     private final AuthConverter authConverter;
     private final RefreshTokenRepository refreshTokenRepository;
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public TokenDto signIn(SignInDto signInDto) {
         User user = userUtil.findUserByPhoneNumber(signInDto.getPhoneNumber());
+        user.updateFCMToken(signInDto.getFcmToken());
         userUtil.checkPassword(user, signInDto.getPassword());
 
         String accessToken = jwtTokenProvider.generateAccessToken(user.getPhoneNumber());
