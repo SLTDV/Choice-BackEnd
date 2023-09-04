@@ -20,6 +20,7 @@ public class User extends BaseIdEntity {
     @Column(nullable = false)
     private String nickname;
     private String profileImageUrl;
+    @Column(nullable = false)
     private String deviceToken;
 
     @OneToMany(mappedBy = "blockingUser")
