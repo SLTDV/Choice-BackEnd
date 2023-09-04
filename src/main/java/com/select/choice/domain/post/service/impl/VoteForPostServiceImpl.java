@@ -58,7 +58,9 @@ public class VoteForPostServiceImpl implements VoteForPostService {
         voting.updateVote(choiceOption);
         postVotingStateRepository.save(voting);
 
-        sendNotification(voting.getVote(), post.getUser());
+        if(voting.getVote() == 10 || voting.getVote() == 50 || voting.getVote() == 100) {
+            sendNotification(voting.getVote(), post.getUser());
+        }
 
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
