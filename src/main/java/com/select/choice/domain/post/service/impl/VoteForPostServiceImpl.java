@@ -64,28 +64,32 @@ public class VoteForPostServiceImpl implements VoteForPostService {
     }
 
     private void sendNotification(int voteCount, User user) throws FirebaseMessagingException {
-        Notification notification = null;
+        Message message = null;
         if(voteCount == 10) {
-            notification = Notification.builder()
-                    .setTitle("asd")
-                    .setBody("투표수가 10개가 되었어요!")
+            message = Message.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle("asd")
+                            .setBody("투표수가 10개가 되었어요!")
+                            .build())
+                    .setToken(user.getDeviceToken())
                     .build();
         } else if(voteCount == 50) {
-            notification = Notification.builder()
-                    .setTitle("asd")
-                    .setBody("투표수가 50개가 되었어요.")
+            message = Message.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle("asd")
+                            .setBody("투표수가 50개가 되었어요!")
+                            .build())
+                    .setToken(user.getDeviceToken())
                     .build();
         } else if(voteCount == 100) {
-            notification = Notification.builder()
-                    .setTitle("asd")
-                    .setBody("투표수가 100개가 되었어요.")
+            message = Message.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle("asd")
+                            .setBody("투표수가 100개가 되었어요!")
+                            .build())
+                    .setToken(user.getDeviceToken())
                     .build();
         }
-
-        Message message = Message.builder()
-                .setToken(user.getDeviceToken())
-                .setNotification(notification)
-                .build();
 
         firebaseMessaging.send(message);
     }
