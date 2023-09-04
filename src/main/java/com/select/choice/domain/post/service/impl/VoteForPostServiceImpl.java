@@ -58,7 +58,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
         voting.updateVote(choiceOption);
         postVotingStateRepository.save(voting);
 
-        sendNotification(voting.getVote(), voting.getUser());
+        sendNotification(voting.getVote(), post.getUser());
 
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
