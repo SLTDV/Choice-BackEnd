@@ -83,7 +83,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
         }
 
         Message message = Message.builder()
-                .setToken(user.getFcmToken())
+                .setToken(user.getDeviceToken())
                 .setNotification(notification)
                 .build();
 

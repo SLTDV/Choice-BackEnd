@@ -26,7 +26,10 @@ public class SignInServiceImpl implements SignInService {
     @Transactional(rollbackFor = Exception.class)
     public TokenDto signIn(SignInDto signInDto) {
         User user = userUtil.findUserByPhoneNumber(signInDto.getPhoneNumber());
-        user.updateFCMToken(signInDto.getFcmToken());
+        if(signInDto.getDeviceToken().isPresent()) {
+            user.updateFCMToken(signInDto.getDeviceToken().toString());
+        }
+
         userUtil.checkPassword(user, signInDto.getPassword());
 
         String accessToken = jwtTokenProvider.generateAccessToken(user.getPhoneNumber());
