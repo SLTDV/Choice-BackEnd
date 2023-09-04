@@ -68,6 +68,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
     private void sendNotification(int voteCount, User user) throws FirebaseMessagingException {
         Message message = null;
         if(voteCount == 10) {
+            System.out.println("10개");
             message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("asd")
@@ -76,6 +77,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
                     .setToken(user.getDeviceToken())
                     .build();
         } else if(voteCount == 50) {
+            System.out.println("50개");
             message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("asd")
@@ -84,6 +86,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
                     .setToken(user.getDeviceToken())
                     .build();
         } else if(voteCount == 100) {
+            System.out.println("100개");
             message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("asd")
