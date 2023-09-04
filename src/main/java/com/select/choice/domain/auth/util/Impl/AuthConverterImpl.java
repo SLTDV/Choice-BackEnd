@@ -49,10 +49,12 @@ public class AuthConverterImpl implements AuthConverter {
     public SignInDto toDto(SignInRequest signInRequest) {
         String reqPhoneNumber = signInRequest.getPhoneNumber();
         String reqPassword = signInRequest.getPassword();
+        Optional<String> reqDeviceToken = signInRequest.getDeviceToken();
 
         return SignInDto.builder()
                 .phoneNumber(reqPhoneNumber)
                 .password(reqPassword)
+                .deviceToken(reqDeviceToken)
                 .build();
     }
 
@@ -81,12 +83,14 @@ public class AuthConverterImpl implements AuthConverter {
                     .nickname(dtoNickname)
                     .password(dtoPassword)
                     .profileImageUrl(signUpDto.getProfileImgUrl().get())
+                    .deviceToken(null)
                     .build();
         } else {
             return User.builder()
                     .phoneNumber(signUpDto.getPhoneNumber())
                     .nickname(dtoNickname)
                     .password(dtoPassword)
+                    .deviceToken(null)
                     .build();
         }
     }

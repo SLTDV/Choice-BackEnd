@@ -1,5 +1,9 @@
 package com.select.choice.domain.post.service.impl;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.Notification;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.domain.entity.PostVotingState;
 import com.select.choice.domain.post.domain.repository.PostRepository;
@@ -18,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 @RequiredArgsConstructor
 public class VoteForPostServiceImpl implements VoteForPostService {
@@ -26,10 +31,11 @@ public class VoteForPostServiceImpl implements VoteForPostService {
     private final PostVotingStateRepository postVotingStateRepository;
     private final PostConverter postConverter;
     private final PostRepository postRepository;
+    private final FirebaseMessaging firebaseMessaging;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public VoteForPostDto voteForPost(VoteOptionDto addCountDto, Long postIdx) {
+    public VoteForPostDto voteForPost(VoteOptionDto addCountDto, Long postIdx) throws FirebaseMessagingException {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
         int choiceOption = addCountDto.getChoice();
@@ -52,6 +58,35 @@ public class VoteForPostServiceImpl implements VoteForPostService {
         voting.updateVote(choiceOption);
         postVotingStateRepository.save(voting);
 
+        sendNotification(voting.getVote(), voting.getUser());
+
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
+    }
+
+    private void sendNotification(int voteCount, User user) throws FirebaseMessagingException {
+        Notification notification = null;
+        if(voteCount == 10) {
+            notification = Notification.builder()
+                    .setTitle("asd")
+                    .setBody("투표수가 10개가 되었어요!")
+                    .build();
+        } else if(voteCount == 50) {
+            notification = Notification.builder()
+                    .setTitle("asd")
+                    .setBody("투표수가 50개가 되었어요.")
+                    .build();
+        } else if(voteCount == 100) {
+            notification = Notification.builder()
+                    .setTitle("asd")
+                    .setBody("투표수가 100개가 되었어요.")
+                    .build();
+        }
+
+        Message message = Message.builder()
+                .setToken(user.getDeviceToken())
+                .setNotification(notification)
+                .build();
+
+        firebaseMessaging.send(message);
     }
 }
