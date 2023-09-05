@@ -1,5 +1,9 @@
 package com.select.choice.domain.post.service.impl;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.Notification;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.domain.entity.PostVotingState;
 import com.select.choice.domain.post.domain.repository.PostRepository;
@@ -18,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 @RequiredArgsConstructor
 public class VoteForPostServiceImpl implements VoteForPostService {
@@ -26,10 +31,11 @@ public class VoteForPostServiceImpl implements VoteForPostService {
     private final PostVotingStateRepository postVotingStateRepository;
     private final PostConverter postConverter;
     private final PostRepository postRepository;
+    private final FirebaseMessaging firebaseMessaging;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public VoteForPostDto voteForPost(VoteOptionDto addCountDto, Long postIdx) {
+    public VoteForPostDto voteForPost(VoteOptionDto addCountDto, Long postIdx) throws FirebaseMessagingException {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
         int choiceOption = addCountDto.getChoice();
@@ -52,6 +58,45 @@ public class VoteForPostServiceImpl implements VoteForPostService {
         voting.updateVote(choiceOption);
         postVotingStateRepository.save(voting);
 
+        int totalVotingCount = post.getFirstVotingCount() + post.getSecondVotingCount();
+        if(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100) {
+            sendNotification(totalVotingCount, post.getUser());
+        }
+
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
+    }
+
+    private void sendNotification(int voteCount, User user) throws FirebaseMessagingException {
+        if(voteCount == 10) {
+            Message message = Message.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle("투표수가 10개가 되었어요!")
+                            .setBody("💡게시물 상태를 확인해보세요️")
+                            .build())
+                    .setToken(user.getDeviceToken())
+                    .build();
+
+            firebaseMessaging.send(message);
+        } else if(voteCount == 50) {
+            Message message = Message.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle("투표수가 50개가 되었어요!")
+                            .setBody("💡게시물 상태를 확인해보세요")
+                            .build())
+                    .setToken(user.getDeviceToken())
+                    .build();
+
+            firebaseMessaging.send(message);
+        } else if(voteCount == 100) {
+            Message message = Message.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle("투표수가 100개가 되었어요!")
+                            .setBody("💡게시물 상태를 확인해보세요")
+                            .build())
+                    .setToken(user.getDeviceToken())
+                    .build();
+
+            firebaseMessaging.send(message);
+        }
     }
 }
