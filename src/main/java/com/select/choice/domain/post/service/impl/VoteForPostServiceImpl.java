@@ -59,6 +59,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
         postVotingStateRepository.save(voting);
 
         int totalVotingCount = post.getFirstVotingCount() + post.getSecondVotingCount();
+        System.out.println(totalVotingCount + "||||");
         if(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100) {
             sendNotification(voting.getVote(), post.getUser());
         }
@@ -67,36 +68,36 @@ public class VoteForPostServiceImpl implements VoteForPostService {
     }
 
     private void sendNotification(int voteCount, User user) throws FirebaseMessagingException {
-        Message message = null;
         if(voteCount == 10) {
             System.out.println("10개");
-            message = Message.builder()
+            Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("asd")
                             .setBody("투표수가 10개가 되었어요!")
                             .build())
                     .setToken(user.getDeviceToken())
                     .build();
+            firebaseMessaging.send(message);
         } else if(voteCount == 50) {
             System.out.println("50개");
-            message = Message.builder()
+            Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("asd")
                             .setBody("투표수가 50개가 되었어요!")
                             .build())
                     .setToken(user.getDeviceToken())
                     .build();
+            firebaseMessaging.send(message);
         } else if(voteCount == 100) {
             System.out.println("100개");
-            message = Message.builder()
+            Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("asd")
                             .setBody("투표수가 100개가 되었어요!")
                             .build())
                     .setToken(user.getDeviceToken())
                     .build();
+            firebaseMessaging.send(message);
         }
-
-        firebaseMessaging.send(message);
     }
 }
