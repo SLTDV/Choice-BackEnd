@@ -22,9 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 
 @Service
 @RequiredArgsConstructor
@@ -62,10 +59,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
         postVotingStateRepository.save(voting);
 
         int totalVotingCount = post.getFirstVotingCount() + post.getSecondVotingCount();
-        System.out.println(totalVotingCount + "||||");
-        System.out.println(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100);
         if(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100) {
-            System.out.println("start");
             sendNotification(totalVotingCount, post.getUser());
         }
 
@@ -73,37 +67,35 @@ public class VoteForPostServiceImpl implements VoteForPostService {
     }
 
     private void sendNotification(int voteCount, User user) throws FirebaseMessagingException {
-        System.out.println("in");
         if(voteCount == 10) {
-            System.out.println("10개");
             Message message = Message.builder()
                     .setNotification(Notification.builder()
-                            .setTitle("asd")
-                            .setBody("투표수가 10개가 되었어요!" + " " + LocalDateTime.now())
+                            .setTitle("투표수가 10개가 되었어요!")
+                            .setBody("❤️ 게시물 상태를 확인해보세요 ❤️")
                             .build())
                     .setToken(user.getDeviceToken())
                     .build();
-            System.out.println(LocalDateTime.now());
+
             firebaseMessaging.send(message);
         } else if(voteCount == 50) {
-            System.out.println("50개");
             Message message = Message.builder()
                     .setNotification(Notification.builder()
-                            .setTitle("asd")
-                            .setBody("투표수가 50개가 되었어요!")
+                            .setTitle("투표수가 50개가 되었어요!")
+                            .setBody("❤️ 게시물 상태를 확인해보세요 ❤️")
                             .build())
                     .setToken(user.getDeviceToken())
                     .build();
+
             firebaseMessaging.send(message);
         } else if(voteCount == 100) {
-            System.out.println("100개");
             Message message = Message.builder()
                     .setNotification(Notification.builder()
-                            .setTitle("asd")
-                            .setBody("투표수가 100개가 되었어요!" + LocalDateTime.now())
+                            .setTitle("투표수가 100개가 되었어요!")
+                            .setBody("❤️ 게시물 상태를 확인해보세요 ❤️")
                             .build())
                     .setToken(user.getDeviceToken())
                     .build();
+
             firebaseMessaging.send(message);
         }
     }
