@@ -22,6 +22,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 
 @Service
 @RequiredArgsConstructor
@@ -76,10 +79,11 @@ public class VoteForPostServiceImpl implements VoteForPostService {
             Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("asd")
-                            .setBody("투표수가 10개가 되었어요!")
+                            .setBody("투표수가 10개가 되었어요!" + " " + LocalDateTime.now())
                             .build())
                     .setToken(user.getDeviceToken())
                     .build();
+            System.out.println(LocalDateTime.now());
             firebaseMessaging.send(message);
         } else if(voteCount == 50) {
             System.out.println("50개");
@@ -96,7 +100,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
             Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("asd")
-                            .setBody("투표수가 100개가 되었어요!")
+                            .setBody("투표수가 100개가 되었어요!" + LocalDateTime.now())
                             .build())
                     .setToken(user.getDeviceToken())
                     .build();
