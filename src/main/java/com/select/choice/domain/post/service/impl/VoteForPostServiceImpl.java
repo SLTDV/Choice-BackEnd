@@ -71,7 +71,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
             Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("투표수가 10개가 되었어요!")
-                            .setBody("❤️ 게시물 상태를 확인해보세요 ❤️")
+                            .setBody("💡게시물 상태를 확인해보세요️")
                             .build())
                     .setToken(user.getDeviceToken())
                     .build();
@@ -81,7 +81,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
             Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("투표수가 50개가 되었어요!")
-                            .setBody("❤️ 게시물 상태를 확인해보세요 ❤️")
+                            .setBody("💡게시물 상태를 확인해보세요")
                             .build())
                     .setToken(user.getDeviceToken())
                     .build();
@@ -91,7 +91,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
             Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("투표수가 100개가 되었어요!")
-                            .setBody("❤️ 게시물 상태를 확인해보세요 ❤️")
+                            .setBody("💡게시물 상태를 확인해보세요")
                             .build())
                     .setToken(user.getDeviceToken())
                     .build();
