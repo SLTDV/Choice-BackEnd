@@ -60,14 +60,17 @@ public class VoteForPostServiceImpl implements VoteForPostService {
 
         int totalVotingCount = post.getFirstVotingCount() + post.getSecondVotingCount();
         System.out.println(totalVotingCount + "||||");
+        System.out.println(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100);
         if(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100) {
-            sendNotification(voting.getVote(), post.getUser());
+            System.out.println("start");
+            sendNotification(totalVotingCount, post.getUser());
         }
 
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
 
     private void sendNotification(int voteCount, User user) throws FirebaseMessagingException {
+        System.out.println("in");
         if(voteCount == 10) {
             System.out.println("10개");
             Message message = Message.builder()
