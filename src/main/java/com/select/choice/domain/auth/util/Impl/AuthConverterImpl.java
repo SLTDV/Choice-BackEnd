@@ -83,14 +83,14 @@ public class AuthConverterImpl implements AuthConverter {
                     .nickname(dtoNickname)
                     .password(dtoPassword)
                     .profileImageUrl(signUpDto.getProfileImgUrl().get())
-                    .deviceToken(null)
+                    .fcmToken(null)
                     .build();
         } else {
             return User.builder()
                     .phoneNumber(signUpDto.getPhoneNumber())
                     .nickname(dtoNickname)
                     .password(dtoPassword)
-                    .deviceToken(null)
+                    .fcmToken(null)
                     .build();
         }
     }
