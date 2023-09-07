@@ -64,8 +64,10 @@ public class VoteForPostServiceImpl implements VoteForPostService {
 
         int totalVotingCount = post.getFirstVotingCount() + post.getSecondVotingCount();
         if(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100) {
-            if(pushAlaramRepository.findByPost(post).isEmpty())
-                newCreate(post);
+            if(pushAlaramRepository.findByPost(post).isEmpty()) {
+                PushAlaram pushAlaram = postConverter.toEntity(post);
+                pushAlaramRepository.save(pushAlaram);
+            }
 
             PushAlaram pushAlaram = pushAlaramRepository.findByPost(post)
                     .orElseThrow(() -> new PushAlaramNotFoundException(ErrorCode.PUSH_ALARAM_NOT_FOUND));
@@ -116,11 +118,5 @@ public class VoteForPostServiceImpl implements VoteForPostService {
 
             firebaseMessaging.send(message);
         }
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    public void newCreate(Post post) {
-        PushAlaram pushAlaram = postConverter.toEntity(post);
-        pushAlaramRepository.save(pushAlaram);
     }
 }
