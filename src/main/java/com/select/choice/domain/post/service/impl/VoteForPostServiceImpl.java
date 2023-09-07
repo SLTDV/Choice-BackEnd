@@ -6,10 +6,13 @@ import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.domain.entity.PostVotingState;
+import com.select.choice.domain.post.domain.entity.PushAlaram;
 import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.post.domain.repository.PostVotingStateRepository;
+import com.select.choice.domain.post.domain.repository.PushAlaramRepository;
 import com.select.choice.domain.post.exception.InvalidChoiceException;
 import com.select.choice.domain.post.exception.InvalidVoteCount;
+import com.select.choice.domain.post.exception.PushAlaramNotFoundException;
 import com.select.choice.domain.post.presentation.data.dto.VoteOptionDto;
 import com.select.choice.domain.post.presentation.data.dto.VoteForPostDto;
 import com.select.choice.domain.post.service.VoteForPostService;
@@ -31,6 +34,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
     private final PostVotingStateRepository postVotingStateRepository;
     private final PostConverter postConverter;
     private final PostRepository postRepository;
+    private final PushAlaramRepository pushAlaramRepository;
     private final FirebaseMessaging firebaseMessaging;
 
     @Override
@@ -60,6 +64,34 @@ public class VoteForPostServiceImpl implements VoteForPostService {
 
         int totalVotingCount = post.getFirstVotingCount() + post.getSecondVotingCount();
         if(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100) {
+            if(pushAlaramRepository.findByPost(post).isEmpty()) {
+                PushAlaram pushAlaram = postConverter.toEntity(post);
+                pushAlaramRepository.save(pushAlaram);
+            }
+
+            PushAlaram pushAlaram = pushAlaramRepository.findByPost(post)
+                    .orElseThrow(() -> new PushAlaramNotFoundException(ErrorCode.PUSH_ALARAM_NOT_FOUND));
+
+            switch (totalVotingCount) {
+                case 10:
+                    if(!pushAlaram.isTenPush()) {
+                        sendNotification(totalVotingCount, user);
+                        pushAlaram.updateTenPush();
+                    }
+                    break;
+                case 50:
+                    if(!pushAlaram.isFiftyPush()) {
+                        sendNotification(totalVotingCount, user);
+                        pushAlaram.updateFiftyPush();
+                    }
+                    break;
+                case 100:
+                    if(!pushAlaram.isOneHundredPush()) {
+                        sendNotification(totalVotingCount, user);
+                        pushAlaram.updateOneHundredPush();
+                    }
+                    break;
+            }
             sendNotification(totalVotingCount, post.getUser());
         }
 

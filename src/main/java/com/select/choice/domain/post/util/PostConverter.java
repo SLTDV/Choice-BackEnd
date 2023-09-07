@@ -1,6 +1,7 @@
 package com.select.choice.domain.post.util;
 
 import com.select.choice.domain.post.domain.entity.Declaration;
+import com.select.choice.domain.post.domain.entity.PushAlaram;
 import com.select.choice.domain.post.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.post.domain.entity.PostVotingState;
 import com.select.choice.domain.post.presentation.data.dto.*;
@@ -42,4 +43,5 @@ public interface PostConverter {
     TotalPageAndWebPostDtoList toDto(Integer totalPage, List<WebPostDto> webPostDtoList);
     List<PostDto> toMyPagePostDto(List<Post> postList);
     Declaration toDeclarationEntity(User user, Post post);
+    PushAlaram toEntity(Post post);
 }
