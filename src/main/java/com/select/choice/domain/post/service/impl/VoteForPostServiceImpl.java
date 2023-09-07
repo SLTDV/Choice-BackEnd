@@ -63,36 +63,27 @@ public class VoteForPostServiceImpl implements VoteForPostService {
         postVotingStateRepository.save(voting);
 
         int totalVotingCount = post.getFirstVotingCount() + post.getSecondVotingCount();
+        System.out.println("totalCount" + totalVotingCount);
         if(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100) {
+            System.out.println("start");
             if(pushAlaramRepository.findByPost(post).isEmpty()) {
+                System.out.println("in");
                 PushAlaram pushAlaram = postConverter.toEntity(post);
                 pushAlaramRepository.save(pushAlaram);
             }
 
             PushAlaram pushAlaram = pushAlaramRepository.findByPost(post)
                     .orElseThrow(() -> new PushAlaramNotFoundException(ErrorCode.PUSH_ALARAM_NOT_FOUND));
-
-            switch (totalVotingCount) {
-                case 10:
-                    if(!pushAlaram.isTenPush()) {
-                        sendNotification(totalVotingCount, user);
-                        pushAlaram.updateTenPush();
-                    }
-                    break;
-                case 50:
-                    if(!pushAlaram.isFiftyPush()) {
-                        sendNotification(totalVotingCount, user);
-                        pushAlaram.updateFiftyPush();
-                    }
-                    break;
-                case 100:
-                    if(!pushAlaram.isOneHundredPush()) {
-                        sendNotification(totalVotingCount, user);
-                        pushAlaram.updateOneHundredPush();
-                    }
-                    break;
+            if(totalVotingCount == 10 && !pushAlaram.isTenPush()) {
+                sendNotification(totalVotingCount, user);
+                pushAlaram.updateTenPush();
+            } else if (totalVotingCount == 50 && !pushAlaram.isFiftyPush()) {
+                sendNotification(totalVotingCount, user);
+                pushAlaram.updateFiftyPush();
+            } else if (totalVotingCount == 100 && !pushAlaram.isOneHundredPush()) {
+                sendNotification(totalVotingCount, post.getUser());
+                pushAlaram.updateOneHundredPush();
             }
-            sendNotification(totalVotingCount, post.getUser());
         }
 
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
