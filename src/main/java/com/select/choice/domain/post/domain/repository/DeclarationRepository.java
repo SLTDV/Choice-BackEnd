@@ -7,6 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DeclarationRepository extends JpaRepository<Declaration, Long> {
     boolean existsByPostAndUser(Post post, User user);
-    boolean existsByPost(Post post);
-    Declaration findByPost(Post post);
 }

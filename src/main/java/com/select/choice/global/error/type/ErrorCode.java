@@ -31,6 +31,7 @@ public enum ErrorCode {
     USER_NOT_FOUND("존재하지 않은 USER 입니다.", 404),
     Comment_NOT_FOUND("존재하지 않은 COMMENT 입니다.", 404),
     AUTH_CODE_NOT_FOUND("존재하지 않는 AuthCode 입니다.", 404),
+    PUSH_ALARAM_NOT_FOUND("존재하지 않는 PUSH_ALARAM 입니다.", 404),
     DUPLICATE_PHONE_NUMBER("이미 존재하는 휴대전화 번호입니다.", 409),
     DUPLICATE_NICKNAME("이미 존재하는 닉네임 입니다.", 409),
     DUPLICATE_BLOCKED_USER("이미 차단한 유저 입니다.", 409),
