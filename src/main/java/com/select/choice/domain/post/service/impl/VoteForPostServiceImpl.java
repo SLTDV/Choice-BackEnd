@@ -63,20 +63,17 @@ public class VoteForPostServiceImpl implements VoteForPostService {
         postVotingStateRepository.save(voting);
 
         int totalVotingCount = post.getFirstVotingCount() + post.getSecondVotingCount();
-        System.out.println("totalCount" + totalVotingCount);
         if(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100) {
-            System.out.println("start");
             if(pushAlaramRepository.findByPost(post).isEmpty())
                 newCreate(post);
 
             PushAlaram pushAlaram = pushAlaramRepository.findByPost(post)
                     .orElseThrow(() -> new PushAlaramNotFoundException(ErrorCode.PUSH_ALARAM_NOT_FOUND));
-            System.out.println(pushAlaram.getPost().getIdx() + "post");
             if(totalVotingCount == 10 && !pushAlaram.isTenPush()) {
-                sendNotification(totalVotingCount, user);
+                sendNotification(totalVotingCount, post.getUser());
                 pushAlaram.updateTenPush();
             } else if (totalVotingCount == 50 && !pushAlaram.isFiftyPush()) {
-                sendNotification(totalVotingCount, user);
+                sendNotification(totalVotingCount, post.getUser());
                 pushAlaram.updateFiftyPush();
             } else if (totalVotingCount == 100 && !pushAlaram.isOneHundredPush()) {
                 sendNotification(totalVotingCount, post.getUser());
