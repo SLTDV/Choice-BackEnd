@@ -65,6 +65,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
         int totalVotingCount = post.getFirstVotingCount() + post.getSecondVotingCount();
         if(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100) {
             if(pushAlaramRepository.findByPost(post).isEmpty()) {
+                System.out.println("empty");
                 PushAlaram pushAlaram = postConverter.toEntity(post);
                 pushAlaramRepository.save(pushAlaram);
             }
@@ -72,12 +73,15 @@ public class VoteForPostServiceImpl implements VoteForPostService {
             PushAlaram pushAlaram = pushAlaramRepository.findByPost(post)
                     .orElseThrow(() -> new PushAlaramNotFoundException(ErrorCode.PUSH_ALARAM_NOT_FOUND));
             if(totalVotingCount == 10 && !pushAlaram.isTenPush()) {
+                System.out.println("10");
                 sendNotification(totalVotingCount, post.getUser());
                 pushAlaram.updateTenPush();
             } else if (totalVotingCount == 50 && !pushAlaram.isFiftyPush()) {
+                System.out.println("50");
                 sendNotification(totalVotingCount, post.getUser());
                 pushAlaram.updateFiftyPush();
             } else if (totalVotingCount == 100 && !pushAlaram.isOneHundredPush()) {
+                System.out.println("100");
                 sendNotification(totalVotingCount, post.getUser());
                 pushAlaram.updateOneHundredPush();
             }
@@ -96,7 +100,9 @@ public class VoteForPostServiceImpl implements VoteForPostService {
                             .build())
                     .setToken(user.getFcmToken())
                     .build();
+            System.out.println("before fcm");
             firebaseMessaging.send(message);
+            System.out.println("after fcm");
         } else if(voteCount == 50) {
             System.out.println("in 50 -----------");
             Message message = Message.builder()

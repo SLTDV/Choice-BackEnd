@@ -9,5 +9,5 @@ import java.util.Optional;
 public class SignInRequest {
     private final String phoneNumber;
     private final String password;
-    private final Optional<String> deviceToken;
+    private final Optional<String> fcmToken;
 }

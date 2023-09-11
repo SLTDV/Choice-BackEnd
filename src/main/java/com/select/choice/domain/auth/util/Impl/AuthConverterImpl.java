@@ -49,12 +49,12 @@ public class AuthConverterImpl implements AuthConverter {
     public SignInDto toDto(SignInRequest signInRequest) {
         String reqPhoneNumber = signInRequest.getPhoneNumber();
         String reqPassword = signInRequest.getPassword();
-        Optional<String> reqDeviceToken = signInRequest.getDeviceToken();
+        Optional<String> fcmToken = signInRequest.getFcmToken();
 
         return SignInDto.builder()
                 .phoneNumber(reqPhoneNumber)
                 .password(reqPassword)
-                .deviceToken(reqDeviceToken)
+                .fcmToken(fcmToken)
                 .build();
     }
 
