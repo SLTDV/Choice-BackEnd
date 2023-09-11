@@ -88,6 +88,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
 
     private void sendNotification(int voteCount, User user) throws FirebaseMessagingException {
         if(voteCount == 10) {
+            System.out.println("in 10 -----------");
             Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("투표수가 10개가 되었어요!")
@@ -98,6 +99,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
 
             firebaseMessaging.send(message);
         } else if(voteCount == 50) {
+            System.out.println("in 50 -----------");
             Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("투표수가 50개가 되었어요!")
@@ -108,6 +110,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
 
             firebaseMessaging.send(message);
         } else if(voteCount == 100) {
+            System.out.println("in 100 -----------");
             Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("투표수가 100개가 되었어요!")
