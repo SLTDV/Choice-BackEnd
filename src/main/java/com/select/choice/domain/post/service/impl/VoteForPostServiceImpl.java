@@ -102,6 +102,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
                     .build();
             System.out.println("before fcm");
             firebaseMessaging.send(message);
+            System.out.println("after fcm");
         } else if(voteCount == 50) {
             System.out.println("in 50 -----------");
             Message message = Message.builder()
