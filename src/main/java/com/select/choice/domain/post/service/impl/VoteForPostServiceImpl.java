@@ -96,7 +96,6 @@ public class VoteForPostServiceImpl implements VoteForPostService {
                             .build())
                     .setToken(user.getFcmToken())
                     .build();
-
             firebaseMessaging.send(message);
         } else if(voteCount == 50) {
             System.out.println("in 50 -----------");
@@ -108,6 +107,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
                     .setToken(user.getFcmToken())
                     .build();
 
+            System.out.println(message.toString() + "asd--a-ds---");
             firebaseMessaging.send(message);
         } else if(voteCount == 100) {
             System.out.println("in 100 -----------");
