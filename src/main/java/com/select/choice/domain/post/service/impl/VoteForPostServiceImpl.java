@@ -65,6 +65,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
         int totalVotingCount = post.getFirstVotingCount() + post.getSecondVotingCount();
         if(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100) {
             if(pushAlaramRepository.findByPost(post).isEmpty()) {
+                System.out.println("empty");
                 PushAlaram pushAlaram = postConverter.toEntity(post);
                 pushAlaramRepository.save(pushAlaram);
             }
@@ -99,6 +100,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
                             .build())
                     .setToken(user.getFcmToken())
                     .build();
+            System.out.println("before fcm");
             firebaseMessaging.send(message);
         } else if(voteCount == 50) {
             System.out.println("in 50 -----------");
