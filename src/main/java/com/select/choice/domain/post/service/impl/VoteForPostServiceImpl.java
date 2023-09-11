@@ -71,28 +71,16 @@ public class VoteForPostServiceImpl implements VoteForPostService {
 
             PushAlaram pushAlaram = pushAlaramRepository.findByPost(post)
                     .orElseThrow(() -> new PushAlaramNotFoundException(ErrorCode.PUSH_ALARAM_NOT_FOUND));
-
-            switch (totalVotingCount) {
-                case 10:
-                    if(!pushAlaram.isTenPush()) {
-                        sendNotification(totalVotingCount, user);
-                        pushAlaram.updateTenPush();
-                    }
-                    break;
-                case 50:
-                    if(!pushAlaram.isFiftyPush()) {
-                        sendNotification(totalVotingCount, user);
-                        pushAlaram.updateFiftyPush();
-                    }
-                    break;
-                case 100:
-                    if(!pushAlaram.isOneHundredPush()) {
-                        sendNotification(totalVotingCount, user);
-                        pushAlaram.updateOneHundredPush();
-                    }
-                    break;
+            if(totalVotingCount == 10 && !pushAlaram.isTenPush()) {
+                sendNotification(totalVotingCount, post.getUser());
+                pushAlaram.updateTenPush();
+            } else if (totalVotingCount == 50 && !pushAlaram.isFiftyPush()) {
+                sendNotification(totalVotingCount, post.getUser());
+                pushAlaram.updateFiftyPush();
+            } else if (totalVotingCount == 100 && !pushAlaram.isOneHundredPush()) {
+                sendNotification(totalVotingCount, post.getUser());
+                pushAlaram.updateOneHundredPush();
             }
-            sendNotification(totalVotingCount, post.getUser());
         }
 
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
@@ -100,6 +88,7 @@ public class VoteForPostServiceImpl implements VoteForPostService {
 
     private void sendNotification(int voteCount, User user) throws FirebaseMessagingException {
         if(voteCount == 10) {
+            System.out.println("in 10 -----------");
             Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("투표수가 10개가 되었어요!")
@@ -107,9 +96,9 @@ public class VoteForPostServiceImpl implements VoteForPostService {
                             .build())
                     .setToken(user.getFcmToken())
                     .build();
-
             firebaseMessaging.send(message);
         } else if(voteCount == 50) {
+            System.out.println("in 50 -----------");
             Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("투표수가 50개가 되었어요!")
@@ -118,8 +107,10 @@ public class VoteForPostServiceImpl implements VoteForPostService {
                     .setToken(user.getFcmToken())
                     .build();
 
+            System.out.println(message.toString() + "asd--a-ds---");
             firebaseMessaging.send(message);
         } else if(voteCount == 100) {
+            System.out.println("in 100 -----------");
             Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle("투표수가 100개가 되었어요!")
