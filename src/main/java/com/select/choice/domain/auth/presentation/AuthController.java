@@ -34,6 +34,8 @@ public class AuthController {
      */
     @PostMapping("/signin")
     public ResponseEntity<TokenResponse> signIn(@RequestBody SignInRequest signInRequest) {
+        System.out.println("??");
+        System.out.println(signInRequest.getDeviceToken().toString());
         SignInDto signInDto = authConverter.toDto(signInRequest);
         TokenDto tokenDto = signInService.signIn(signInDto);
         TokenResponse tokenResponse = authConverter.toResponse(tokenDto);
