@@ -27,6 +27,7 @@ public class SignInServiceImpl implements SignInService {
     public TokenDto signIn(SignInDto signInDto) {
         User user = userUtil.findUserByPhoneNumber(signInDto.getPhoneNumber());
         if(signInDto.getDeviceToken().isPresent()){
+            System.out.println(signInDto.getDeviceToken().toString());
             user.updateFCMToken(signInDto.getDeviceToken().get());
         }
 
