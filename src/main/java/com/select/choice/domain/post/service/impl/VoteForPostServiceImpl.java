@@ -72,17 +72,14 @@ public class VoteForPostServiceImpl implements VoteForPostService {
 
             PushAlaram pushAlaram = pushAlaramRepository.findByPost(post)
                     .orElseThrow(() -> new PushAlaramNotFoundException(ErrorCode.PUSH_ALARAM_NOT_FOUND));
-            if(totalVotingCount == 10 && !pushAlaram.isTenPush()) {
-                System.out.println("10");
-                sendNotification(totalVotingCount, post.getUser());
+            if (totalVotingCount == 10 && !pushAlaram.isTenPush()) {
+                sendNotification(post.getUser(), "투표수가 10개가 되었어요!");
                 pushAlaram.updateTenPush();
             } else if (totalVotingCount == 50 && !pushAlaram.isFiftyPush()) {
-                System.out.println("50");
-                sendNotification(totalVotingCount, post.getUser());
+                sendNotification(post.getUser(), "투표수가 50개가 되었어요!");
                 pushAlaram.updateFiftyPush();
             } else if (totalVotingCount == 100 && !pushAlaram.isOneHundredPush()) {
-                System.out.println("100");
-                sendNotification(totalVotingCount, post.getUser());
+                sendNotification(post.getUser(), "투표수가 100개가 되었어요!");
                 pushAlaram.updateOneHundredPush();
             }
         }
@@ -90,42 +87,16 @@ public class VoteForPostServiceImpl implements VoteForPostService {
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
 
-    private void sendNotification(int voteCount, User user) throws FirebaseMessagingException {
-        if(voteCount == 10) {
-            System.out.println("in 10 -----------");
-            Message message = Message.builder()
-                    .setNotification(Notification.builder()
-                            .setTitle("투표수가 10개가 되었어요!")
-                            .setBody("💡게시물 상태를 확인해보세요️")
-                            .build())
-                    .setToken(user.getFcmToken())
-                    .build();
-            System.out.println("before fcm");
-            firebaseMessaging.send(message);
-            System.out.println("after fcm");
-        } else if(voteCount == 50) {
-            System.out.println("in 50 -----------");
-            Message message = Message.builder()
-                    .setNotification(Notification.builder()
-                            .setTitle("투표수가 50개가 되었어요!")
-                            .setBody("💡게시물 상태를 확인해보세요")
-                            .build())
-                    .setToken(user.getFcmToken())
-                    .build();
+    private void sendNotification(User user, String title) throws FirebaseMessagingException {
+        String body = "💡게시물 상태를 확인해보세요";
+        Message message = Message.builder()
+                .setNotification(Notification.builder()
+                        .setTitle(title)
+                        .setBody(body)
+                        .build())
+                .setToken(user.getFcmToken())
+                .build();
 
-            System.out.println(message.toString() + "asd--a-ds---");
-            firebaseMessaging.send(message);
-        } else if(voteCount == 100) {
-            System.out.println("in 100 -----------");
-            Message message = Message.builder()
-                    .setNotification(Notification.builder()
-                            .setTitle("투표수가 100개가 되었어요!")
-                            .setBody("💡게시물 상태를 확인해보세요")
-                            .build())
-                    .setToken(user.getFcmToken())
-                    .build();
-
-            firebaseMessaging.send(message);
-        }
+        firebaseMessaging.send(message);
     }
 }
