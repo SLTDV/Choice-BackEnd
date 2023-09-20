@@ -84,7 +84,7 @@ public class AuthController {
     }
 
     /*
-    기능: 인즌번호 확인
+    기능: 인증번호 확인
     담당자: 노혁
      */
     @GetMapping("/phone")
