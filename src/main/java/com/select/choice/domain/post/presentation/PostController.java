@@ -1,6 +1,5 @@
 package com.select.choice.domain.post.presentation;
 
-import com.google.firebase.messaging.FirebaseMessagingException;
 import com.select.choice.domain.post.presentation.data.dto.*;
 import com.select.choice.domain.post.presentation.data.response.*;
 import com.select.choice.domain.post.presentation.data.request.VoteOptionRequest;
@@ -133,7 +132,7 @@ public class PostController {
     담당자: 노혁
      */
     @PostMapping("/vote/{postIdx}")
-    public ResponseEntity<VoteForPostResponse> voteCount(@PathVariable("postIdx") Long postIdx, @RequestBody VoteOptionRequest addCountRequest) throws FirebaseMessagingException {
+    public ResponseEntity<VoteForPostResponse> voteCount(@PathVariable("postIdx") Long postIdx, @RequestBody VoteOptionRequest addCountRequest) {
         VoteOptionDto addCountDto = postConverter.toDto(addCountRequest);
         VoteForPostDto voteForPostDto = voteForPostService.voteForPost(addCountDto, postIdx);
         VoteForPostResponse addCountResponse = postConverter.toResponse(voteForPostDto);
