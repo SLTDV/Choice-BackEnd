@@ -2,7 +2,6 @@ package com.select.choice.domain.post.util.Impl;
 
 import com.select.choice.domain.comment.domain.repository.CommentRepository;
 import com.select.choice.domain.post.domain.entity.Declaration;
-import com.select.choice.domain.post.domain.entity.PushAlaram;
 import com.select.choice.domain.post.domain.repository.PostVotingStateRepository;
 import com.select.choice.domain.post.presentation.data.dto.CommentDetailDto;
 import com.select.choice.domain.post.domain.entity.PostVotingState;
@@ -117,16 +116,6 @@ public class PostConverterImpl implements PostConverter {
                 user,
                 post
         );
-    }
-
-    @Override
-    public PushAlaram toEntity(Post post) {
-        return PushAlaram.builder()
-                .tenPush(false)
-                .fiftyPush(false)
-                .oneHundredPush(false)
-                .post(post)
-                .build();
     }
 
     @Override

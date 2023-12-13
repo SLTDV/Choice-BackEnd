@@ -2,13 +2,10 @@ package com.select.choice.domain.post.service.impl;
 
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.domain.entity.PostVotingState;
-import com.select.choice.domain.post.domain.entity.PushAlaram;
 import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.post.domain.repository.PostVotingStateRepository;
-import com.select.choice.domain.post.domain.repository.PushAlaramRepository;
 import com.select.choice.domain.post.exception.InvalidChoiceException;
 import com.select.choice.domain.post.exception.InvalidVoteCount;
-import com.select.choice.domain.post.exception.PushAlaramNotFoundException;
 import com.select.choice.domain.post.presentation.data.dto.VoteOptionDto;
 import com.select.choice.domain.post.presentation.data.dto.VoteForPostDto;
 import com.select.choice.domain.post.service.VoteForPostService;
@@ -30,8 +27,6 @@ public class VoteForPostServiceImpl implements VoteForPostService {
     private final PostVotingStateRepository postVotingStateRepository;
     private final PostConverter postConverter;
     private final PostRepository postRepository;
-    private final PushAlaramRepository pushAlaramRepository;
-//    private final FirebaseMessaging firebaseMessaging;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
