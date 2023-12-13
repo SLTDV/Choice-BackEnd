@@ -47,40 +47,31 @@ public class AuthConverterImpl implements AuthConverter {
 
     @Override
     public SignInDto toDto(SignInRequest signInRequest) {
-        String reqPhoneNumber = signInRequest.getPhoneNumber();
-        String reqPassword = signInRequest.getPassword();
-        Optional<String> fcmToken = signInRequest.getFcmToken();
-
         return SignInDto.builder()
-                .phoneNumber(reqPhoneNumber)
-                .password(reqPassword)
-                .fcmToken(fcmToken)
+                .phoneNumber(signInRequest.getPhoneNumber())
+                .password(signInRequest.getPassword())
+                .fcmToken(signInRequest.getFcmToken())
                 .build();
     }
 
     @Override
     public SignUpDto toDto(SignUpRequest signUpRequest) {
-        String reqNickname = signUpRequest.getNickname().stripTrailing();
-        String reqPassword = signUpRequest.getPassword();
-        Optional<String> reqImgUrl = signUpRequest.getProfileImgUrl();
-
         return SignUpDto.builder()
                 .phoneNumber(signUpRequest.getPhoneNumber())
-                .nickname(reqNickname)
-                .password(reqPassword)
-                .profileImgUrl(reqImgUrl)
+                .nickname(signUpRequest.getNickname())
+                .password(signUpRequest.getPassword())
+                .profileImgUrl(signUpRequest.getProfileImgUrl())
                 .build();
     }
 
     @Override
     public User toEntity(SignUpDto signUpDto, boolean isProfileImage) {
-        String dtoNickname = signUpDto.getNickname();
         String dtoPassword = passwordEncoder.encode(signUpDto.getPassword());
 
         if(isProfileImage){
             return User.builder()
                     .phoneNumber(signUpDto.getPhoneNumber())
-                    .nickname(dtoNickname)
+                    .nickname(signUpDto.getNickname())
                     .password(dtoPassword)
                     .profileImageUrl(signUpDto.getProfileImgUrl().get())
                     .fcmToken(null)
@@ -88,7 +79,7 @@ public class AuthConverterImpl implements AuthConverter {
         } else {
             return User.builder()
                     .phoneNumber(signUpDto.getPhoneNumber())
-                    .nickname(dtoNickname)
+                    .nickname(signUpDto.getNickname())
                     .password(dtoPassword)
                     .fcmToken(null)
                     .build();

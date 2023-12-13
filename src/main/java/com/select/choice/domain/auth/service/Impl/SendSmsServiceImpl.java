@@ -39,10 +39,7 @@ public class SendSmsServiceImpl implements SendSmsService {
         }
 
         String authCode = createAuthCode();
-        if(phoneNumber.equals("01012345678"))
-            authCode = "1234";
-        else
-            twillio(authCode, phoneNumber);
+        twillio(authCode, phoneNumber);
 
         authCodeRepository.save(authConverter.toEntity(authCode, phoneNumber));
     }
@@ -74,7 +71,7 @@ public class SendSmsServiceImpl implements SendSmsService {
             phoneNumber = "+82" + phoneNumber.substring(1);
         }
         Twilio.init(accountSid, authToken);
-        Message message = Message.creator(
+        Message.creator(
                 new PhoneNumber(phoneNumber),
                 new PhoneNumber("+14302336938"),
                 "초이스 본인확인 인증번호(" + authCode + ") 입력시 정상처리 됩니다."

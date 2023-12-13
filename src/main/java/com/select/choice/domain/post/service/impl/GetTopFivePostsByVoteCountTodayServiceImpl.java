@@ -24,7 +24,8 @@ public class GetTopFivePostsByVoteCountTodayServiceImpl implements GetTopFivePos
         String today = LocalDate.now().toString();
         List<TodayPostDto> todayPosts = postRepository.findAllByCreatedAtContaining(today).stream()
                 .map(postConverter::toTodayPostDto)
-                .sorted(Comparator.comparing(TodayPostDto::getParticipants).reversed()).collect(Collectors.toList());
+                .sorted(Comparator.comparing(TodayPostDto::getParticipants).reversed())
+                .collect(Collectors.toList());
 
         return postConverter.toTodayPostListDto(todayPosts);
     }

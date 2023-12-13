@@ -1,18 +1,11 @@
 package com.select.choice.domain.post.service.impl;
 
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
 import com.select.choice.domain.post.domain.entity.Post;
 import com.select.choice.domain.post.domain.entity.PostVotingState;
-import com.select.choice.domain.post.domain.entity.PushAlaram;
 import com.select.choice.domain.post.domain.repository.PostRepository;
 import com.select.choice.domain.post.domain.repository.PostVotingStateRepository;
-import com.select.choice.domain.post.domain.repository.PushAlaramRepository;
 import com.select.choice.domain.post.exception.InvalidChoiceException;
 import com.select.choice.domain.post.exception.InvalidVoteCount;
-import com.select.choice.domain.post.exception.PushAlaramNotFoundException;
 import com.select.choice.domain.post.presentation.data.dto.VoteOptionDto;
 import com.select.choice.domain.post.presentation.data.dto.VoteForPostDto;
 import com.select.choice.domain.post.service.VoteForPostService;
@@ -34,12 +27,10 @@ public class VoteForPostServiceImpl implements VoteForPostService {
     private final PostVotingStateRepository postVotingStateRepository;
     private final PostConverter postConverter;
     private final PostRepository postRepository;
-    private final PushAlaramRepository pushAlaramRepository;
-    private final FirebaseMessaging firebaseMessaging;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public VoteForPostDto voteForPost(VoteOptionDto addCountDto, Long postIdx) throws FirebaseMessagingException {
+    public VoteForPostDto voteForPost(VoteOptionDto addCountDto, Long postIdx) {
         User user = userUtil.currentUser();
         Post post = postUtil.findById(postIdx);
         int choiceOption = addCountDto.getChoice();
@@ -62,70 +53,41 @@ public class VoteForPostServiceImpl implements VoteForPostService {
         voting.updateVote(choiceOption);
         postVotingStateRepository.save(voting);
 
-        int totalVotingCount = post.getFirstVotingCount() + post.getSecondVotingCount();
-        if(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100) {
-            if(pushAlaramRepository.findByPost(post).isEmpty()) {
-                System.out.println("empty");
-                PushAlaram pushAlaram = postConverter.toEntity(post);
-                pushAlaramRepository.save(pushAlaram);
-            }
-
-            PushAlaram pushAlaram = pushAlaramRepository.findByPost(post)
-                    .orElseThrow(() -> new PushAlaramNotFoundException(ErrorCode.PUSH_ALARAM_NOT_FOUND));
-            if(totalVotingCount == 10 && !pushAlaram.isTenPush()) {
-                System.out.println("10");
-                sendNotification(totalVotingCount, post.getUser());
-                pushAlaram.updateTenPush();
-            } else if (totalVotingCount == 50 && !pushAlaram.isFiftyPush()) {
-                System.out.println("50");
-                sendNotification(totalVotingCount, post.getUser());
-                pushAlaram.updateFiftyPush();
-            } else if (totalVotingCount == 100 && !pushAlaram.isOneHundredPush()) {
-                System.out.println("100");
-                sendNotification(totalVotingCount, post.getUser());
-                pushAlaram.updateOneHundredPush();
-            }
-        }
+//        int totalVotingCount = post.getFirstVotingCount() + post.getSecondVotingCount();
+//        if(totalVotingCount == 10 || totalVotingCount == 50 || totalVotingCount == 100) {
+//            if(pushAlaramRepository.findByPost(post).isEmpty()) {
+//                System.out.println("empty");
+//                PushAlaram pushAlaram = postConverter.toEntity(post);
+//                pushAlaramRepository.save(pushAlaram);
+//            }
+//
+//            PushAlaram pushAlaram = pushAlaramRepository.findByPost(post)
+//                    .orElseThrow(() -> new PushAlaramNotFoundException(ErrorCode.PUSH_ALARAM_NOT_FOUND));
+//            if (totalVotingCount == 10 && !pushAlaram.isTenPush()) {
+//                sendNotification(post.getUser(), "투표수가 10개가 되었어요!");
+//                pushAlaram.updateTenPush();
+//            } else if (totalVotingCount == 50 && !pushAlaram.isFiftyPush()) {
+//                sendNotification(post.getUser(), "투표수가 50개가 되었어요!");
+//                pushAlaram.updateFiftyPush();
+//            } else if (totalVotingCount == 100 && !pushAlaram.isOneHundredPush()) {
+//                sendNotification(post.getUser(), "투표수가 100개가 되었어요!");
+//                pushAlaram.updateOneHundredPush();
+//            }
+//        }
 
         return postConverter.toDto(post.getFirstVotingCount(), post.getSecondVotingCount());
     }
 
-    private void sendNotification(int voteCount, User user) throws FirebaseMessagingException {
-        if(voteCount == 10) {
-            System.out.println("in 10 -----------");
-            Message message = Message.builder()
-                    .setNotification(Notification.builder()
-                            .setTitle("투표수가 10개가 되었어요!")
-                            .setBody("💡게시물 상태를 확인해보세요️")
-                            .build())
-                    .setToken(user.getFcmToken())
-                    .build();
-            System.out.println("before fcm");
-            firebaseMessaging.send(message);
-            System.out.println("after fcm");
-        } else if(voteCount == 50) {
-            System.out.println("in 50 -----------");
-            Message message = Message.builder()
-                    .setNotification(Notification.builder()
-                            .setTitle("투표수가 50개가 되었어요!")
-                            .setBody("💡게시물 상태를 확인해보세요")
-                            .build())
-                    .setToken(user.getFcmToken())
-                    .build();
-
-            System.out.println(message.toString() + "asd--a-ds---");
-            firebaseMessaging.send(message);
-        } else if(voteCount == 100) {
-            System.out.println("in 100 -----------");
-            Message message = Message.builder()
-                    .setNotification(Notification.builder()
-                            .setTitle("투표수가 100개가 되었어요!")
-                            .setBody("💡게시물 상태를 확인해보세요")
-                            .build())
-                    .setToken(user.getFcmToken())
-                    .build();
-
-            firebaseMessaging.send(message);
-        }
-    }
+//    private void sendNotification(User user, String title) throws FirebaseMessagingException {
+//        String body = "💡게시물 상태를 확인해보세요";
+//        Message message = Message.builder()
+//                .setNotification(Notification.builder()
+//                        .setTitle(title)
+//                        .setBody(body)
+//                        .build())
+//                .setToken(user.getFcmToken())
+//                .build();
+//
+//        firebaseMessaging.send(message);
+//    }
 }
